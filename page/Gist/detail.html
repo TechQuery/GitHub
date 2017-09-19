@@ -1,0 +1,51 @@
+<script>
+    require(['jquery', 'EasyWebApp'],  function ($, EWA) {
+
+        EWA.component(function (data) {
+
+            data.files = $.map(data.files,  function () {
+
+                return arguments[0];
+            });
+        });
+    });
+</script>
+
+<h2>${view.description}</h2>
+<div>
+    <span>${view.createdTime}</span>
+    <span class="pull-right">${view.updatedTime}</span>
+</div>
+
+<h3>代码文件</h3>
+<div is="ListView" data-name="files">
+    <section>
+        <h4><a target="_blank" href="${view.raw_url}">
+            ${view.filename}
+        </a></h4>
+        ${view.language}
+        <p>${view.content}</p>
+    </section>
+</div>
+
+<h3>版本历史</h3>
+<div is="ListView" data-name="history">
+    <section class="media">
+        <a class="media-left" target="_blank" href="${view.user.html_url}">
+            <img class="media-object" src="${view.user.avatar_url}" />
+            ${view.user.login}
+        </a>
+        <div class="media-body">
+            <div class="Grid-Row">
+                <span>
+                    ${view.committedTime}
+                </span>
+                <span>
+                    + ${view.change_status.additions}
+                    - ${view.change_status.deletions}
+                </span>
+                <h4>${view.version}</h4>
+            </div>
+        </div>
+    </section>
+</div>
