@@ -1,4 +1,4 @@
-define(['jquery'],  function ($) {
+define(function () {
 
     var TimeUnit = [
             {
@@ -32,7 +32,8 @@ define(['jquery'],  function ($) {
         ];
 
     return  function (iTS) {
-        iTS = $.now() - iTS;
+
+        iTS = Date.now()  -  new Date( iTS );
 
         for (var i = 0, _Value_ = iTS;  TimeUnit[i];  i++) {
             _Value_ = _Value_ / TimeUnit[i].scale;

@@ -1,42 +1,14 @@
 <!DocType HTML>
 <html lang="zh-CN"><head>
 
-    <!--  Meta  -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
 
     <title>GitHub 中文版</title>
 
-    <!--  Styles  -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <style>
-        img {
-            display:       inline-block;
-            max-width:     100%;
-            max-height:    100%;
-        }
-        .Grid-Row {
-            display:    table;
-            width:      100%;
-        }
-        .Grid-Row > * {
-            display:           table-cell;
-            text-align:        center;
-            vertical-align:    middle;
-        }
-
-        body {
-            padding-top:    3.5em;
-        }
-        body > nav .navbar-brand {
-            color:    white  !important;
-        }
-        #PageBox {
-            padding:    0  1em;
-        }
-    </style>
-
-    <!-- Scripts -->
+    <link rel="stylesheet"
+          href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style/index.css" />
 <!--[if lte IE 9]>
     <script src="//cdn.bootcss.com/html5-history-api/4.2.8/history.min.js"></script>
 <![endif]-->
@@ -46,10 +18,9 @@
         require.config({
             baseUrl:    'script/',
             paths:      {
-                jquery:        'https://cdn.bootcss.com/jquery/3.2.1/jquery.min',
-                jQueryKit:     'https://techquery.github.io/javascript/jQueryKit',
-                EasyWebApp:    'https://techquery.github.io/javascript/EasyWebApp',
-                BootStrap:     'https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min'
+                jquery:       'https://cdn.bootcss.com/jquery/3.2.1/jquery.min',
+                BootStrap:
+                    'https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min'
             },
             shim:       {
                 BootStrap:    ['jquery']
@@ -59,7 +30,8 @@
     <script src="script/index.js"></script>
 </head><body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
+
+        <div class="container-fluid" data-href="?data=page/index.json">
 
         <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -70,8 +42,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" target="_blank" href="https://github.com/">
-                    GitHub
+                <a class="navbar-brand" target="_blank" href="${view.URL}">
+                    ${view.title}
                 </a>
             </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -81,16 +53,13 @@
                         <input type="search" class="form-control" name="" required placeholder="Search">
                     </div>
                 </form>
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="page/Gist/index.html" data-autofocus="true">
-                            代码锦囊
-                        </a>
-                    </li>
-                    <li role="separator" class="divider"></li>
-                    <li>
-                        <a target="_blank" href="https://gitee.com/Tech_Query/EasyWebApp/tree/MVVM/">
-                            EWA 引擎开源仓库
+                <ul class="nav navbar-nav" data-name="channel">
+
+                    <li role="${view.URL ? '' : 'separator'}"
+                        class="${view.URL ? '' : 'divider'}">
+
+                        <a href="${view.URL}" data-autofocus="${! view.__index__}">
+                            ${view.title}
                         </a>
                     </li>
                 </ul>

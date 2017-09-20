@@ -1,0 +1,23 @@
+<style disabled>
+    .Ellipsis {
+        max-width:    3.2em;
+    }
+</style>
+
+<h2>G 名册</h2>
+
+<h3>${view.URI}</h3>
+
+<div class="container-fluid">
+    <div class="row text-center"
+         is="ListView" data-href="?data=users${view.URI ? ('/' + view.URI) : ''}">
+
+        <a class="col-md-1" title="${view.login}"
+           href="detail.html?data=${view.url}">
+
+            <img class="img-thumbnail" src="${view.avatar_url}" />
+
+            <div class="Ellipsis">${view.login}</div>
+        </a>
+    </div>
+</div>

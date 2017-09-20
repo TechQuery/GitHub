@@ -1,44 +1,22 @@
-require(['jquery', 'EasyWebApp', 'TimePassed', 'BootStrap'],  function ($, EWA, TimePassed) {
-
-//  数据整理
-
-    function FixOne(item) {
-
-        var data = { },  iWebApp = this;
-
-        $.each(item,  function (key) {
-
-            if (this === self)  return;
-
-            var name = key.split('_');
-
-            switch ( name.slice(-1)[0] ) {
-                case 'at':
-                    data[name.slice(0, -1).join('_') + 'Time'] = TimePassed( this );
-                    break;
-                case 'url':
-                    data[ key ] = this.replace(iWebApp.apiRoot, '');
-                    break;
-                default:
-                    data[ key ] = (typeof this.valueOf() === 'object')  ?
-                        FixData.call(iWebApp, this)  :  this;
-            }
-        });
-
-        return data;
-    }
-
-    function FixData(data) {
-
-        return  (data instanceof Array)  ?
-            $.map(data, FixOne.bind(this))  :  FixOne.call(this, data);
-    }
+require([
+    'jquery', 'EasyWebApp', 'FixData', 'BootStrap'
+],  function ($, EWA, FixData) {
 
 //  应用程序入口
 
     $( document ).ready(function () {
 
         var iWebApp = $('#PageBox').iWebApp('https://api.github.com/');
+
+    //  JSON 请求预处理
+
+        $.ajaxPrefilter('json',  function (option) {
+
+            if (! option.url.indexOf('page/'))
+                option.url = iWebApp.pageRoot + option.url;
+        });
+
+    //  GitHub API 请求处理
 
         iWebApp.on({
             type:      'request',
@@ -54,14 +32,36 @@ require(['jquery', 'EasyWebApp', 'TimePassed', 'BootStrap'],  function ($, EWA, 
             method:    'GET'
         },  function (event, data) {
 
-            return  FixData.call(this, data);
+            return  FixData.call(this.apiRoot, data);
         }).on({
             type:      'data',
             method:    'GET',
-            src:       'gists/public'
+            src:       'gists'
         },  function (event, data) {
 
-            return  {list: data,  total: 3000};
+            if (data instanceof Array)
+                return {
+                    list:     data,
+                    total:
+                        (data.length  <  $.paramJSON( event.src ).pre_page)  ?
+                            data.length  :  3000
+                };
+        });
+
+    //  主导航栏 状态维护
+
+        var $_Nav = $('#Main_Nav > ul');
+
+        iWebApp.on({
+            type:    'ready',
+            href:    'page/'
+        },  function () {
+
+            $_Nav.children(
+                ':has(a[href^="' +
+                    $.filePath( this.getRoute().split('?')[0] )  +
+                '"])'
+            ).addClass('active').siblings().removeClass('active');
         });
     });
 });
