@@ -1,6 +1,6 @@
 require([
-    'jquery', 'EasyWebApp', 'FixData', 'BootStrap'
-],  function ($, EWA, FixData) {
+    'jquery', 'EasyWebApp', 'FixData', 'marked', 'BootStrap'
+],  function ($, EWA, FixData, marked) {
 
 //  应用程序入口
 
@@ -46,22 +46,57 @@ require([
                         (data.length  <  $.paramJSON( event.src ).pre_page)  ?
                             data.length  :  3000
                 };
+        }).on({
+            type:    'template',
+            href:    '.md'
+        },  function () {
+
+            return  marked( arguments[1] );
         });
 
     //  主导航栏 状态维护
 
         var $_Nav = $('#Main_Nav > ul');
 
+        function find_Nav(URL, part) {
+
+            return $_Nav.children(
+                ':has(a[href'  +  (part ? '^' : '')  +  '="'  +  URL  +  '"])'
+            ).eq( 0 );
+        }
+
         iWebApp.on({
             type:    'ready',
-            href:    'page/'
+            href:    /page\/|\.md/i
         },  function () {
 
-            $_Nav.children(
-                ':has(a[href^="' +
-                    $.filePath( this.getRoute().split('?')[0] )  +
-                '"])'
-            ).addClass('active').siblings().removeClass('active');
+            var route = this.getRoute(),  $_Item;
+
+            var page = route.split('?')[0];
+
+            var path = $.filePath( page )  ||  page;
+
+            if (
+                ($_Item = find_Nav( route ))[0]  ||
+                ($_Item = find_Nav( page ))[0]  ||
+                ($_Item = find_Nav(path, true))[0]
+            )
+                $_Item.addClass('active').siblings().removeClass('active');
+        });
+
+    //  搜索框
+
+        $('nav form').submit(function () {
+
+            var keyword = this.elements.keyword.value;
+
+            iWebApp.loadPage(
+                (keyword.indexOf('/') < 0)  ?
+                    ('page/User/detail.html?data=users/' + keyword)  :
+                    ('page/Repository/detail.html?data=repos/' + keyword)
+            );
+
+            return false;
         });
     });
 });

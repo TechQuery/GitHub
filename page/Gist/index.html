@@ -10,8 +10,8 @@
 
             arguments[0].getURL = function () {
 
-                return  this.id  ?
-                    ('users/' + this.id + '/gists')  :  'gists/public';
+                return  this.user  ?
+                    ('users/' + this.user + '/gists')  :  'gists/public';
             };
         });
     });
@@ -29,7 +29,7 @@
                 <td class="index"></td>
                 <td class="Ellipsis" title="${view.description}">
                     <a href="detail.html?data=${view.url}">
-                        ${view.description}
+                        ${view.description || view.id}
                     </a>
                 </td>
                 <td>${view.createdTime}</td>

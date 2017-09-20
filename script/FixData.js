@@ -19,13 +19,14 @@ define(['jquery', 'TimePassed', 'marked'],  function ($, TimePassed, marked) {
                 case 'url':
                     data[ key ] = this.replace(base, '');
                     break;
-                case 'content':
-                    if (/MarkDown/i.test( item.language ))
-                        data[ key ] = marked( this );
-                    break;
                 case 'description':
                     data[ key ] = marked( this );
                     break;
+                case 'content':
+                    if (/MarkDown/i.test( item.language )) {
+
+                        data[ key ] = marked( this );    break;
+                    }
                 default:
                     data[ key ] = (typeof value === 'object')  ?
                         FixData.call(base, this)  :  value;

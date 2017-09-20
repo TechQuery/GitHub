@@ -1,3 +1,31 @@
+<style>
+    [is] a:link {
+        text-decoration:    none;
+    }
+    [is] .img-thumbnail {
+        max-width:    4em;
+    }
+</style>
+<script>
+    require(['jquery', 'EasyWebApp'],  function ($, EWA) {
+
+        EWA.component(function (data) {
+
+            var user = (data.type === 'User');
+
+            $.extend(data, {
+                memberTitle:    user ? '参与组织' : '组织成员',
+                memberURL:
+                    data[user ? 'organizations_url' : 'public_members_url']
+                        .split('{')[0],
+                detailURL:      function (view) {
+
+                    return  (user ? 'orgs' : 'users')  +  '/'  +  view.login;
+                }
+            });
+        });
+    });
+</script>
 <div class="container-fluid"><div class="row">
     <header class="col-md-4 text-center">
         <a class="center-block" target="_blank" href="${view.html_url}">
@@ -5,7 +33,8 @@
             <h3>${view.login}</h3>
             <img class="img-thumbnail" src="${view.avatar_url}" />
         </a>
-        <p>${view.createdTime} 加入 G 圈，${view.updatedTime} 更新了个人信息</p>
+        <p>${view.bio || view.description}</p>
+        <p>${view.createdTime} 加入 G 圈，${view.updatedTime} 更新了资料</p>
         <p>
             <a href="index.html?data=users/${view.login}/followers">
                 粉丝 ${view.followers} 人
@@ -34,5 +63,17 @@
             所在地区：${view.location}
         </address></li>
         <li>所属机构：${view.company}</li>
+        <li>
+            ${view.memberTitle}：
+
+            <span is="ListView" data-href="?data=${view.memberURL}">
+
+                <a href="../User/detail.html?data=${scope.detailURL( view )}"
+                   title="${view.login}">
+
+                    <img class="img-thumbnail" src="${view.avatar_url}" />
+                </a>
+            </span>
+        </li>
     </ul>
 </div></div>

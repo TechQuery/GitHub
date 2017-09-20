@@ -2,6 +2,10 @@
     "title":      "GitHub",
     "channel":    [
         {
+            "title":    "关于本站",
+            "URL":      "ReadMe.md"
+        },
+        {
             "title":    "开源仓库",
             "URL":      "page/Repository/index.html"
         },
@@ -14,9 +18,12 @@
             "URL":      "page/User/index.html?data=users"
         },
         {
-            "title":     "EWA 引擎开源仓库",
-            "URL":       "https://gitee.com/Tech_Query/EasyWebApp/",
-            "target":    "_blank"
+            "title":    "G 团",
+            "URL":      "page/User/index.html?data=organizations"
+        },
+        {
+            "title":    "关于作者",
+            "URL":      "page/User/detail.html?data=users/TechQuery"
         }
     ]
 }
