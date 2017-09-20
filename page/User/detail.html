@@ -7,18 +7,18 @@
         </a>
         <p>${view.createdTime} 加入 G 圈，${view.updatedTime} 更新了个人信息</p>
         <p>
-            <a href="index.html?URI=${view.login}/followers">
+            <a href="index.html?data=users/${view.login}/followers">
                 粉丝 ${view.followers} 人
             </a>
-            <a href="index.html?URI=${view.login}/following">
+            <a href="index.html?data=users/${view.login}/following">
                 偶像 ${view.following} 人
             </a>
         </p>
         <p>
-            <a href="../Gist/index.html?id=${view.login}">
+            <a href="../Gist/index.html?user=${view.login}&total=${view.public_gists}">
                 锦囊 ${view.public_gists} 个
             </a>
-            <a href="../Repository/index.html?id=${view.login}">
+            <a href="../Repository/index.html?user=${view.login}&total=${view.public_repos}">
                 仓库 ${view.public_repos} 个
             </a>
         </p>

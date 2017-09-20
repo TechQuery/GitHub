@@ -11,8 +11,9 @@ img {
     text-overflow:    ellipsis;
 }
 .Grid-Row {
-    display:    table;
-    width:      100%;
+    display:          table;
+    width:            100%;
+    margin-bottom:    1em;
 }
 .Grid-Row > * {
     display:           table-cell;

@@ -1,18 +1,22 @@
 {
     "title":      "GitHub",
-    "URL":        "https://github.com/",
     "channel":    [
         {
-            "title":      "代码锦囊",
-            "URL":        "page/Gist/index.html"
+            "title":    "开源仓库",
+            "URL":      "page/Repository/index.html"
         },
         {
-            "title":      "G 友",
-            "URL":        "page/User/index.html"
+            "title":    "代码锦囊",
+            "URL":      "page/Gist/index.html"
         },
         {
-            "title":      "EWA 引擎开源仓库",
-            "URL":        "https://gitee.com/Tech_Query/EasyWebApp/"
+            "title":    "G 友",
+            "URL":      "page/User/index.html?data=users"
+        },
+        {
+            "title":     "EWA 引擎开源仓库",
+            "URL":       "https://gitee.com/Tech_Query/EasyWebApp/",
+            "target":    "_blank"
         }
     ]
 }

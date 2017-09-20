@@ -20,7 +20,8 @@
             paths:      {
                 jquery:       'https://cdn.bootcss.com/jquery/3.2.1/jquery.min',
                 BootStrap:
-                    'https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min'
+                    'https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min',
+                marked:       'https://cdn.bootcss.com/marked/0.3.6/marked.min'
             },
             shim:       {
                 BootStrap:    ['jquery']
@@ -42,7 +43,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" target="_blank" href="${view.URL}">
+                <a class="navbar-brand" target="_top" href="." title="返回首页">
                     ${view.title}
                 </a>
             </div>
@@ -58,7 +59,8 @@
                     <li role="${view.URL ? '' : 'separator'}"
                         class="${view.URL ? '' : 'divider'}">
 
-                        <a href="${view.URL}" data-autofocus="${! view.__index__}">
+                        <a target="${view.target}" href="${view.URL}"
+                           data-autofocus="${! view.__index__}">
                             ${view.title}
                         </a>
                     </li>

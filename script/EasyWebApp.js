@@ -1370,6 +1370,10 @@ var WebApp = (function ($, Observer, View, HTMLView, ListView, TreeView, DOMkit,
 
             return  iPage && iPage.attach();
         },
+        getCID:           function () {
+
+            return  (arguments[0] + '').replace(this.pageRoot, '').split('#')[0];
+        },
         getRoute:         function () {
             try {
                 return self.atob(
@@ -1391,7 +1395,7 @@ var WebApp = (function ($, Observer, View, HTMLView, ListView, TreeView, DOMkit,
                 ](
                     {index: this.length},
                     document.title = iLink.title,
-                    '#!'  +  self.btoa( (iLink + '').replace(this.pageRoot, '') )
+                    '#!'  +  self.btoa( this.getCID( iLink ) )
                 );
 
                 this[ this.length++ ] = iLink;
@@ -1414,10 +1418,6 @@ var WebApp = (function ($, Observer, View, HTMLView, ListView, TreeView, DOMkit,
             iData = this.emit(iLink, iData)  ||  iData;
 
             return  observer  ?  (observer.emit(iLink, iData)  ||  iData)  :  iData;
-        },
-        getCID:           function () {
-
-            return  arguments[0].replace(this.pageRoot, '').split('#')[0];
         },
         loadView:         function (iLink, iHTML) {
 
@@ -1534,7 +1534,7 @@ var WebApp = (function ($, Observer, View, HTMLView, ListView, TreeView, DOMkit,
             //  To reload history pages after the Web App reloading
 
                 if ((! link)  ||  (
-                    route  &&  (! state.data)  &&  (route != link)
+                    route  &&  (! state.data)  &&  (route != _This_.getCID( link ))
                 ))
                     return  route  &&  _This_.loadPage( route );
 

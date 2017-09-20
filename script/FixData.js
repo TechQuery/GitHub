@@ -1,12 +1,12 @@
 //  GitHub API 数据整理
 
-define(['jquery', 'TimePassed'],  function ($, TimePassed) {
+define(['jquery', 'TimePassed', 'marked'],  function ($, TimePassed, marked) {
 
     function FixOne(item) {
 
         var data = { },  base = this;
 
-        $.each(item,  function (key) {
+        $.each(item,  function (key, value) {
 
             if (this === self)  return;
 
@@ -19,9 +19,16 @@ define(['jquery', 'TimePassed'],  function ($, TimePassed) {
                 case 'url':
                     data[ key ] = this.replace(base, '');
                     break;
+                case 'content':
+                    if (/MarkDown/i.test( item.language ))
+                        data[ key ] = marked( this );
+                    break;
+                case 'description':
+                    data[ key ] = marked( this );
+                    break;
                 default:
-                    data[ key ] = (typeof this.valueOf() === 'object')  ?
-                        FixData.call(base, this)  :  this;
+                    data[ key ] = (typeof value === 'object')  ?
+                        FixData.call(base, this)  :  value;
             }
         });
 

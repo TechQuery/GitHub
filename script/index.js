@@ -36,10 +36,10 @@ require([
         }).on({
             type:      'data',
             method:    'GET',
-            src:       'gists'
+            src:       /gists|repos/
         },  function (event, data) {
 
-            if (data instanceof Array)
+            if ((data instanceof Array)  &&  (event.src.indexOf('/contents/') < 0))
                 return {
                     list:     data,
                     total:

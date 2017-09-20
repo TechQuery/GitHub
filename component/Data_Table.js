@@ -11,35 +11,36 @@ require(['jquery', 'EasyWebApp'],  function ($, EWA) {
             },
             VM = this.on('update',  function () {
 
-                this.$_View.find('[type="number"]').val(1).change();
+                this.$_View.find(
+                    '[name="'  +  Object.keys( arguments[1] )[0]  +  '"]'
+                ).change();
             });
 
-        iWebApp.off( iEvent ).on(iEvent,  function (iEvent, iData) {
+        iWebApp.off( iEvent ).on(iEvent,  function (_, data) {
+
+            var total = VM.total || data.total;
 
             VM.render({
-                total:      iData.total,
-                pageSum:    Math.ceil(iData.total / VM.rows)
+                total:      total,
+                pageSum:    Math.ceil(total / VM.rows)
             });
 
-            return iData.list;
+            return data.list;
         });
 
         $.extend(arguments[0], {
-            pageChange:    function () {
+            pageChange:    function (event) {
 
-                var iTarget = arguments[0].target;
+                var target = event.target,  value;
 
-                var iValue = parseInt(iTarget.value || iTarget.textContent);
+                if (value = parseInt(target.value || target.textContent)) {
 
-                if (! iValue)  return;
+                    this[target.name || 'page'] = value;
 
-                this.render(
-                    (iTarget.tagName == 'SELECT')  ?  'rows'  :  'page',  iValue
-                );
+                    iWebApp.load( iEvent.target );
 
-                $( iEvent.target ).view().clear();
-
-                iWebApp.load( iEvent.target );
+                    event.stopPropagation();    event.preventDefault();
+                }
             }
         });
     });

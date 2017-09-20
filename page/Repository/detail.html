@@ -1,0 +1,71 @@
+<style disabled>
+    .nav .nav {
+        padding-left:    2em;
+    }
+</style>
+<script src="detail.js"></script>
+
+<div class="Grid-Row">
+    <h2>
+        ${view.full_name}
+        <sup><small>${view.fork ? '衍生' : '原创'}</small></sup>
+    </h2>
+    <div>
+        <a class="btn btn-primary"
+           href="../User/index.html?data=${view.stargazers_url}">
+            星标 ${view.stargazers_count}
+        </a>
+        <a class="btn btn-success"
+           href="../User/index.html?data=${view.subscribers_url}">
+            关注 ${view.watchers}
+        </a>
+        <a class="btn btn-info"
+           href="index.html?repository=${view.full_name}">
+            衍生 ${view.forks}
+        </a>
+    </div>
+</div>
+<p>${view.description}</p>
+
+<div class="Grid-Row">
+    <a target="_blank" href="${view.homepage}">
+        ${view.homepage}
+    </a>
+    <span>${view.createdTime} 创建仓库</span>
+    <span>${view.updatedTime} 更新信息</span>
+    <span>${view.pushedTime} 推送代码</span>
+</div>
+
+<div class="container-fluid"><div class="row">
+
+    <nav class="col-md-4"
+         data-href="?data=${ view.contents_url.split('{')[0].slice(0, -1) }">
+
+        <ul data-name="list" class="nav nav-pills nav-stacked">
+            <li>
+                <a target="_blank" href="${view.url}"
+                   onclick="${scope['open' + view.type]}"
+                   data-autofocus="${ /ReadMe\./i.test( view.name ) }">
+                    ${view.name}
+                    <i class="caret"
+                       style="display: ${view.type === 'dir'  ?  ''  :  'none'}">
+                    </i>
+                </a>
+
+                <ul is="TreeView" data-href="?data=${view.url}"
+                    class="nav nav-pills nav-stacked">
+                    <li>
+                        <a target="_blank" href="${view.url}"
+                           onclick="${scope['open' + view.type]}">
+                            ${view.name}
+                            <i class="caret"
+                               style="display: ${view.type === 'dir'  ?  ''  :  'none'}">
+                            </i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <article class="col-md-8"></article>
+</div></div>

@@ -1,5 +1,6 @@
 # GitHub 中文版
 
+[![Learn it with PPT](https://img.shields.io/badge/Learn%20it%20from-PPT-blue.svg)](https://ppt.baomitu.com/d/34699c9a)
 [![Try it on CodePen.IO](https://img.shields.io/badge/Try%20it%20on-CodePen.IO-brightgreen.svg)](https://codepen.io/tech_query/project/details/ZOPgwM/)
 
 
