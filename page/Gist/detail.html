@@ -19,12 +19,16 @@
 
 <h3>代码文件</h3>
 <div is="ListView" data-name="files">
-    <section>
-        <h4><a target="_blank" href="${view.raw_url}">
-            ${view.filename}
-        </a></h4>
-        ${view.language}
-        <p>${view.content}</p>
+    <section class="panel panel-info">
+        <header class="panel-heading">
+            <a class="panel-title" target="_blank" href="${view.raw_url}">
+                ${view.filename}
+            </a>
+            <span class="pull-right">[ ${view.language} ]</span>
+        </header>
+        <div class="panel-body">
+            <pre>${view.content}</pre>
+        </div>
     </section>
 </div>
 

@@ -2,6 +2,9 @@
     .nav .nav {
         padding-left:    2em;
     }
+    article a.anchor {
+        display:    none;
+    }
 </style>
 <script src="detail.js"></script>
 
@@ -43,7 +46,7 @@
 
         <ul data-name="list" class="nav nav-pills nav-stacked">
             <li>
-                <a target="_blank" href="${view.url}"
+                <a target="_blank" href="${view.html_url}"
                    onclick="${scope['open' + view.type]}"
                    data-autofocus="${ /ReadMe\./i.test( view.name ) }">
                     ${view.name}
@@ -55,7 +58,7 @@
                 <ul is="TreeView" data-href="?data=${view.url}"
                     class="nav nav-pills nav-stacked">
                     <li>
-                        <a target="_blank" href="${view.url}"
+                        <a target="_blank" href="${view.html_url}"
                            onclick="${scope['open' + view.type]}">
                             ${view.name}
                             <i class="caret"

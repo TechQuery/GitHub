@@ -46,42 +46,30 @@ require([
                         (data.length  <  $.paramJSON( event.src ).pre_page)  ?
                             data.length  :  3000
                 };
-        }).on({
+        });
+
+    //  主导航栏
+
+        iWebApp.on({
             type:    'template',
             href:    '.md'
         },  function () {
 
             return  marked( arguments[1] );
-        });
 
-    //  主导航栏 状态维护
+        }).on('route',  function (event, $_Link) {
 
-        var $_Nav = $('#Main_Nav > ul');
+            if ( event.src )
+                $_Link = $(
+                    $_Link.filter(
+                        '[href*="'  +
+                            event.src.split('/')[0].replace(/s$/, '')  +
+                        '"]'
+                    )[0] || $_Link
+                );
 
-        function find_Nav(URL, part) {
-
-            return $_Nav.children(
-                ':has(a[href'  +  (part ? '^' : '')  +  '="'  +  URL  +  '"])'
-            ).eq( 0 );
-        }
-
-        iWebApp.on({
-            type:    'ready',
-            href:    /page\/|\.md/i
-        },  function () {
-
-            var route = this.getRoute(),  $_Item;
-
-            var page = route.split('?')[0];
-
-            var path = $.filePath( page )  ||  page;
-
-            if (
-                ($_Item = find_Nav( route ))[0]  ||
-                ($_Item = find_Nav( page ))[0]  ||
-                ($_Item = find_Nav(path, true))[0]
-            )
-                $_Item.addClass('active').siblings().removeClass('active');
+            $( $_Link[0].parentNode ).addClass('active')
+                .siblings().removeClass('active');
         });
 
     //  搜索框

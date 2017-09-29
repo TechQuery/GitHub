@@ -1,10 +1,10 @@
 <!DocType HTML>
-<html lang="zh-CN"><head>
+<html lang="zh-CN" data-href="?data=page/index.json"><head>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
 
-    <title>GitHub 中文版</title>
+    <title>${view.title}</title>
 
     <link rel="stylesheet"
           href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -18,10 +18,11 @@
         require.config({
             baseUrl:    'script/',
             paths:      {
-                jquery:       'https://cdn.bootcss.com/jquery/3.2.1/jquery.min',
+                jquery:        'https://cdn.bootcss.com/jquery/3.2.1/jquery.min',
                 BootStrap:
                     'https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min',
-                marked:       'https://cdn.bootcss.com/marked/0.3.6/marked.min'
+                marked:        'https://cdn.bootcss.com/marked/0.3.6/marked.min',
+                Media_Flow:    '../page/Media_Flow'
             },
             shim:       {
                 BootStrap:    ['jquery']
@@ -32,7 +33,7 @@
 </head><body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
 
-        <div class="container-fluid" data-href="?data=page/index.json">
+        <div class="container">
 
         <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -43,7 +44,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" target="_top" href="." title="返回首页">
+                <a class="navbar-brand" target="_top" href="" title="返回首页">
                     ${view.title}
                 </a>
             </div>
@@ -62,7 +63,8 @@
                         class="${view.URL ? '' : 'divider'}">
 
                         <a target="${view.target}" href="${view.URL}"
-                           data-autofocus="${! view.__index__}">
+                           data-autofocus="${! view.__index__}"
+                           title="${view.name}">
                             ${view.title}
                         </a>
                     </li>
@@ -71,7 +73,7 @@
         </div>
     </nav>
 <!--  SPA Page Container  -->
-    <div id="PageBox"></div>
+    <div class="container" id="PageBox"></div>
 
 <!--  AJAX loading  -->
     <div data-href="component/loading.html"></div>

@@ -1,25 +1,34 @@
 {
-    "title":      "GitHub",
+    "title":      "GitHub 中文版",
     "channel":    [
         {
-            "title":    "关于本站",
-            "URL":      "ReadMe.md"
+            "title":    "G 流",
+            "name":     "事件流",
+            "URL":      "page/Event.html?data=events"
         },
         {
-            "title":    "开源仓库",
+            "title":    "G 仓",
+            "name":     "开源仓库",
             "URL":      "page/Repository/index.html"
         },
         {
-            "title":    "代码锦囊",
+            "title":    "G 锦",
+            "name":     "代码锦囊",
             "URL":      "page/Gist/index.html"
         },
         {
             "title":    "G 友",
+            "name":     "程序员",
             "URL":      "page/User/index.html?data=users"
         },
         {
             "title":    "G 团",
+            "name":     "开发团队",
             "URL":      "page/User/index.html?data=organizations"
+        },
+        {
+            "title":    "关于本站",
+            "URL":      "ReadMe.md"
         },
         {
             "title":    "关于作者",
