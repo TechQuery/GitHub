@@ -1,6 +1,6 @@
 # GitHub 中文版
 
-[![Learn it with PPT](https://img.shields.io/badge/Learn%20it%20from-PPT-blue.svg)](https://ppt.baomitu.com/d/34699c9a)
+[![Learn it with PPT](https://img.shields.io/badge/Learn%20it%20with-PPT-blue.svg)](https://ppt.baomitu.com/d/34699c9a)
 [![Try it on CodePen.IO](https://img.shields.io/badge/Try%20it%20on-CodePen.IO-brightgreen.svg)](https://codepen.io/tech_query/project/details/ZOPgwM/)
 
 
@@ -16,7 +16,7 @@
 
  5. Web 组件化引擎：[EasyWebApp v4](https://gitee.com/Tech_Query/EasyWebApp/tree/MVVM/)
 
- 6. 开放数据：[GitHub API ( RESTful )](https://developer.github.com/v3/search/)
+ 6. 开放数据：[GitHub API ( RESTful )](https://developer.github.com/v3/)
 
 
 ## 知识库

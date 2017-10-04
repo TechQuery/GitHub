@@ -1,17 +1,22 @@
-<style disabled>
-    .nav .nav {
-        padding-left:    2em;
-    }
-    article a.anchor {
-        display:    none;
-    }
-</style>
 <script src="detail.js"></script>
 
 <div class="Grid-Row">
     <h2>
-        ${view.full_name}
-        <sup><small>${view.fork ? '衍生' : '原创'}</small></sup>
+        <a href="../User/detail.html?data=${view.owner.url}">
+            ${view.owner.login}
+        </a>
+        /
+        <a target="_blank" href="${view.html_url}">
+            ${view.name}
+        </a>
+        <sup><small>
+            ${view.fork ? '' : '原创'}
+
+            <a href="detail.html?data=${view.parent.url}"
+               style="display: ${view.fork ? '' : 'none'}">
+                衍生
+            </a>
+        </small></sup>
     </h2>
     <div>
         <a class="btn btn-primary"
@@ -39,36 +44,49 @@
     <span>${view.pushedTime} 推送代码</span>
 </div>
 
-<div class="container-fluid"><div class="row">
-
-    <nav class="col-md-4"
-         data-href="?data=${ view.contents_url.split('{')[0].slice(0, -1) }">
-
-        <ul data-name="list" class="nav nav-pills nav-stacked">
-            <li>
-                <a target="_blank" href="${view.html_url}"
-                   onclick="${scope['open' + view.type]}"
-                   data-autofocus="${ /ReadMe\./i.test( view.name ) }">
-                    ${view.name}
-                    <i class="caret"
-                       style="display: ${view.type === 'dir'  ?  ''  :  'none'}">
-                    </i>
-                </a>
-
-                <ul is="TreeView" data-href="?data=${view.url}"
-                    class="nav nav-pills nav-stacked">
-                    <li>
-                        <a target="_blank" href="${view.html_url}"
-                           onclick="${scope['open' + view.type]}">
-                            ${view.name}
-                            <i class="caret"
-                               style="display: ${view.type === 'dir'  ?  ''  :  'none'}">
-                            </i>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-    <article class="col-md-8"></article>
-</div></div>
+<div>
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+        <li role="presentation" class="${view.tabState(this, 'active')}">
+            <a href="#File" role="tab" data-toggle="tab"
+               aria-controls="File">
+                源代码
+            </a>
+        </li>
+        <li role="presentation" class="${view.tabState(this, 'active')}">
+            <a href="#Issue" role="tab" data-toggle="tab"
+               aria-controls="Issue">
+                问题集 (${view.open_issues})
+            </a>
+        </li>
+        <li role="presentation" class="${view.tabState(this, 'active')}">
+            <a href="#MileStone" role="tab" data-toggle="tab"
+               aria-controls="MileStone">
+                路线图
+            </a>
+        </li>
+        <li role="presentation" class="${view.tabState(this, 'active')}">
+            <a href="#Pull_Request" role="tab" data-toggle="tab"
+               aria-controls="Pull_Request">
+                工作室
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade ${view.tabState(this, 'active in')}"
+             role="tabpanel" id="File"
+             data-href="File.html">
+        </div>
+        <div class="tab-pane fade ${view.tabState(this, 'active in')}"
+             role="tabpanel" id="Issue"
+             data-href="Issue/index.html?repository=${view.full_name}">
+        </div>
+        <div class="tab-pane fade ${view.tabState(this, 'active in')}"
+             role="tabpanel" id="MileStone">
+            milestone
+        </div>
+        <div class="tab-pane fade ${view.tabState(this, 'active in')}"
+             role="tabpanel" id="Pull_Request"
+             data-href="Issue/index.html?repository=${view.full_name}&PR=1">
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<style disabled>
+    .nav .nav {
+        padding-left:    2em;
+    }
+    article a.anchor {
+        display:    none;
+    }
+</style>
+<script src="File.js"></script>
+
+<div class="row">
+    <nav class="col-md-4"
+         data-href="?data=${ view.contents_url.split('{')[0].slice(0, -1) }">
+
+        <ul data-name="list" class="nav nav-pills nav-stacked">
+            <li>
+                <a target="_blank" href="${view.html_url}"
+                   onclick="${scope['open' + view.type]}"
+                   data-autofocus="${ /ReadMe\.?/i.test( view.name ) }">
+                    ${view.name}
+                    <i class="caret"
+                       style="display: ${view.type === 'dir'  ?  ''  :  'none'}">
+                    </i>
+                </a>
+
+                <ul is="TreeView" data-href="?data=${view.url}"
+                    class="nav nav-pills nav-stacked">
+                    <li>
+                        <a target="_blank" href="${view.html_url}"
+                           onclick="${scope['open' + view.type]}">
+                            ${view.name}
+                            <i class="caret"
+                               style="display: ${view.type === 'dir'  ?  ''  :  'none'}">
+                            </i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <article class="col-md-8"></article>
+</div>

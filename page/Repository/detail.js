@@ -1,56 +1,37 @@
-require(['jquery', 'EasyWebApp'],  function ($, EWA) {
+require(['jquery', 'EasyWebApp', 'BootStrap'],  function ($, EWA) {
 
-    var iWebApp = new EWA(),  $_DOM = $( document );
+    var iWebApp = new EWA();
 
 
     EWA.component(function (data) {
 
-        var $_Tree = this.$_View.find('nav > ul'),
-            $_File = this.$_View.find('article');
+        $('.nav-tabs').parent().tab().on(
+            'shown.bs.tab',  'a[data-toggle="tab"]',  function () {
 
-        data.openfile = function (event) {
+                var ID = arguments[0].target.getAttribute('href');
 
-            $.ajax({
-                url:        iWebApp.apiRoot + this.url,
-                headers:    {
-                    Accept:    'application/vnd.github.v3.html'
-                },
-                success:    (function () {
+                var target = $( ID )[0];
 
-                    $_Tree.find('li.active').removeClass('active');
+                if ((! target.firstElementChild)  &&  target.dataset.href)
+                    iWebApp.load( target ).then(function () {
 
-                    this.$_View.addClass('active');
+                        iWebApp.setURLData('tab', ID.slice(1));
+                    });
+            }
+        );
 
-                    $_File.html( arguments[0] );
+        data.tabState = function (item, active) {
 
-                }).bind( this )
-            });
+            active = active || true;
 
-            event.stopPropagation();    event.preventDefault();
+            if (! data.tab)
+                return  item.previousElementSibling ? '' : active;
+
+            return (
+                data.tab === (
+                   item.id || item.firstElementChild.getAttribute('href').slice(1)
+                )
+            ) ? active : '';
         };
-
-        data.opendir = function (event) {
-
-            var sub = $( event.target.nextElementSibling ).view();
-
-            if (! sub)  return;
-
-            if (! sub[0])
-                iWebApp.load( sub ).then(function () {
-
-                    for (var i = 0;  sub[i];  i++)
-                        if (sub[i].type !== 'dir')
-                            $( sub[i].$_View[0].lastElementChild ).remove();
-                });
-            else
-                sub.$_View.toggle( 250 );
-
-            event.stopPropagation();    event.preventDefault();
-        };
-
-        this.one('ready',  function () {
-
-            this.$_View.find('nav a[data-autofocus="true"]').click();
-        });
     });
 });
