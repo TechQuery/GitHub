@@ -2,13 +2,6 @@
     .Ellipsis {
         max-width:    48em;
     }
-    .Ellipsis i {
-        display:          inline-block;
-        padding:          0.25em  0.5em;
-        margin-right:     0.25em;
-        border-radius:    3px;
-        color:            white;
-    }
     td {
         white-space:    nowrap;
     }
@@ -80,7 +73,7 @@
 
                     <span is="ListView" data-name="labels">
 
-                        <i style="background: #${view.color}">
+                        <i class="label" style="background: #${view.color}">
                             ${view.name}
                         </i>
                     </span>

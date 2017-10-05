@@ -1,0 +1,106 @@
+<style disabled>
+    section + div {
+        margin-top:    1em;
+    }
+    .img-thumbnail {
+        max-width:    3em;
+    }
+</style>
+<script src="../MileStone/index.js"></script>
+
+<h3>
+    #${view.number} ${view.title}
+
+    <sup class="label label-${view.state === 'open' ? 'success' : 'danger'}">
+        ${view.state === 'open' ? '开启' : '关闭'}
+    </sup>
+</h3>
+<div class="row">
+    <div class="col-md-9">
+        <section class="media">
+            <div class="media-left text-center">
+                <a href="../../User/detail.html?data=${view.user.url}"
+                   title="${view.user.login}">
+
+                    <img class="media-object" src="${view.user.avatar_url}" />
+
+                    <div class="Ellipsis">${view.user.login}</div>
+                </a>
+                <abbr title="${(new Date( view.created_at )).toLocaleString()}">
+                    ${view.createdTime}
+                </abbr>
+            </div>
+            <div class="media-body panel panel-default">
+                <div class="panel-heading">
+                    <abbr title="${(new Date( view.updated_at )).toLocaleString()}">
+                         ${view.updatedTime}
+                    </abbr>
+                    更新
+                </div>
+                <div class="panel-body">${view.body}</div>
+            </div>
+        </section>
+
+        <div data-href="?data=${view.comments_url}">
+
+            <div is="ListView" data-name="list">
+                <section class="media">
+                    <div class="media-left text-center">
+                            <a href="../../User/detail.html?data=${view.user.url}"
+                           title="${view.user.login}">
+
+                            <img class="media-object" src="${view.user.avatar_url}" />
+
+                            <div class="Ellipsis">${view.user.login}</div>
+                        </a>
+                        <abbr title="${(new Date( view.created_at )).toLocaleString()}">
+                            ${view.createdTime}
+                        </abbr>
+                    </div>
+                    <div class="media-body panel panel-default">
+                        <div class="panel-heading">
+                            <abbr title="${(new Date( view.updated_at )).toLocaleString()}">
+                                 ${view.updatedTime}
+                            </abbr>
+                            更新
+                        </div>
+                        <div class="panel-body">${view.body}</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <aside class="col-md-3">
+        <h4>指派</h4>
+        <div is="ListView" data-name="assignees">
+            <a href="../../User/detail.html?data=${view.url}"
+               title="${view.login}">
+
+                <img class="img-thumbnail" src="${view.avatar_url}" />
+            </a>
+        </div>
+        <hr />
+        <h4>标签</h4>
+        <div is="ListView" data-name="labels">
+
+            <i class="label" style="background: #${view.color}">
+                ${view.name}
+            </i>
+        </div>
+        <hr />
+        <h4>里程碑</h4>
+        <div data-name="milestone">
+            <h5><a href="../MileStone/detail.html?data=${view.url}">
+                ${view.title}
+            </a></h5>
+            <div class="progress">
+                <div class="progress-bar ${scope.barState()}"
+                     role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                     aria-valuenow="${view.percent}"
+                     style="width: ${view.percent}%">
+                    ${view.percent}%
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>

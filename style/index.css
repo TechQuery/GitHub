@@ -1,3 +1,6 @@
+abbr[title] {
+    text-decoration:    none;
+}
 img {
     display:       inline-block;
     max-width:     100%;
@@ -5,6 +8,12 @@ img {
 }
 
 
+.label {
+	margin-right:    0.5em;
+}
+.media-left, .media-right {
+    width:    10%;
+}
 .Ellipsis {
     overflow:         hidden;
     white-space:      nowrap;

@@ -13,6 +13,7 @@ define(['jquery', 'TimePassed', 'marked'],  function ($, TimePassed, marked) {
             var name = key.split('_');
 
             switch ( name.slice(-1)[0] ) {
+                case 'on':             ;
                 case 'at':             {
                     data[ key ] = value;
 
@@ -23,6 +24,7 @@ define(['jquery', 'TimePassed', 'marked'],  function ($, TimePassed, marked) {
                 case 'url':
                     data[ key ] = this.replace(base, '');
                     break;
+                case 'body':           ;
                 case 'description':
                     data[ key ] = marked( this );
                     break;

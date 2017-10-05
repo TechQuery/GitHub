@@ -1,0 +1,48 @@
+<style disabled>
+    [is] {
+        margin:    1em  0;
+    }
+    blockquote small:before {
+        content:    none;
+    }
+    .progress {
+        margin:    0;
+    }
+</style>
+<script src="index.js"></script>
+
+<div is="ListView" data-name="list">
+    <blockquote class="media">
+        <div class="media-body">
+            <h3 class="media-heading">
+                <a href="detail.html?data=${view.url}">
+                    ${view.title}
+                </a>
+            </h3>
+            <div>${view.description}</div>
+            <div class="Grid-Row">
+                <small>${view.createdTime} 创建</small>
+                <small>${view.updatedTime} 更新</small>
+                <small>${view.dueTime} 过期</small>
+            </div>
+            <div class="progress">
+                <div class="progress-bar  ${scope.barState()}"
+                     role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                     aria-valuenow="${view.percent}"
+                     style="width: ${view.percent}%">
+                    ${view.percent}%
+                </div>
+            </div>
+        </div>
+        <div class="media-right media-middle">
+
+            <a href="../../User/detail.html?data=${view.creator.url}"
+               title="${view.creator.login}">
+
+                <img class="media-object" src="${view.creator.avatar_url}" />
+
+                <div class="Ellipsis">${view.creator.login}</div>
+            </a>
+        </div>
+    </blockquote>
+</div>

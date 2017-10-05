@@ -9,7 +9,8 @@
         <a target="_blank" href="${view.html_url}">
             ${view.name}
         </a>
-        <sup><small>
+        <sup><small class="label label-default">
+
             ${view.fork ? '' : '原创'}
 
             <a href="detail.html?data=${view.parent.url}"
@@ -21,15 +22,18 @@
     <div>
         <a class="btn btn-primary"
            href="../User/index.html?data=${view.stargazers_url}">
-            星标 ${view.stargazers_count}
+            星标
+            <span class="badge">${view.stargazers_count}</span>
         </a>
         <a class="btn btn-success"
            href="../User/index.html?data=${view.subscribers_url}">
-            关注 ${view.watchers}
+            关注
+            <span class="badge">${view.watchers}</span>
         </a>
         <a class="btn btn-info"
            href="index.html?repository=${view.full_name}">
-            衍生 ${view.forks}
+            衍生
+            <span class="badge">${view.forks}</span>
         </a>
     </div>
 </div>
@@ -55,7 +59,8 @@
         <li role="presentation" class="${view.tabState(this, 'active')}">
             <a href="#Issue" role="tab" data-toggle="tab"
                aria-controls="Issue">
-                问题集 (${view.open_issues})
+                问题集
+                <span class="badge">${view.open_issues}</span>
             </a>
         </li>
         <li role="presentation" class="${view.tabState(this, 'active')}">
@@ -67,7 +72,7 @@
         <li role="presentation" class="${view.tabState(this, 'active')}">
             <a href="#Pull_Request" role="tab" data-toggle="tab"
                aria-controls="Pull_Request">
-                工作室
+                工作台
             </a>
         </li>
     </ul>
@@ -81,8 +86,8 @@
              data-href="Issue/index.html?repository=${view.full_name}">
         </div>
         <div class="tab-pane fade ${view.tabState(this, 'active in')}"
-             role="tabpanel" id="MileStone">
-            milestone
+             role="tabpanel" id="MileStone"
+             data-href="MileStone/index.html?data=${view.milestones_url.split('{')[0]}?state=all">
         </div>
         <div class="tab-pane fade ${view.tabState(this, 'active in')}"
              role="tabpanel" id="Pull_Request"
