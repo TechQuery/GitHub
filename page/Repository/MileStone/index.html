@@ -25,13 +25,10 @@
                 <small>${view.updatedTime} 更新</small>
                 <small>${view.dueTime} 过期</small>
             </div>
-            <div class="progress">
-                <div class="progress-bar  ${scope.barState()}"
-                     role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                     aria-valuenow="${view.percent}"
-                     style="width: ${view.percent}%">
-                    ${view.percent}%
-                </div>
+            <div data-href="../../../component/Progress.html"
+                 data-to-do="${view.open_issues}"
+                 data-done="${view.closed_issues}"
+                 data-expired="${view.due_on}">
             </div>
         </div>
         <div class="media-right media-middle">
