@@ -14,14 +14,14 @@
             var user = (data.type === 'User');
 
             $.extend(data, {
-                memberTitle:    user ? '参与组织' : '组织成员',
-                memberURL:
-                    data[user ? 'organizations_url' : 'public_members_url']
-                        .split('{')[0],
                 detailURL:      function (view) {
 
                     return  (user ? 'orgs' : 'users')  +  '/'  +  view.login;
-                }
+                },
+                memberTitle:    user ? '参与组织' : '组织成员',
+                memberURL:      (
+                    data[user ? 'organizations_url' : 'public_members_url']  ||  ''
+                ).split('{')[0]
             });
         });
     });
@@ -57,7 +57,7 @@
             电子邮箱：<a href="mailto:${view.email}">${view.email}</a>
         </address></li>
         <li><address>
-            个人博客：<a target="_blank" href="${view.blog}">${view.blog}</a>
+            官方网站：<a target="_blank" href="${view.blog}">${view.blog}</a>
         </address></li>
         <li><address>
             所在地区：${view.location}

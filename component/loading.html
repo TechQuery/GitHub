@@ -1,32 +1,34 @@
 <link rel="stylesheet" href="loading.css" />
+
 <script>
-require(['jquery', 'EasyWebApp'],  function ($, EWA) {
+    require(['jquery', 'EasyWebApp'],  function ($, EWA) {
 
-    EWA.component(function () {
+        EWA.component(function () {
 
-        var VM = this;
+            var VM = this,  Load_Cover = this.$_View.children('div')[0];
 
-        var Load_Cover = this.$_View.children('div').on(
-                'transitionend webkitTransitionEnd',  function () {
+            Load_Cover.addEventListener(
+                self.TransitionEvent ? 'transitionend' : 'webkitTransitionEnd',
+                function () {
 
                     if (! VM.count)  this.style.display = 'none';
                 }
-            )[0];
+            );
 
-        $( document ).on('ajaxSend',  function () {
+            $( document ).on('ajaxSend',  function () {
 
-            if (! VM.count)  Load_Cover.style.display = '';
+                if (! VM.count)  Load_Cover.style.display = '';
 
-            VM.count++ ;
+                VM.count++ ;
 
-        }).on('ajaxSuccess',  function () {
+            }).on('ajaxSuccess',  function () {
 
-            VM.count-- ;
+                if (VM.count > 0)  VM.count-- ;
+            });
+
+            return  {count: 0};
         });
-
-        return  {count: 0};
     });
-});
 </script>
 
 <div class="loading ${view.count ? 'active' : ''}">

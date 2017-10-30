@@ -36,6 +36,22 @@
                 published:    '发布',
                 added:        '添加'
             };
+
+            data.detailURL = function () {
+
+                var model, path;
+
+                if (model = this.issue || this.pull_request)
+                    path = 'Repository/Issue/detail';
+                else if (model = this.release)
+                    path = 'Repository/Tag';
+                else if (model = this.member)
+                    path = 'User/index';
+                else
+                    return;
+
+                return  path + '.html?data=' + model.url;
+            };
         });
     });
 </script>
@@ -70,8 +86,7 @@
             ${scope.event[ view.type.replace('Event', '') ]}
 
             <span data-name="payload">
-                <a target="_blank"
-                   href="${(view.issue || view.pull_request || view.release  || view.member || '').html_url}">
+                <a href="./${scope.detailURL()}">
                     ${
                         (view.ref || view.master_branch)  ||
                         (view.issue || view.pull_request || '').title  ||

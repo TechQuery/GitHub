@@ -4,7 +4,7 @@ define(['jquery', 'TimePassed', 'marked'],  function ($, TimePassed, marked) {
 
     function FixOne(item) {
 
-        var data = { },  base = this;
+        var data = { };
 
         $.each(item,  function (key, value) {
 
@@ -13,6 +13,7 @@ define(['jquery', 'TimePassed', 'marked'],  function ($, TimePassed, marked) {
             var name = key.split('_');
 
             switch ( name.slice(-1)[0] ) {
+                case 'date':           ;
                 case 'on':             ;
                 case 'at':             {
                     data[ key ] = value;
@@ -22,11 +23,12 @@ define(['jquery', 'TimePassed', 'marked'],  function ($, TimePassed, marked) {
                     break;
                 }
                 case 'url':
-                    data[ key ] = this.replace(base, '');
+                    data[ key ] = this.replace('https://api.github.com/', '');
                     break;
                 case 'body':           ;
                 case 'description':
-                    data[ key ] = marked( this );
+                    data[ key ] = /[\*~_\-\[\(]/.test( this )  ?
+                        marked( this )  :  this;
                     break;
                 case 'content':
                     if (/MarkDown/i.test( item.language )) {
@@ -35,7 +37,7 @@ define(['jquery', 'TimePassed', 'marked'],  function ($, TimePassed, marked) {
                     }
                 default:
                     data[ key ] = (typeof value === 'object')  ?
-                        FixData.call(base, this)  :  value;
+                        FixData( this )  :  value;
             }
         });
 
@@ -45,7 +47,7 @@ define(['jquery', 'TimePassed', 'marked'],  function ($, TimePassed, marked) {
     function FixData(data) {
 
         return  (data instanceof Array)  ?
-            $.map(data, FixOne.bind(this))  :  FixOne.call(this, data);
+            $.map(data, FixOne)  :  FixOne( data );
     }
 
     return FixData;

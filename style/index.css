@@ -11,6 +11,10 @@ img {
 .label {
 	margin-right:    0.5em;
 }
+.label a {
+    color:              white;
+	text-decoration:    none;
+}
 .media-left, .media-right {
     width:    10%;
 }

@@ -51,6 +51,9 @@
         <dt id="Source">源代码</dt>
         <dd data-href="File.html"></dd>
 
+        <dt id="Commit">开发流</dt>
+        <dd data-href="Commit/index.html?repository=${scope.full_name}"></dd>
+
         <dt id="Issue">
             问题集
             <span class="badge">${scope.open_issues}</span>
@@ -62,5 +65,8 @@
         </dd>
         <dt id="Pull_Request">工作台</dt>
         <dd data-href="Issue/index.html?repository=${scope.full_name}&PR=1"></dd>
+
+        <dt id="Contributor">协作者</dt>
+        <dd data-href="../User/index.html?data=${scope.contributors_url}"></dd>
     </dl>
 </div>

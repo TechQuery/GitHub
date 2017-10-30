@@ -1,10 +1,35 @@
 require([
-    'jquery', 'EasyWebApp', 'FixData', 'marked', 'BootStrap'
-],  function ($, EWA, FixData, marked) {
+    'jquery', 'Layer', 'FixData', 'marked', 'EasyWebApp', 'BootStrap'
+],  function ($, Layer, FixData, marked) {
 
-//  应用程序入口
+    $( document ).on('ajaxError',  function (_, XHR) {
 
-    $( document ).ready(function () {
+    //  AJAX 异常处理
+
+        var message = XHR.responseText;
+
+        switch ( message[0] ) {
+            case '{':    message = JSON.parse( message ).message;    break;
+            case '<':    message = $.parseXML( message );
+        }
+
+        if (XHR.status === 401)
+            Layer.alert('会话失效，请重新登录！',  function () {
+
+                self.location.href = './';
+            });
+        else
+            Layer.alert(
+                $.isPlainObject( message )  ?
+                    JSON.stringify( message )  :  message,
+                function () {
+
+                    $( document ).trigger('ajaxSuccess');
+
+                    Layer.close( arguments[0] );
+                }
+            );
+    }).ready(function () {
 
         var iWebApp = $('#PageBox').iWebApp('https://api.github.com/');
 
@@ -32,14 +57,19 @@ require([
             method:    'GET'
         },  function (event, data) {
 
-            return  FixData.call(this.apiRoot, data);
+            return  FixData( data );
         }).on({
             type:      'data',
             method:    'GET',
             src:       /gists|repos/
         },  function (event, data) {
-
-            if ((data instanceof Array)  &&  (event.src.indexOf('/contents/') < 0))
+            if (
+                (data instanceof Array)  &&
+                (event.src.indexOf('/contents/') < 0)  &&
+                (event.src.indexOf('/commits') < 0)  &&
+                (event.src.indexOf('/branches') < 0)  &&
+                (event.src.indexOf('/tags') < 0)
+            )
                 return {
                     list:     data,
                     total:
@@ -68,8 +98,7 @@ require([
                     )[0] || $_Link
                 );
 
-            $( $_Link[0].parentNode ).addClass('active')
-                .siblings().removeClass('active');
+            $_Link.parent().addClass('active').siblings().removeClass('active');
         });
 
     //  搜索框

@@ -5,19 +5,27 @@ require(['jquery', 'EasyWebApp'],  function ($, EWA) {
 
     EWA.component(function (data) {
 
-        var $_Tree = this.$_View.find('nav > ul'),
+        var tree = this.$_View.find('nav').view().on('ready',  function () {
+
+                this.$_View.find('a[data-autofocus="true"]').click();
+            }),
             $_File = this.$_View.find('article');
+
+        data.loadBranch = function () {
+
+            iWebApp.load( tree );
+        };
 
         data.openfile = function (event) {
 
             $.ajax({
-                url:        iWebApp.apiRoot + this.url,
+                url:        new URL(this.url, iWebApp.apiRoot) + '',
                 headers:    {
                     Accept:    'application/vnd.github.v3.html'
                 },
                 success:    (function () {
 
-                    $_Tree.find('li.active').removeClass('active');
+                    tree.$_View.find('li.active').removeClass('active');
 
                     this.$_View.addClass('active');
 
@@ -47,10 +55,5 @@ require(['jquery', 'EasyWebApp'],  function ($, EWA) {
 
             event.stopPropagation();    event.preventDefault();
         };
-
-        this.one('ready',  function () {
-
-            this.$_View.find('nav a[data-autofocus="true"]').click();
-        });
     });
 });

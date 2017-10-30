@@ -1,0 +1,99 @@
+<style disabled>
+    .form-inline {
+        padding:    0  1em  1em;
+    }
+    .media {
+        box-shadow:    2px  2px  5px  gray;
+    }
+    .media > * {
+        padding:    1em;
+    }
+    .media-right > * {
+        display:    block;
+    }
+</style>
+<script>
+    require(['jquery', 'Media_Flow'],  function ($, Media_Flow) {
+
+        Media_Flow('ul',  function (VM, data) {
+
+            data.fixData = function (_, array) {
+
+                $.each(array,  function () {
+
+                    var message = this.commit.message.trim().split( /\n+/ );
+
+                    this.title = message.shift();
+
+                    this.description = message.join( '<br />' );
+                });
+            };
+
+            var iWebApp = this;
+
+            data.reload = function (event) {
+
+                iWebApp.load( event.target );
+            };
+        });
+    });
+</script>
+
+<form class="form-inline" onsubmit="return false">
+    <div class="form-group">
+        分支
+        <select class="form-control" name="branch"
+                data-href="?data=repos/${view.repository}/branches">
+
+            <option selected="${view.name === scope.default_branch}">
+                <!--${view.name}-->
+            </option>
+        </select>
+    </div>
+</form>
+
+<ul class="media-list"
+    data-href="?data=repos/${view.repository}/commits?sha=${view.branch}"
+
+    ondata="${view.fixData}" onready="${view.setNext}" onupdate="${view.reload}">
+
+    <li class="media">
+        <a class="media-left media-middle text-center"
+           title="${view.author.login}"
+           href="../../User/detail.html?data=${view.author.url}">
+
+            <img class="media-object" src="${view.author.avatar_url}" />
+            <!--${view.commit.author.name}-->
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading">
+                <a href="detail.html?data=${view.url}">
+                    <!--${view.title}-->
+                </a>
+            </h4>
+            <p><!--${view.description}--></p>
+        </div>
+        <div class="media-right media-middle text-center">
+
+            <a class="btn btn-default" target="_blank" href="${view.html_url}">
+
+                <abbr title="${view.sha}"><!--${view.sha.slice(0, 7)}--></abbr>
+            </a>
+
+            <abbr title="${(new Date(view.commit.author.date)).toLocaleString()}">
+
+                <!--${view.commit.author.Time}-->
+            </abbr>
+
+            <!--${view.commit.comment_count}--> 评论
+        </div>
+    </li>
+</ul>
+
+<div class="text-center">
+    <button type="button" class="btn btn-primary" disabled="${!! view.ready}"
+            onclick="${view.loadMore}">
+
+        ${['加载更多', '正在加载……', '没有更多'][ view.ready ]}
+    </button>
+</div>

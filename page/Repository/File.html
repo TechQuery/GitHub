@@ -8,9 +8,33 @@
 </style>
 <script src="File.js"></script>
 
+<form class="form-inline" onsubmit="return false">
+    <div class="form-group col-md-4">
+        分支
+        <select class="form-control" name="branch"
+                data-href="?data=${scope.branches_url.split('{')[0]}">
+
+            <option selected="${view.name === scope.default_branch}">
+                <!--${view.name}-->
+            </option>
+        </select>
+    </div>
+    <div class="form-group col-md-4">
+        HTTPS
+        <input type="url" class="form-control"
+               value="${scope.clone_url}" readonly />
+    </div>
+    <div class="form-group col-md-4">
+        SSH
+        <input type="url" class="form-control"
+               value="${scope.ssh_url}" readonly />
+    </div>
+</form>
+
 <div class="row">
     <nav class="col-md-4"
-         data-href="?data=${ view.contents_url.split('{')[0].slice(0, -1) }">
+         data-href="?data=${ scope.contents_url.split('{')[0].slice(0, -1) }?ref=${scope.branch || scope.default_branch}"
+         onupdate="${view.loadBranch}">
 
         <ul data-name="list" class="nav nav-pills nav-stacked">
             <li>
