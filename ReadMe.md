@@ -14,7 +14,7 @@
 
  4. CSS UI 库：[BootStrap v3](http://v3.bootcss.com/)
 
- 5. Web 组件化引擎：[EasyWebApp v4](https://gitee.com/Tech_Query/EasyWebApp/tree/MVVM/)
+ 5. Web 组件化引擎：[EasyWebApp v4](https://boot-web.tk/)
 
  6. 开放数据：[GitHub API ( RESTful )](https://developer.github.com/v3/)
 
