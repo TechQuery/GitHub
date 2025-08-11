@@ -13,27 +13,27 @@ class NavBar extends HTMLElement {
     {
       title: 'G 流',
       name: '事件流', 
-      URL: 'page/Event.html?data=events'
+      URL: '#/events'
     },
     {
       title: 'G 仓',
       name: '开源仓库',
-      URL: 'page/Repository/index.html'
+      URL: '#/repos'
     },
     {
       title: 'G 锦', 
       name: '代码锦囊',
-      URL: 'page/Gist/index.html'
+      URL: '#/gists'
     },
     {
       title: 'G 友',
       name: '程序员',
-      URL: 'page/User/index.html?data=users'
+      URL: '#/users'
     },
     {
       title: 'G 团',
       name: '开发团队', 
-      URL: 'page/User/index.html?data=organizations'
+      URL: '#/users'
     },
     {
       title: '关于本站',
@@ -41,7 +41,7 @@ class NavBar extends HTMLElement {
     },
     {
       title: '关于作者',
-      URL: 'page/User/detail.html?data=users/TechQuery'
+      URL: '#/users/TechQuery'
     }
   ];
 
@@ -68,7 +68,7 @@ class NavBar extends HTMLElement {
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="" title="返回首页">
+            <a class="navbar-brand" href="#/" title="返回首页">
               ${this.title}
             </a>
           </div>

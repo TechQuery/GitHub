@@ -1,13 +1,17 @@
 import './components/NavBar';
-import './stores/router';
+import './components/PageContent';
+import { router } from './stores/router';
 
 // Simple custom element without decorators for now
 class GitHubApp extends HTMLElement {
   connectedCallback() {
+    // Initialize routing first
+    router.init();
+    
     this.innerHTML = `
       <nav-bar></nav-bar>
       <div class="container" id="PageBox">
-        <div>Page content will go here</div>
+        <page-content></page-content>
       </div>
     `;
   }
