@@ -1,12 +1,13 @@
-import { observable, action, runInAction } from 'mobx';
+import { observable, action } from 'mobx';
 
 // GitHub API base configuration
 const GITHUB_API_BASE = 'https://api.github.com';
 
+// Use simplified interfaces instead of complex Octokit types
 interface GitHubUser {
   id: number;
   login: string;
-  name: string;
+  name?: string;
   avatar_url: string;
   html_url: string;
   bio?: string;
@@ -43,33 +44,17 @@ interface GitHubEvent {
 }
 
 export class GitHubStore {
-  @observable
-  users: GitHubUser[] = [];
+  @observable accessor users: GitHubUser[] = [];
+  @observable accessor repositories: GitHubRepo[] = [];
+  @observable accessor events: GitHubEvent[] = [];
+  @observable accessor currentUser: GitHubUser | null = null;
+  @observable accessor currentRepo: GitHubRepo | null = null;
+  @observable accessor loading = false;
 
-  @observable
-  repositories: GitHubRepo[] = [];
-
-  @observable
-  events: GitHubEvent[] = [];
-
-  @observable
-  currentUser: GitHubUser | null = null;
-
-  @observable
-  currentRepo: GitHubRepo | null = null;
-
-  @observable
-  loading = false;
-
-  @observable
-  error: string | null = null;
-
-  private async fetch(endpoint: string, options: RequestInit = {}) {
+  private async fetchData(endpoint: string) {
     const response = await fetch(`${GITHUB_API_BASE}${endpoint}`, {
-      ...options,
       headers: {
         'Accept': 'application/vnd.github.v3+json',
-        ...options.headers,
       },
     });
 
@@ -83,159 +68,67 @@ export class GitHubStore {
   @action
   async fetchUser(username: string) {
     this.loading = true;
-    this.error = null;
-
-    try {
-      const user = await this.fetch(`/users/${username}`);
-      
-      runInAction(() => {
-        this.currentUser = user;
-        this.loading = false;
-      });
-      return user;
-    } catch (error) {
-      runInAction(() => {
-        this.error = error instanceof Error ? error.message : 'Unknown error';
-        this.loading = false;
-      });
-      throw error;
-    }
+    const user = await this.fetchData(`/users/${username}`);
+    this.currentUser = user;
+    this.loading = false;
+    return user;
   }
 
   @action
   async fetchRepository(owner: string, repo: string) {
     this.loading = true;
-    this.error = null;
-
-    try {
-      const repository = await this.fetch(`/repos/${owner}/${repo}`);
-
-      runInAction(() => {
-        this.currentRepo = repository;
-        this.loading = false;
-      });
-      return repository;
-    } catch (error) {
-      runInAction(() => {
-        this.error = error instanceof Error ? error.message : 'Unknown error';
-        this.loading = false;
-      });
-      throw error;
-    }
+    const repository = await this.fetchData(`/repos/${owner}/${repo}`);
+    this.currentRepo = repository;
+    this.loading = false;
+    return repository;
   }
 
   @action
-  async fetchUsers(page = 1) {
+  async fetchUsers() {
     this.loading = true;
-    this.error = null;
-
-    try {
-      // Fetch TechQuery user as demo data
-      const techQueryUser = await this.fetch(`/users/TechQuery`);
-      const users = [techQueryUser];
-
-      runInAction(() => {
-        this.users = users;
-        this.loading = false;
-      });
-      return users;
-    } catch (error) {
-      runInAction(() => {
-        this.error = error instanceof Error ? error.message : 'Unknown error';
-        this.loading = false;
-      });
-      throw error;
-    }
+    // Fetch TechQuery user as demo data
+    const techQueryUser = await this.fetchData(`/users/TechQuery`);
+    this.users = [techQueryUser];
+    this.loading = false;
+    return this.users;
   }
 
   @action
   async fetchRepositories(page = 1) {
     this.loading = true;
-    this.error = null;
-
-    try {
-      // Fetch EasyWebApp organization repositories as demo data
-      const repos = await this.fetch(`/orgs/EasyWebApp/repos?per_page=30&page=${page}`);
-
-      runInAction(() => {
-        this.repositories = repos;
-        this.loading = false;
-      });
-      return repos;
-    } catch (error) {
-      runInAction(() => {
-        this.error = error instanceof Error ? error.message : 'Unknown error';
-        this.loading = false;
-      });
-      throw error;
-    }
+    // Fetch EasyWebApp organization repositories as demo data
+    const repos = await this.fetchData(`/orgs/EasyWebApp/repos?per_page=30&page=${page}`);
+    this.repositories = repos;
+    this.loading = false;
+    return repos;
   }
 
   @action
   async fetchEvents(page = 1) {
     this.loading = true;
-    this.error = null;
-
-    try {
-      // Fetch TechQuery user's public events as demo data
-      const events = await this.fetch(`/users/TechQuery/events/public?per_page=30&page=${page}`);
-
-      runInAction(() => {
-        this.events = events;
-        this.loading = false;
-      });
-      return events;
-    } catch (error) {
-      runInAction(() => {
-        this.error = error instanceof Error ? error.message : 'Unknown error';
-        this.loading = false;
-      });
-      throw error;
-    }
+    // Fetch TechQuery user's public events as demo data
+    const events = await this.fetchData(`/users/TechQuery/events/public?per_page=30&page=${page}`);
+    this.events = events;
+    this.loading = false;
+    return events;
   }
 
   @action
   async searchUsers(query: string) {
     this.loading = true;
-    this.error = null;
-
-    try {
-      const result = await this.fetch(`/search/users?q=${encodeURIComponent(query)}&per_page=30`);
-
-      runInAction(() => {
-        this.users = result.items;
-        this.loading = false;
-      });
-      return result.items;
-    } catch (error) {
-      runInAction(() => {
-        this.error = error instanceof Error ? error.message : 'Unknown error';
-        this.loading = false;
-      });
-      throw error;
-    }
+    const result = await this.fetchData(`/search/users?q=${encodeURIComponent(query)}&per_page=30`);
+    this.users = result.items;
+    this.loading = false;
+    return result.items;
   }
 
   @action
   async searchRepositories(query: string) {
     this.loading = true;
-    this.error = null;
-
-    try {
-      const result = await this.fetch(`/search/repositories?q=${encodeURIComponent(query)}&per_page=30`);
-
-      runInAction(() => {
-        this.repositories = result.items;
-        this.loading = false;
-      });
-      return result.items;
-    } catch (error) {
-      runInAction(() => {
-        this.error = error instanceof Error ? error.message : 'Unknown error';
-        this.loading = false;
-      });
-      throw error;
-    }
+    const result = await this.fetchData(`/search/repositories?q=${encodeURIComponent(query)}&per_page=30`);
+    this.repositories = result.items;
+    this.loading = false;
+    return result.items;
   }
 }
 

@@ -2,7 +2,7 @@ import { component, observer, on } from 'web-cell';
 
 interface NavItem {
   title: string;
-  name: string;
+  name?: string;
   URL: string;
   target?: string;
 }
@@ -12,10 +12,10 @@ interface NavItem {
 })
 @observer
 export class NavBar extends HTMLElement {
-  private dark = true;
-  private title = 'GitHub 中文版';
+  dark = true;
+  title = 'GitHub 中文版';
 
-  private channels: NavItem[] = [
+  channels: NavItem[] = [
     {
       title: 'G 流',
       name: '事件流', 
@@ -57,7 +57,7 @@ export class NavBar extends HTMLElement {
     const form = event.target as HTMLFormElement;
     const keyword = (form.elements.namedItem('keyword') as HTMLInputElement).value;
     
-    if (keyword.indexOf('/') < 0) {
+    if (!keyword.includes('/')) {
       // User search
       window.location.hash = `#/users/${keyword}`;
     } else {
@@ -102,18 +102,18 @@ export class NavBar extends HTMLElement {
             </form>
 
             <ul className="nav navbar-nav">
-              {this.channels.map((channel, index) => (
+              {this.channels.map(({ title, name, URL, target }, index) => (
                 <li 
-                  role={channel.URL ? '' : 'separator'} 
-                  className={channel.URL ? '' : 'divider'}
+                  role={URL ? '' : 'separator'} 
+                  className={URL ? '' : 'divider'}
                 >
                   <a 
-                    target={channel.target || ''} 
-                    href={channel.URL}
-                    title={channel.name}
+                    target={target || ''} 
+                    href={URL}
+                    title={name}
                     data-autofocus={index === 0 ? 'true' : undefined}
                   >
-                    {channel.title}
+                    {title}
                   </a>
                 </li>
               ))}
