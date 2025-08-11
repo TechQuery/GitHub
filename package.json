@@ -19,12 +19,14 @@
   "dependencies": {
     "@swc/helpers": "^0.5.17",
     "beercss": "^3.11.33",
+    "browser-unhandled-rejection": "^1.0.2",
     "cell-router": "^4.0.1",
     "dom-renderer": "^2.6.2",
     "marked": "^11.1.1",
     "mobx": "^6.12.0",
     "mobx-restful": "^2.1.0",
-    "web-cell": "^3.2.0"
+    "web-cell": "^3.2.0",
+    "web-utility": "^4.5.1"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.3",
