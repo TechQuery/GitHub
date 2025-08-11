@@ -11,9 +11,9 @@ export class EventsPage extends HTMLElement {
   }
 
   render() {
-    const { events, loading } = githubStore;
+    const { events, downloading } = githubStore;
 
-    if (loading) {
+    if (downloading) {
       return (
         <div className="text-center">
           <div className="spinner">加载中...</div>

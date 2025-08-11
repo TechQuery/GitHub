@@ -11,9 +11,9 @@ export class UsersPage extends HTMLElement {
   }
 
   render() {
-    const { users, loading } = githubStore;
+    const { users, downloading } = githubStore;
 
-    if (loading) {
+    if (downloading) {
       return (
         <div className="text-center">
           <div className="spinner">加载中...</div>

@@ -1,9 +1,6 @@
 import { observable, action } from 'mobx';
 
-// GitHub API base configuration
-const GITHUB_API_BASE = 'https://api.github.com';
-
-// Use simplified interfaces instead of complex Octokit types
+// Use simpler types for compatibility
 interface GitHubUser {
   id: number;
   login: string;
@@ -40,7 +37,7 @@ interface GitHubEvent {
     url: string;
   };
   created_at: string;
-  payload: any;
+  payload: Record<string, unknown>;
 }
 
 export class GitHubStore {
@@ -49,10 +46,10 @@ export class GitHubStore {
   @observable accessor events: GitHubEvent[] = [];
   @observable accessor currentUser: GitHubUser | null = null;
   @observable accessor currentRepo: GitHubRepo | null = null;
-  @observable accessor loading = false;
+  @observable accessor downloading = 0;
 
   private async fetchData(endpoint: string) {
-    const response = await fetch(`${GITHUB_API_BASE}${endpoint}`, {
+    const response = await fetch(`https://api.github.com${endpoint}`, {
       headers: {
         'Accept': 'application/vnd.github.v3+json',
       },
@@ -66,69 +63,95 @@ export class GitHubStore {
   }
 
   @action
+  private setDownloading(value: number) {
+    this.downloading = value;
+  }
+
+  @action
   async fetchUser(username: string) {
-    this.loading = true;
-    const user = await this.fetchData(`/users/${username}`);
-    this.currentUser = user;
-    this.loading = false;
-    return user;
+    this.setDownloading(this.downloading + 1);
+    try {
+      const user = await this.fetchData(`/users/${username}`);
+      this.currentUser = user;
+      return user;
+    } finally {
+      this.setDownloading(this.downloading - 1);
+    }
   }
 
   @action
   async fetchRepository(owner: string, repo: string) {
-    this.loading = true;
-    const repository = await this.fetchData(`/repos/${owner}/${repo}`);
-    this.currentRepo = repository;
-    this.loading = false;
-    return repository;
+    this.setDownloading(this.downloading + 1);
+    try {
+      const repository = await this.fetchData(`/repos/${owner}/${repo}`);
+      this.currentRepo = repository;
+      return repository;
+    } finally {
+      this.setDownloading(this.downloading - 1);
+    }
   }
 
   @action
   async fetchUsers() {
-    this.loading = true;
-    // Fetch TechQuery user as demo data
-    const techQueryUser = await this.fetchData(`/users/TechQuery`);
-    this.users = [techQueryUser];
-    this.loading = false;
-    return this.users;
+    this.setDownloading(this.downloading + 1);
+    try {
+      // Fetch TechQuery user as demo data
+      const techQueryUser = await this.fetchData(`/users/TechQuery`);
+      this.users = [techQueryUser];
+      return this.users;
+    } finally {
+      this.setDownloading(this.downloading - 1);
+    }
   }
 
   @action
   async fetchRepositories(page = 1) {
-    this.loading = true;
-    // Fetch EasyWebApp organization repositories as demo data
-    const repos = await this.fetchData(`/orgs/EasyWebApp/repos?per_page=30&page=${page}`);
-    this.repositories = repos;
-    this.loading = false;
-    return repos;
+    this.setDownloading(this.downloading + 1);
+    try {
+      // Fetch EasyWebApp organization repositories as demo data
+      const repos = await this.fetchData(`/orgs/EasyWebApp/repos?per_page=30&page=${page}`);
+      this.repositories = repos;
+      return repos;
+    } finally {
+      this.setDownloading(this.downloading - 1);
+    }
   }
 
   @action
   async fetchEvents(page = 1) {
-    this.loading = true;
-    // Fetch TechQuery user's public events as demo data
-    const events = await this.fetchData(`/users/TechQuery/events/public?per_page=30&page=${page}`);
-    this.events = events;
-    this.loading = false;
-    return events;
+    this.setDownloading(this.downloading + 1);
+    try {
+      // Fetch TechQuery user's public events as demo data
+      const events = await this.fetchData(`/users/TechQuery/events/public?per_page=30&page=${page}`);
+      this.events = events;
+      return events;
+    } finally {
+      this.setDownloading(this.downloading - 1);
+    }
   }
 
   @action
   async searchUsers(query: string) {
-    this.loading = true;
-    const result = await this.fetchData(`/search/users?q=${encodeURIComponent(query)}&per_page=30`);
-    this.users = result.items;
-    this.loading = false;
-    return result.items;
+    this.setDownloading(this.downloading + 1);
+    try {
+      const result = await this.fetchData(`/search/users?q=${encodeURIComponent(query)}&per_page=30`);
+      this.users = result.items;
+      return result.items;
+    } finally {
+      this.setDownloading(this.downloading - 1);
+    }
   }
 
   @action
   async searchRepositories(query: string) {
-    this.loading = true;
-    const result = await this.fetchData(`/search/repositories?q=${encodeURIComponent(query)}&per_page=30`);
-    this.repositories = result.items;
-    this.loading = false;
-    return result.items;
+    this.setDownloading(this.downloading + 1);
+    try {
+      const result = await this.fetchData(`/search/repositories?q=${encodeURIComponent(query)}&per_page=30`);
+      this.repositories = result.items;
+      return result.items;
+    } finally {
+      this.setDownloading(this.downloading - 1);
+    }
   }
 }
 

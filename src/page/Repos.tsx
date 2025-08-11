@@ -11,9 +11,9 @@ export class ReposPage extends HTMLElement {
   }
 
   render() {
-    const { repositories, loading } = githubStore;
+    const { repositories, downloading } = githubStore;
 
-    if (loading) {
+    if (downloading) {
       return (
         <div className="text-center">
           <div className="spinner">加载中...</div>

@@ -22,9 +22,9 @@ export class RepoPage extends HTMLElement {
   }
 
   render() {
-    const { currentRepo: repository, loading } = githubStore;
+    const { currentRepo: repository, downloading } = githubStore;
 
-    if (loading) {
+    if (downloading) {
       return (
         <div className="text-center">
           <div className="spinner">加载中...</div>

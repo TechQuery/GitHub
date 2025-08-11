@@ -1,21 +1,16 @@
 import { FC } from 'web-cell';
 
-interface LazyComponentProps {
-  loader: () => Promise<FC<any> | { default: FC<any> } | any>;
-  [key: string]: any;
-}
-
-export function createLazyComponent(loader: () => Promise<any>): FC<any> {
-  let loadedComponent: FC<any> | null = null;
+export function createLazyComponent(loader: () => Promise<{ default: FC } | FC>): FC {
+  let loadedComponent: FC | null = null;
   let loading = true;
   
   // Start loading immediately
   loader().then(module => {
-    loadedComponent = module.default || module;
+    loadedComponent = 'default' in module ? module.default : module;
     loading = false;
   });
 
-  return (props: any) => {
+  return (props: Record<string, unknown>) => {
     if (loading) {
       return (
         <div className="text-center">

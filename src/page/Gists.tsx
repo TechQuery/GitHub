@@ -1,5 +1,3 @@
-import { FC } from 'web-cell';
-
 export const GistsPage = () => (
   <div className="row">
     <div className="col-md-12">
