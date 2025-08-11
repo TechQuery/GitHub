@@ -1,8 +1,7 @@
-import { component, observer } from 'web-cell';
+import { component, observer, lazy } from 'web-cell';
 import { CellRouter } from 'cell-router';
 import { NavBar } from './components/NavBar';
 import { HomePage } from './page/Home';
-import { createLazyComponent } from './components/LazyLoader';
 
 @component({
   tagName: 'github-app'
@@ -11,12 +10,12 @@ import { createLazyComponent } from './components/LazyLoader';
 export class GitHubApp extends HTMLElement {
   private routes = [
     { path: '/', component: HomePage },
-    { path: '/users', component: createLazyComponent(() => import('./page/Users').then(m => m.UsersPage)) },
-    { path: '/users/:username', component: createLazyComponent(() => import('./page/User').then(m => m.UserPage)) },
-    { path: '/repos', component: createLazyComponent(() => import('./page/Repos').then(m => m.ReposPage)) },
-    { path: '/repos/:owner/:repo', component: createLazyComponent(() => import('./page/Repo').then(m => m.RepoPage)) },
-    { path: '/events', component: createLazyComponent(() => import('./page/Events').then(m => m.EventsPage)) },
-    { path: '/gists', component: createLazyComponent(() => import('./page/Gists').then(m => m.GistsPage)) }
+    { path: '/users', component: lazy(() => import('./page/Users').then(m => ({ default: m.UsersPage }))) },
+    { path: '/users/:username', component: lazy(() => import('./page/User').then(m => ({ default: m.UserPage }))) },
+    { path: '/repos', component: lazy(() => import('./page/Repos').then(m => ({ default: m.ReposPage }))) },
+    { path: '/repos/:owner/:repo', component: lazy(() => import('./page/Repo').then(m => ({ default: m.RepoPage }))) },
+    { path: '/events', component: lazy(() => import('./page/Events').then(m => ({ default: m.EventsPage }))) },
+    { path: '/gists', component: lazy(() => import('./page/Gists').then(m => ({ default: m.GistsPage }))) }
   ];
 
   render() {

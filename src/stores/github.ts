@@ -134,9 +134,9 @@ export class GitHubStore {
   async searchUsers(query: string) {
     this.setDownloading(this.downloading + 1);
     try {
-      const result = await this.fetchData(`/search/users?q=${encodeURIComponent(query)}&per_page=30`);
-      this.users = result.items;
-      return result.items;
+      const { items } = await this.fetchData(`/search/users?q=${encodeURIComponent(query)}&per_page=30`);
+      this.users = items;
+      return items;
     } finally {
       this.setDownloading(this.downloading - 1);
     }
@@ -146,9 +146,9 @@ export class GitHubStore {
   async searchRepositories(query: string) {
     this.setDownloading(this.downloading + 1);
     try {
-      const result = await this.fetchData(`/search/repositories?q=${encodeURIComponent(query)}&per_page=30`);
-      this.repositories = result.items;
-      return result.items;
+      const { items } = await this.fetchData(`/search/repositories?q=${encodeURIComponent(query)}&per_page=30`);
+      this.repositories = items;
+      return items;
     } finally {
       this.setDownloading(this.downloading - 1);
     }
