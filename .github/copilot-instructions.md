@@ -8,21 +8,21 @@ This is a Chinese-language GitHub client web application built as a Single Page 
 
 ### Quick Start
 - **NEVER build or compile anything** - this is a static web application that runs directly in the browser
-- Start HTTP server: `python3 -m http.server 8080` (starts in ~1-2 seconds, NEVER CANCEL)
-- Alternative: `npx http-server -p 8080` (requires npm, starts in ~5-10 seconds, NEVER CANCEL)
+- Start HTTP server: `npx http-server -p 8080` (requires npm, starts in ~5-10 seconds, NEVER CANCEL)
+- Alternative: `python3 -m http.server 8080` (starts in ~1-2 seconds, NEVER CANCEL)
 - Access application: `http://localhost:8080`
 - **CRITICAL**: External CDN dependencies may be blocked in some environments - document this limitation
 
 ### Dependencies and Limitations
-- **External CDNs Required**: The application depends on external CDNs (cdn.bootcss.com) for:
+- **External CDNs Required**: The application currently depends on external CDNs (cdn.bootcss.com, will migrate to unpkg.com) for:
   - jQuery 3.3.1
   - Bootstrap 3.3.7
-  - RequireJS 2.3.5
+  - RequireJS 2.3.5 (will migrate to ECMAScript modules)
   - Marked (markdown parser)
   - Layer.js (UI dialogs)
   - HTML5 History API polyfill
   - MutationObserver polyfill
-- **GitHub API Token**: Hardcoded token in `script/index.js` may be expired (returns 403 Forbidden)
+- **GitHub API Token**: Hardcoded token in `script/index.js` may be expired (will migrate to OAuth token system)
 - **Network Access**: CDN blocking will prevent full functionality in restricted environments
 
 ### Validation Requirements
@@ -68,10 +68,10 @@ This is a Chinese-language GitHub client web application built as a Single Page 
 ```
 
 ### Architecture Overview
-- **Module System**: AMD modules loaded with RequireJS
+- **Module System**: AMD modules loaded with RequireJS (will migrate to ECMAScript modules)
 - **Framework**: EasyWebApp v4 for component-based development
 - **UI Library**: Bootstrap v3 for responsive design
-- **API Integration**: Direct GitHub REST API calls with OAuth token
+- **API Integration**: Direct GitHub REST API calls with OAuth token (will migrate to OAuth system)
 - **Routing**: Client-side routing using EasyWebApp
 - **Localization**: Chinese language interface throughout
 
@@ -81,19 +81,19 @@ After making changes, ALWAYS run through these validation steps:
 
 ### HTTP Server Testing
 ```bash
-# Test Python HTTP server (recommended)
+# Test Node.js HTTP server (recommended for JavaScript project)
 cd /home/runner/work/GitHub/GitHub
-python3 -m http.server 8080 &
-sleep 2
-curl -I http://localhost:8080/
-# Should return HTTP/1.0 200 OK
-
-# Test Node.js alternative
-pkill -f "python3.*http.server" 
 npx http-server -p 8080 &
 sleep 5
 curl -I http://localhost:8080/
 # Should return HTTP/1.1 200 OK
+
+# Test Python alternative (fallback)
+pkill -f "npx.*http-server" 
+python3 -m http.server 8080 &
+sleep 2
+curl -I http://localhost:8080/
+# Should return HTTP/1.0 200 OK
 ```
 
 ### File Serving Validation
@@ -124,9 +124,9 @@ ls /home/runner/work/GitHub/GitHub/script/*.js
 ## Common Tasks
 
 ### Server Operations
-- Start Python server: `python3 -m http.server 8080` (fastest startup)
-- Start Node.js server: `npx http-server -p 8080` (more features)
-- Stop servers: `pkill -f "python3.*http.server"` or `pkill -f "npx.*http-server"`
+- Start Node.js server: `npx http-server -p 8080` (recommended for JavaScript project)
+- Start Python server: `python3 -m http.server 8080` (alternative option)
+- Stop servers: `pkill -f "npx.*http-server"` or `pkill -f "python3.*http.server"`
 - Check server status: `curl -I http://localhost:8080/`
 
 ### Code Navigation
@@ -138,17 +138,17 @@ ls /home/runner/work/GitHub/GitHub/script/*.js
 - **Styling**: `style/BootEWA.css` and `style/index.css`
 
 ### Troubleshooting
-- **CDN Loading Issues**: External dependencies from cdn.bootcss.com may be blocked
-- **GitHub API Access**: Token in script/index.js may be expired (check for 403 responses)
+- **CDN Loading Issues**: External dependencies from cdn.bootcss.com may be blocked (will migrate to unpkg.com)
+- **GitHub API Access**: Token in script/index.js may be expired (will migrate to OAuth token system)
 - **CORS Errors**: Use proper HTTP server, not file:// protocol
-- **Module Loading**: RequireJS errors indicate missing or blocked CDN dependencies
+- **Module Loading**: RequireJS errors indicate missing or blocked CDN dependencies (will migrate to ECMAScript modules)
 
 ## Important Notes
 
 ### Security Considerations
-- **Exposed API Token**: GitHub personal access token is hardcoded in `script/index.js`
+- **Exposed API Token**: GitHub personal access token is hardcoded in `script/index.js` (will migrate to OAuth system)
 - **CORS Configuration**: Application expects to run from HTTP server, not file system
-- **CDN Dependencies**: External resource loading creates security and availability dependencies
+- **CDN Dependencies**: External resource loading creates security and availability dependencies (will migrate to unpkg.com)
 
 ### Development Workflow
 1. **ALWAYS** start HTTP server before testing changes
@@ -181,6 +181,6 @@ style/
 
 ### Required HTTP server test
 ```bash
-cd /home/runner/work/GitHub/GitHub && python3 -m http.server 8080
+cd /home/runner/work/GitHub/GitHub && npx http-server -p 8080
 ```
-Expected output: `Serving HTTP on :: port 8080 (http://[::]:8080/) ...`
+Expected output: Server starts and serves files on port 8080
