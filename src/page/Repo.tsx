@@ -1,5 +1,6 @@
-import { component, observer, attribute } from 'web-cell';
 import { observable } from 'mobx';
+import { attribute,component, observer } from 'web-cell';
+
 import { githubStore } from '../stores/github';
 
 @component({
@@ -60,7 +61,7 @@ export class RepoPage extends HTMLElement {
                       <small>语言</small>
                     </div>
                     <div className="col-xs-3 text-center">
-                      <a href={repository.html_url} target="_blank" className="btn btn-primary btn-sm">查看仓库</a>
+                      <a href={repository.html_url} target="_blank" className="btn btn-primary btn-sm" rel="noreferrer">查看仓库</a>
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,5 @@
 import { component, observer } from 'web-cell';
+
 import { githubStore } from '../stores/github';
 
 @component({
@@ -9,7 +10,7 @@ export class UserPage extends HTMLElement {
   mountedCallback() {
     // Get username from the URL hash
     const hash = location.hash;
-    const match = hash.match(/\/users\/([^\/]+)/);
+    const match = hash.match(/\/users\/([^/]+)/);
     if (match) {
       githubStore.fetchUser(match[1]);
     }
@@ -62,7 +63,7 @@ export class UserPage extends HTMLElement {
             <div className="panel-body">
               {user.company && <p><strong>公司:</strong> {user.company}</p>}
               {user.location && <p><strong>位置:</strong> {user.location}</p>}
-              <p><strong>GitHub:</strong> <a href={user.html_url} target="_blank">{user.html_url}</a></p>
+              <p><strong>GitHub:</strong> <a href={user.html_url} target="_blank" rel="noreferrer">{user.html_url}</a></p>
             </div>
           </div>
         </div>

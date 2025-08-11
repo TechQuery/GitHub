@@ -1,5 +1,6 @@
-import { component, observer, lazy } from 'web-cell';
 import { CellRouter } from 'cell-router';
+import { component, lazy,observer } from 'web-cell';
+
 import { NavBar } from './components/NavBar';
 import { HomePage } from './page/Home';
 
