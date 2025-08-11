@@ -9,7 +9,6 @@ This is a Chinese-language GitHub client web application built as a Single Page 
 ### Quick Start
 - **NEVER build or compile anything** - this is a static web application that runs directly in the browser
 - Start HTTP server: `npx http-server -p 8080` (requires npm, starts in ~5-10 seconds, NEVER CANCEL)
-- Alternative: `python3 -m http.server 8080` (starts in ~1-2 seconds, NEVER CANCEL)
 - Access application: `http://localhost:8080`
 - **CRITICAL**: External CDN dependencies may be blocked in some environments - document this limitation
 
@@ -26,7 +25,7 @@ This is a Chinese-language GitHub client web application built as a Single Page 
 - **Network Access**: CDN blocking will prevent full functionality in restricted environments
 
 ### Validation Requirements
-- **ALWAYS** test HTTP server startup with both Python and Node.js options
+- **ALWAYS** test HTTP server startup with Node.js
 - **ALWAYS** verify static file serving for HTML, CSS, JS, JSON files
 - Test navigation structure by accessing key routes:
   - Main page: `/`
@@ -81,19 +80,12 @@ After making changes, ALWAYS run through these validation steps:
 
 ### HTTP Server Testing
 ```bash
-# Test Node.js HTTP server (recommended for JavaScript project)
+# Start Node.js HTTP server (JavaScript project)
 cd /home/runner/work/GitHub/GitHub
 npx http-server -p 8080 &
 sleep 5
 curl -I http://localhost:8080/
 # Should return HTTP/1.1 200 OK
-
-# Test Python alternative (fallback)
-pkill -f "npx.*http-server" 
-python3 -m http.server 8080 &
-sleep 2
-curl -I http://localhost:8080/
-# Should return HTTP/1.0 200 OK
 ```
 
 ### File Serving Validation
@@ -124,9 +116,8 @@ ls /home/runner/work/GitHub/GitHub/script/*.js
 ## Common Tasks
 
 ### Server Operations
-- Start Node.js server: `npx http-server -p 8080` (recommended for JavaScript project)
-- Start Python server: `python3 -m http.server 8080` (alternative option)
-- Stop servers: `pkill -f "npx.*http-server"` or `pkill -f "python3.*http.server"`
+- Start Node.js server: `npx http-server -p 8080` (JavaScript project)
+- Stop server: `pkill -f "npx.*http-server"`
 - Check server status: `curl -I http://localhost:8080/`
 
 ### Code Navigation
@@ -158,7 +149,7 @@ ls /home/runner/work/GitHub/GitHub/script/*.js
 5. **DOCUMENT** any CDN access issues encountered in your environment
 
 ### Performance Expectations
-- Server startup: 1-10 seconds depending on method used
+- Server startup: 5-10 seconds with Node.js HTTP server
 - File serving: Near-instantaneous for static assets
 - Component loading: Dependent on CDN accessibility and network speed
 - **NEVER CANCEL** server operations during startup phase
