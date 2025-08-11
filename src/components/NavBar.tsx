@@ -1,3 +1,5 @@
+import { component, observer, on } from 'web-cell';
+
 interface NavItem {
   title: string;
   name: string;
@@ -5,7 +7,11 @@ interface NavItem {
   target?: string;
 }
 
-class NavBar extends HTMLElement {
+@component({
+  tagName: 'nav-bar'
+})
+@observer
+export class NavBar extends HTMLElement {
   private dark = true;
   private title = 'GitHub 中文版';
 
@@ -45,77 +51,7 @@ class NavBar extends HTMLElement {
     }
   ];
 
-  connectedCallback() {
-    this.render();
-    this.setupEventListeners();
-  }
-
-  render() {
-    this.innerHTML = `
-      <nav class="navbar navbar-fixed-top ${this.dark ? 'navbar-inverse' : ''}">
-        <div class="container">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button 
-              type="button" 
-              class="navbar-toggle collapsed"
-              data-toggle="collapse" 
-              data-target="#Main_Nav" 
-              aria-expanded="false"
-            >
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#/" title="返回首页">
-              ${this.title}
-            </a>
-          </div>
-          
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="Main_Nav">
-            
-            <form class="navbar-form navbar-left" id="search-form">
-              <div class="form-group">
-                <input 
-                  type="search" 
-                  class="form-control"
-                  name="keyword" 
-                  required
-                  placeholder="定位：用户 ID、仓库全名" 
-                />
-              </div>
-            </form>
-
-            <ul class="nav navbar-nav">
-              ${this.channels.map((channel, index) => `
-                <li role="${channel.URL ? '' : 'separator'}" 
-                    class="${channel.URL ? '' : 'divider'}">
-                  <a 
-                    target="${channel.target || ''}" 
-                    href="${channel.URL}"
-                    title="${channel.name}"
-                    ${index === 0 ? 'data-autofocus="true"' : ''}
-                  >
-                    ${channel.title}
-                  </a>
-                </li>
-              `).join('')}
-            </ul>
-          </div>
-        </div>
-      </nav>
-    `;
-  }
-
-  setupEventListeners() {
-    const searchForm = this.querySelector('#search-form') as HTMLFormElement;
-    if (searchForm) {
-      searchForm.addEventListener('submit', this.handleSearch.bind(this));
-    }
-  }
-
+  @on('submit', '#search-form')
   handleSearch(event: Event) {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
@@ -129,7 +65,62 @@ class NavBar extends HTMLElement {
       window.location.hash = `#/repos/${keyword}`;
     }
   }
-}
 
-// Register the custom element
-customElements.define('nav-bar', NavBar);
+  render() {
+    return (
+      <nav className={`navbar navbar-fixed-top ${this.dark ? 'navbar-inverse' : ''}`}>
+        <div className="container">
+          <div className="navbar-header">
+            <button 
+              type="button" 
+              className="navbar-toggle collapsed"
+              data-toggle="collapse" 
+              data-target="#Main_Nav" 
+              aria-expanded="false"
+            >
+              <span className="sr-only">Toggle navigation</span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+            </button>
+            <a className="navbar-brand" href="#/" title="返回首页">
+              {this.title}
+            </a>
+          </div>
+          
+          <div className="collapse navbar-collapse" id="Main_Nav">
+            <form className="navbar-form navbar-left" id="search-form">
+              <div className="form-group">
+                <input 
+                  type="search" 
+                  className="form-control"
+                  name="keyword" 
+                  required
+                  placeholder="定位：用户 ID、仓库全名" 
+                />
+              </div>
+            </form>
+
+            <ul className="nav navbar-nav">
+              {this.channels.map((channel, index) => (
+                <li 
+                  role={channel.URL ? '' : 'separator'} 
+                  className={channel.URL ? '' : 'divider'}
+                >
+                  <a 
+                    target={channel.target || ''} 
+                    href={channel.URL}
+                    title={channel.name}
+                    data-autofocus={index === 0 ? 'true' : undefined}
+                  >
+                    {channel.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+}
