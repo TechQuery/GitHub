@@ -1,5 +1,5 @@
 import { action, observable } from 'mobx';
-import { BaseModel } from 'mobx-restful';
+import { BaseModel, toggle } from 'mobx-restful';
 
 // Use simpler types for compatibility
 interface GitHubUser {
@@ -63,6 +63,7 @@ export class GitHubStore extends BaseModel {
   }
 
   @action
+  @toggle('downloading')
   async fetchUser(username: string) {
     const user = await this.fetchData(`/users/${username}`);
     this.currentUser = user;
@@ -70,6 +71,7 @@ export class GitHubStore extends BaseModel {
   }
 
   @action
+  @toggle('downloading')
   async fetchRepository(owner: string, repo: string) {
     const repository = await this.fetchData(`/repos/${owner}/${repo}`);
     this.currentRepo = repository;
@@ -77,6 +79,7 @@ export class GitHubStore extends BaseModel {
   }
 
   @action
+  @toggle('downloading')
   async fetchUsers() {
     // Fetch TechQuery user as demo data
     const techQueryUser = await this.fetchData(`/users/TechQuery`);
@@ -85,6 +88,7 @@ export class GitHubStore extends BaseModel {
   }
 
   @action
+  @toggle('downloading')
   async fetchRepositories(page = 1) {
     // Fetch EasyWebApp organization repositories as demo data
     const repos = await this.fetchData(`/orgs/EasyWebApp/repos?per_page=30&page=${page}`);
@@ -93,6 +97,7 @@ export class GitHubStore extends BaseModel {
   }
 
   @action
+  @toggle('downloading')
   async fetchEvents(page = 1) {
     // Fetch TechQuery user's public events as demo data
     const events = await this.fetchData(`/users/TechQuery/events/public?per_page=30&page=${page}`);
@@ -101,6 +106,7 @@ export class GitHubStore extends BaseModel {
   }
 
   @action
+  @toggle('downloading')
   async searchUsers(query: string) {
     const { items } = await this.fetchData(`/search/users?q=${encodeURIComponent(query)}&per_page=30`);
     this.users = items;
@@ -108,6 +114,7 @@ export class GitHubStore extends BaseModel {
   }
 
   @action
+  @toggle('downloading')
   async searchRepositories(query: string) {
     const { items } = await this.fetchData(`/search/repositories?q=${encodeURIComponent(query)}&per_page=30`);
     this.repositories = items;

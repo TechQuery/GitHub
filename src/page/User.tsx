@@ -7,7 +7,7 @@ import { githubStore } from '../stores/github';
   tagName: 'user-page'
 })
 @observer
-export class UserPage extends HTMLElement {
+class UserPage extends HTMLElement {
   @observable
   @attribute
   accessor username = '';
@@ -73,3 +73,5 @@ export class UserPage extends HTMLElement {
     );
   }
 }
+
+export default UserPage;

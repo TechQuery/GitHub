@@ -11,12 +11,12 @@ import { HomePage } from './page/Home';
 export class GitHubApp extends HTMLElement {
   private routes = [
     { path: '/', component: HomePage },
-    { path: '/users', component: lazy(() => import('./page/Users').then(m => ({ default: m.UsersPage }))) },
-    { path: '/users/:username', component: lazy(() => import('./page/User').then(m => ({ default: m.UserPage }))) },
-    { path: '/repos', component: lazy(() => import('./page/Repos').then(m => ({ default: m.ReposPage }))) },
-    { path: '/repos/:owner/:repo', component: lazy(() => import('./page/Repo').then(m => ({ default: m.RepoPage }))) },
-    { path: '/events', component: lazy(() => import('./page/Events').then(m => ({ default: m.EventsPage }))) },
-    { path: '/gists', component: lazy(() => import('./page/Gists').then(m => ({ default: m.GistsPage }))) }
+    { path: '/users', component: lazy(() => import('./page/Users')) },
+    { path: '/users/:username', component: lazy(() => import('./page/User')) },
+    { path: '/repos', component: lazy(() => import('./page/Repos')) },
+    { path: '/repos/:owner/:repo', component: lazy(() => import('./page/Repo')) },
+    { path: '/events', component: lazy(() => import('./page/Events')) },
+    { path: '/gists', component: lazy(() => import('./page/Gists')) }
   ];
 
   render() {

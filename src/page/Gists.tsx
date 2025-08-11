@@ -1,4 +1,4 @@
-export const GistsPage = () => (
+const GistsPage = () => (
   <div className="row">
     <div className="col-md-12">
       <h2>GitHub Gists (G 锦)</h2>
@@ -8,3 +8,5 @@ export const GistsPage = () => (
     </div>
   </div>
 );
+
+export default GistsPage;
