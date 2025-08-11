@@ -15,7 +15,6 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "jsxImportSource": "dom-renderer",
-    "experimentalDecorators": true,
     "useDefineForClassFields": true
   },
   "include": ["src/**/*"],

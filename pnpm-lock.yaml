@@ -27,6 +27,12 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0(@webcomponents/webcomponentsjs@2.8.0)(core-js@3.45.0)(element-internals-polyfill@3.0.2)(happy-dom@14.12.3)(jsdom@26.1.0)(typescript@5.9.2)
     devDependencies:
+      '@parcel/config-default':
+        specifier: ^2.11.0
+        version: 2.15.4(@parcel/core@2.15.4(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)
+      '@parcel/transformer-typescript-tsc':
+        specifier: ^2.11.0
+        version: 2.15.4(@parcel/core@2.15.4(@swc/helpers@0.5.17))(typescript@5.9.2)
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.21.0
         version: 6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1)(typescript@5.9.2)
@@ -462,6 +468,18 @@ packages:
   '@parcel/transformer-svg@2.15.4':
     resolution: {integrity: sha512-Q22e0VRbx62VXFlvJWIlc8ihlLaPQgtnAZz5E1/+ojiNb+k0PmIRjNJclVWPF6IdCsLO5tnGfUOaXe2OnZz28Q==}
     engines: {node: '>= 16.0.0', parcel: ^2.15.4}
+
+  '@parcel/transformer-typescript-tsc@2.15.4':
+    resolution: {integrity: sha512-HrRC5B4/Mr+hN/lmdHNhor19uslPK7wFIH5jZC39oSXCdSvR89dDMWgIRLcp8znAkZ9TIGBzFCvDjTEDqhOprw==}
+    engines: {node: '>= 16.0.0', parcel: ^2.15.4}
+    peerDependencies:
+      typescript: '>=3.0.0'
+
+  '@parcel/ts-utils@2.15.4':
+    resolution: {integrity: sha512-7RLG2ULdcQ8lL/VTXh8kIP+TEqs3fYihLAi3+qOdyCrPfOfhHMyFLbPnAMvsMhpOXKZT0jq43I4e/zFJZSXJAw==}
+    engines: {node: '>= 16.0.0'}
+    peerDependencies:
+      typescript: '>=3.0.0'
 
   '@parcel/types-internal@2.15.4':
     resolution: {integrity: sha512-kl5QEZ8PTWRvMkwmk7IG3VpP/5/MSGwt9Nrj9ctXLdZkDdXZpK7IbXAthLQ4zrByMaqZULL2IyDuBqBgfuAqlQ==}
@@ -2173,6 +2191,21 @@ snapshots:
     transitivePeerDependencies:
       - '@parcel/core'
       - napi-wasm
+
+  '@parcel/transformer-typescript-tsc@2.15.4(@parcel/core@2.15.4(@swc/helpers@0.5.17))(typescript@5.9.2)':
+    dependencies:
+      '@parcel/plugin': 2.15.4(@parcel/core@2.15.4(@swc/helpers@0.5.17))
+      '@parcel/source-map': 2.1.1
+      '@parcel/ts-utils': 2.15.4(typescript@5.9.2)
+      typescript: 5.9.2
+    transitivePeerDependencies:
+      - '@parcel/core'
+      - napi-wasm
+
+  '@parcel/ts-utils@2.15.4(typescript@5.9.2)':
+    dependencies:
+      nullthrows: 1.1.1
+      typescript: 5.9.2
 
   '@parcel/types-internal@2.15.4':
     dependencies:
