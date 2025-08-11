@@ -6,7 +6,7 @@ import { githubStore } from '../stores/github';
   tagName: 'repos-page'
 })
 @observer
-class ReposPage extends HTMLElement {
+export default class ReposPage extends HTMLElement {
   mountedCallback() {
     githubStore.fetchRepositories();
   }
@@ -41,5 +41,3 @@ class ReposPage extends HTMLElement {
     );
   }
 }
-
-export default ReposPage;

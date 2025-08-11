@@ -7,7 +7,7 @@ import { githubStore } from '../stores/github';
   tagName: 'repo-page'
 })
 @observer
-class RepoPage extends HTMLElement {
+export default class RepoPage extends HTMLElement {
   @observable
   @attribute
   accessor owner = '';
@@ -82,5 +82,3 @@ class RepoPage extends HTMLElement {
     );
   }
 }
-
-export default RepoPage;

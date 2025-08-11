@@ -6,7 +6,7 @@ import { githubStore } from '../stores/github';
   tagName: 'users-page'
 })
 @observer
-class UsersPage extends HTMLElement {
+export default class UsersPage extends HTMLElement {
   mountedCallback() {
     githubStore.fetchUsers();
   }
@@ -44,5 +44,3 @@ class UsersPage extends HTMLElement {
     );
   }
 }
-
-export default UsersPage;

@@ -6,7 +6,7 @@ import { githubStore } from '../stores/github';
   tagName: 'events-page'
 })
 @observer
-class EventsPage extends HTMLElement {
+export default class EventsPage extends HTMLElement {
   mountedCallback() {
     githubStore.fetchEvents();
   }
@@ -54,5 +54,3 @@ class EventsPage extends HTMLElement {
     );
   }
 }
-
-export default EventsPage;
