@@ -1,4 +1,5 @@
-import { component, observer } from 'web-cell';
+import { observable } from 'mobx';
+import { attribute, component, observer } from 'web-cell';
 
 import { githubStore } from '../stores/github';
 
@@ -7,19 +8,20 @@ import { githubStore } from '../stores/github';
 })
 @observer
 export class UserPage extends HTMLElement {
+  @observable
+  @attribute
+  accessor username = '';
+
   mountedCallback() {
-    // Get username from the URL hash
-    const hash = location.hash;
-    const match = hash.match(/\/users\/([^/]+)/);
-    if (match) {
-      githubStore.fetchUser(match[1]);
+    if (this.username) {
+      githubStore.fetchUser(this.username);
     }
   }
 
   render() {
     const { currentUser: user, downloading } = githubStore;
 
-    if (downloading) {
+    if (downloading > 0) {
       return (
         <div className="text-center">
           <div className="spinner">加载中...</div>

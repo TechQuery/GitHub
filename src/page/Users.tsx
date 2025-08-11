@@ -14,7 +14,7 @@ export class UsersPage extends HTMLElement {
   render() {
     const { users, downloading } = githubStore;
 
-    if (downloading) {
+    if (downloading > 0) {
       return (
         <div className="text-center">
           <div className="spinner">加载中...</div>
@@ -28,7 +28,7 @@ export class UsersPage extends HTMLElement {
           <h2>GitHub 用户 (G 友)</h2>
           <div className="row">
             {users.map(({ avatar_url, login, id }) => (
-              <div className="col-md-4 col-sm-6">
+              <div key={id} className="col-md-4 col-sm-6">
                 <div className="panel panel-default">
                   <div className="panel-body text-center">
                     <img src={avatar_url} className="img-circle" width={64} height={64} alt={login} />

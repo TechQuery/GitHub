@@ -1,4 +1,5 @@
-import { action,observable } from 'mobx';
+import { action, observable } from 'mobx';
+import { BaseModel } from 'mobx-restful';
 
 // Use simpler types for compatibility
 interface GitHubUser {
@@ -40,13 +41,12 @@ interface GitHubEvent {
   payload: Record<string, unknown>;
 }
 
-export class GitHubStore {
+export class GitHubStore extends BaseModel {
   @observable accessor users: GitHubUser[] = [];
   @observable accessor repositories: GitHubRepo[] = [];
   @observable accessor events: GitHubEvent[] = [];
   @observable accessor currentUser: GitHubUser | null = null;
   @observable accessor currentRepo: GitHubRepo | null = null;
-  @observable accessor downloading = 0;
 
   private async fetchData(endpoint: string) {
     const response = await fetch(`https://api.github.com${endpoint}`, {
@@ -63,95 +63,55 @@ export class GitHubStore {
   }
 
   @action
-  private setDownloading(value: number) {
-    this.downloading = value;
-  }
-
-  @action
   async fetchUser(username: string) {
-    this.setDownloading(this.downloading + 1);
-    try {
-      const user = await this.fetchData(`/users/${username}`);
-      this.currentUser = user;
-      return user;
-    } finally {
-      this.setDownloading(this.downloading - 1);
-    }
+    const user = await this.fetchData(`/users/${username}`);
+    this.currentUser = user;
+    return user;
   }
 
   @action
   async fetchRepository(owner: string, repo: string) {
-    this.setDownloading(this.downloading + 1);
-    try {
-      const repository = await this.fetchData(`/repos/${owner}/${repo}`);
-      this.currentRepo = repository;
-      return repository;
-    } finally {
-      this.setDownloading(this.downloading - 1);
-    }
+    const repository = await this.fetchData(`/repos/${owner}/${repo}`);
+    this.currentRepo = repository;
+    return repository;
   }
 
   @action
   async fetchUsers() {
-    this.setDownloading(this.downloading + 1);
-    try {
-      // Fetch TechQuery user as demo data
-      const techQueryUser = await this.fetchData(`/users/TechQuery`);
-      this.users = [techQueryUser];
-      return this.users;
-    } finally {
-      this.setDownloading(this.downloading - 1);
-    }
+    // Fetch TechQuery user as demo data
+    const techQueryUser = await this.fetchData(`/users/TechQuery`);
+    this.users = [techQueryUser];
+    return this.users;
   }
 
   @action
   async fetchRepositories(page = 1) {
-    this.setDownloading(this.downloading + 1);
-    try {
-      // Fetch EasyWebApp organization repositories as demo data
-      const repos = await this.fetchData(`/orgs/EasyWebApp/repos?per_page=30&page=${page}`);
-      this.repositories = repos;
-      return repos;
-    } finally {
-      this.setDownloading(this.downloading - 1);
-    }
+    // Fetch EasyWebApp organization repositories as demo data
+    const repos = await this.fetchData(`/orgs/EasyWebApp/repos?per_page=30&page=${page}`);
+    this.repositories = repos;
+    return repos;
   }
 
   @action
   async fetchEvents(page = 1) {
-    this.setDownloading(this.downloading + 1);
-    try {
-      // Fetch TechQuery user's public events as demo data
-      const events = await this.fetchData(`/users/TechQuery/events/public?per_page=30&page=${page}`);
-      this.events = events;
-      return events;
-    } finally {
-      this.setDownloading(this.downloading - 1);
-    }
+    // Fetch TechQuery user's public events as demo data
+    const events = await this.fetchData(`/users/TechQuery/events/public?per_page=30&page=${page}`);
+    this.events = events;
+    return events;
   }
 
   @action
   async searchUsers(query: string) {
-    this.setDownloading(this.downloading + 1);
-    try {
-      const { items } = await this.fetchData(`/search/users?q=${encodeURIComponent(query)}&per_page=30`);
-      this.users = items;
-      return items;
-    } finally {
-      this.setDownloading(this.downloading - 1);
-    }
+    const { items } = await this.fetchData(`/search/users?q=${encodeURIComponent(query)}&per_page=30`);
+    this.users = items;
+    return items;
   }
 
   @action
   async searchRepositories(query: string) {
-    this.setDownloading(this.downloading + 1);
-    try {
-      const { items } = await this.fetchData(`/search/repositories?q=${encodeURIComponent(query)}&per_page=30`);
-      this.repositories = items;
-      return items;
-    } finally {
-      this.setDownloading(this.downloading - 1);
-    }
+    const { items } = await this.fetchData(`/search/repositories?q=${encodeURIComponent(query)}&per_page=30`);
+    this.repositories = items;
+    return items;
   }
 }
 

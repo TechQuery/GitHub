@@ -14,7 +14,7 @@ export class ReposPage extends HTMLElement {
   render() {
     const { repositories, downloading } = githubStore;
 
-    if (downloading) {
+    if (downloading > 0) {
       return (
         <div className="text-center">
           <div className="spinner">加载中...</div>
@@ -27,12 +27,12 @@ export class ReposPage extends HTMLElement {
         <div className="col-md-12">
           <h2>GitHub 仓库 (G 仓)</h2>
           <div className="list-group">
-            {repositories.map(repo => (
-              <a href={`#/repos/${repo.full_name}`} className="list-group-item">
-                <h4 className="list-group-item-heading">{repo.full_name}</h4>
-                <p className="list-group-item-text">{repo.description || '无描述'}</p>
-                <span className="badge">{repo.stargazers_count} ⭐</span>
-                {repo.language && <span className="badge">{repo.language}</span>}
+            {repositories.map(({ full_name, description, stargazers_count, language, id }) => (
+              <a key={id} href={`#/repos/${full_name}`} className="list-group-item">
+                <h4 className="list-group-item-heading">{full_name}</h4>
+                <p className="list-group-item-text">{description || '无描述'}</p>
+                <span className="badge">{stargazers_count} ⭐</span>
+                {language && <span className="badge">{language}</span>}
               </a>
             ))}
           </div>

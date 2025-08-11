@@ -14,7 +14,7 @@ export class EventsPage extends HTMLElement {
   render() {
     const { events, downloading } = githubStore;
 
-    if (downloading) {
+    if (downloading > 0) {
       return (
         <div className="text-center">
           <div className="spinner">加载中...</div>
@@ -31,18 +31,18 @@ export class EventsPage extends HTMLElement {
               {events.length === 0 ? (
                 <p>加载中...</p>
               ) : (
-                events.map(event => (
-                  <div className="media" style={{"borderBottom": "1px solid #eee", "padding": "15px 0"}}>
+                events.map(({ id, type, actor, repo, created_at }) => (
+                  <div key={id} className="media" style={{"borderBottom": "1px solid #eee", "padding": "15px 0"}}>
                     <div className="media-left">
-                      <img src={event.actor.avatar_url} className="media-object img-circle" width={40} height={40} alt={event.actor.login} />
+                      <img src={actor.avatar_url} className="media-object img-circle" width={40} height={40} alt={actor.login} />
                     </div>
                     <div className="media-body">
                       <h5 className="media-heading">
-                        <a href={`#/users/${event.actor.login}`}>{event.actor.login}</a>
-                        {' ' + event.type}
-                        <small className="text-muted">{new Date(event.created_at).toLocaleString()}</small>
+                        <a href={`#/users/${actor.login}`}>{actor.login}</a>
+                        {' ' + type}
+                        <small className="text-muted">{new Date(created_at).toLocaleString()}</small>
                       </h5>
-                      <p>仓库: <strong>{event.repo.name}</strong></p>
+                      <p>仓库: <strong>{repo.name}</strong></p>
                     </div>
                   </div>
                 ))
