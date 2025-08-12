@@ -58,16 +58,16 @@ export class GitHubStore extends BaseModel {
   @toggle('downloading')
   async fetchUser(username: string) {
     const { body } = await this.client.get<GitHubUser>(`/users/${username}`);
-    this.currentUser = body!;
-    return body!;
+
+    return this.currentUser = body!;
   }
 
   @action
   @toggle('downloading')
   async fetchRepository(owner: string, repo: string) {
     const { body } = await this.client.get<GitHubRepo>(`/repos/${owner}/${repo}`);
-    this.currentRepo = body!;
-    return body!;
+
+    return this.currentRepo = body!;
   }
 
   @action
@@ -75,8 +75,8 @@ export class GitHubStore extends BaseModel {
   async fetchUsers() {
     // Fetch TechQuery user as demo data
     const { body } = await this.client.get<GitHubUser>(`/users/TechQuery`);
-    this.users = [body!];
-    return this.users;
+
+    return this.users = [body!];
   }
 
   @action
@@ -84,8 +84,8 @@ export class GitHubStore extends BaseModel {
   async fetchRepositories(page = 1) {
     // Fetch EasyWebApp organization repositories as demo data
     const { body } = await this.client.get<GitHubRepo[]>(`/orgs/EasyWebApp/repos?per_page=30&page=${page}`);
-    this.repositories = body!;
-    return body!;
+
+    return this.repositories = body!;
   }
 
   @action
@@ -93,8 +93,8 @@ export class GitHubStore extends BaseModel {
   async fetchEvents(page = 1) {
     // Fetch TechQuery user's public events as demo data
     const { body } = await this.client.get<GitHubEvent[]>(`/users/TechQuery/events/public?per_page=30&page=${page}`);
-    this.events = body!;
-    return body!;
+
+    return this.events = body!;
   }
 
   @action
@@ -102,8 +102,8 @@ export class GitHubStore extends BaseModel {
   async searchUsers(query: string) {
     const { body } = await this.client.get<{ items: GitHubUser[] }>(`/search/users?q=${encodeURIComponent(query)}&per_page=30`);
     const { items } = body!;
-    this.users = items;
-    return items;
+
+    return this.users = items;
   }
 
   @action
@@ -111,8 +111,8 @@ export class GitHubStore extends BaseModel {
   async searchRepositories(query: string) {
     const { body } = await this.client.get<{ items: GitHubRepo[] }>(`/search/repositories?q=${encodeURIComponent(query)}&per_page=30`);
     const { items } = body!;
-    this.repositories = items;
-    return items;
+
+    return this.repositories = items;
   }
 }
 
