@@ -45,7 +45,7 @@ export default class IssuePage extends HTMLElement {
                     </abbr>
                     {' '}更新
                 </div>
-                <div dangerouslySetInnerHTML={{ __html: body.replace(/\n/g, '<br>') }} className="panel-body"></div>
+                <div className="panel-body" innerHTML={body.replace(/\n/g, '<br>')} />
             </div>
         </section>
     );
