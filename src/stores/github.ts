@@ -1,6 +1,6 @@
+import { HTTPClient } from 'koajax';
 import { action, observable } from 'mobx';
 import { BaseModel, toggle } from 'mobx-restful';
-import { HTTPClient } from 'koajax';
 
 // Use simpler types for compatibility
 interface GitHubUser {
