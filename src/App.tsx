@@ -14,7 +14,8 @@ export class GitHubApp extends HTMLElement {
         { path: '/repos', component: lazy(() => import('./page/Repos')) },
         { path: '/repos/:owner/:repo', component: lazy(() => import('./page/Repo')) },
         { path: '/events', component: lazy(() => import('./page/Events')) },
-        { path: '/gists', component: lazy(() => import('./page/Gists')) }
+        { path: '/gists', component: lazy(() => import('./page/Gists')) },
+        { path: '/gists/:gistId', component: lazy(() => import('./page/Gist')) }
     ];
 
     render() {

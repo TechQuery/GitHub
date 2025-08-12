@@ -5,13 +5,17 @@ import { GitRepository,User } from 'mobx-github';
 import { BaseModel, toggle } from 'mobx-restful';
 
 export type GitHubEvent = components['schemas']['event'];
+export type GitHubGist = components['schemas']['base-gist'];
+export type GitHubGistSimple = components['schemas']['gist-simple'];
 
 export class GitHubStore extends BaseModel {
     @observable accessor users: User[] = [];
     @observable accessor repositories: GitRepository[] = [];
     @observable accessor events: GitHubEvent[] = [];
+    @observable accessor gists: GitHubGist[] = [];
     @observable accessor currentUser: User | null = null;
     @observable accessor currentRepo: GitRepository | null = null;
+    @observable accessor currentGist: GitHubGistSimple | null = null;
 
     client = new HTTPClient({
         baseURI: 'https://api.github.com',
@@ -85,6 +89,25 @@ export class GitHubStore extends BaseModel {
         const { items } = body!;
 
         return (this.repositories = items);
+    }
+
+    @action
+    @toggle('downloading')
+    async fetchGists(page = 1) {
+        // Fetch TechQuery user's public gists as demo data
+        const { body } = await this.client.get<GitHubGist[]>(
+            `/users/TechQuery/gists?per_page=30&page=${page}`
+        );
+
+        return (this.gists = body!);
+    }
+
+    @action
+    @toggle('downloading')
+    async fetchGist(gistId: string) {
+        const { body } = await this.client.get<GitHubGistSimple>(`/gists/${gistId}`);
+
+        return (this.currentGist = body!);
     }
 }
 
