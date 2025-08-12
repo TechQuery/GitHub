@@ -6,21 +6,21 @@
 
 1. **编程语言**：[HTML 5][html5]、[CSS 3][css3]、[TypeScript][typescript]
 
-2. **Web 组件化框架**：[WebCell v3](https://github.com/EasyWebApp/WebCell) - 基于 Stage-3 装饰器的现代 Web 组件框架
+2. **Web 组件化框架**：[WebCell v3][webcell] - 基于 Stage-3 装饰器的现代 Web 组件框架
 
-3. **状态管理**：[MobX](https://mobx.js.org/) + [MobX-RESTful](https://github.com/idea2app/MobX-RESTful)
+3. **状态管理**：[MobX][mobx] + [MobX-RESTful][mobx-restful]
 
-4. **路由管理**：[cell-router](https://github.com/EasyWebApp/cell-router)
+4. **路由管理**：[cell-router][cell-router]
 
-5. **构建工具**：[Parcel 2](https://parceljs.org/) - 零配置构建工具
+5. **构建工具**：[Parcel 2][parcel] - 零配置构建工具
 
-6. **包管理器**：[PNPM](https://pnpm.io/) - 高效的包管理器
+6. **包管理器**：[PNPM][pnpm] - 高效的包管理器
 
-7. **UI 框架**：[Bootstrap 5](https://getbootstrap.com/) (工具类) + [BeerCSS](https://beercss.com/) (组件)
+7. **UI 框架**：[Bootstrap 5][bootstrap] (工具类) + [BeerCSS][beercss] (组件)
 
-8. **代码质量**：[ESLint 9](https://eslint.org/) + [TypeScript ESLint](https://typescript-eslint.io/)
+8. **代码质量**：[ESLint 9][eslint] + [TypeScript ESLint][ts-eslint]
 
-9. **开放数据**：[GitHub REST API v3](https://docs.github.com/en/rest)
+9. **开放数据**：[GitHub REST API v3][github-api]
 
 ## 特性
 
@@ -58,13 +58,26 @@ close #1
 
 ## 技术参考
 
-1. [WebCell 官方文档](https://web-cell.dev/)
-2. [Web Components 标准](https://developer.mozilla.org/zh-CN/docs/Web/Web_Components)
+1. [WebCell 官方文档][webcell-docs]
+2. [Web Components 标准][web-components]
 3. [MobX 文档][mobx-docs]
 4. [Parcel 文档][parcel-docs]
 
 [html5]: https://developer.mozilla.org/zh-CN/docs/Web/HTML
 [css3]: https://developer.mozilla.org/zh-CN/docs/Web/CSS
 [typescript]: https://www.typescriptlang.org/
+[webcell]: https://github.com/EasyWebApp/WebCell
+[mobx]: https://mobx.js.org/
+[mobx-restful]: https://github.com/idea2app/MobX-RESTful
+[cell-router]: https://github.com/EasyWebApp/cell-router
+[parcel]: https://parceljs.org/
+[pnpm]: https://pnpm.io/
+[bootstrap]: https://getbootstrap.com/
+[beercss]: https://beercss.com/
+[eslint]: https://eslint.org/
+[ts-eslint]: https://typescript-eslint.io/
+[github-api]: https://docs.github.com/en/rest
+[webcell-docs]: https://web-cell.dev/
+[web-components]: https://developer.mozilla.org/zh-CN/docs/Web/Web_Components
 [mobx-docs]: https://mobx.js.org/
 [parcel-docs]: https://parceljs.org/
