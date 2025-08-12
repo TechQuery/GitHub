@@ -1,5 +1,6 @@
 import { action, observable } from 'mobx';
 import { BaseModel, toggle } from 'mobx-restful';
+import { HTTPClient } from 'koajax';
 
 // Use simpler types for compatibility
 interface GitHubUser {
@@ -48,33 +49,30 @@ export class GitHubStore extends BaseModel {
   @observable accessor currentUser: GitHubUser | null = null;
   @observable accessor currentRepo: GitHubRepo | null = null;
 
-  private async fetchData(endpoint: string) {
-    const response = await fetch(`https://api.github.com${endpoint}`, {
-      headers: {
-        'Accept': 'application/vnd.github.v3+json',
-      },
-    });
+  private client = new HTTPClient({
+    baseURI: 'https://api.github.com',
+    responseType: 'json',
+  });
 
-    if (!response.ok) {
-      throw new Error(`GitHub API Error: ${response.status} ${response.statusText}`);
-    }
-
-    return response.json();
+  private get defaultHeaders() {
+    return {
+      'Accept': 'application/vnd.github.v3+json',
+    };
   }
 
   @action
   @toggle('downloading')
   async fetchUser(username: string) {
-    const user = await this.fetchData(`/users/${username}`);
-    this.currentUser = user;
+    const { body: user } = await this.client.get(`/users/${username}`, this.defaultHeaders);
+    this.currentUser = user as GitHubUser;
     return user;
   }
 
   @action
   @toggle('downloading')
   async fetchRepository(owner: string, repo: string) {
-    const repository = await this.fetchData(`/repos/${owner}/${repo}`);
-    this.currentRepo = repository;
+    const { body: repository } = await this.client.get(`/repos/${owner}/${repo}`, this.defaultHeaders);
+    this.currentRepo = repository as GitHubRepo;
     return repository;
   }
 
@@ -82,8 +80,8 @@ export class GitHubStore extends BaseModel {
   @toggle('downloading')
   async fetchUsers() {
     // Fetch TechQuery user as demo data
-    const techQueryUser = await this.fetchData(`/users/TechQuery`);
-    this.users = [techQueryUser];
+    const { body: techQueryUser } = await this.client.get(`/users/TechQuery`, this.defaultHeaders);
+    this.users = [techQueryUser as GitHubUser];
     return this.users;
   }
 
@@ -91,8 +89,8 @@ export class GitHubStore extends BaseModel {
   @toggle('downloading')
   async fetchRepositories(page = 1) {
     // Fetch EasyWebApp organization repositories as demo data
-    const repos = await this.fetchData(`/orgs/EasyWebApp/repos?per_page=30&page=${page}`);
-    this.repositories = repos;
+    const { body: repos } = await this.client.get(`/orgs/EasyWebApp/repos?per_page=30&page=${page}`, this.defaultHeaders);
+    this.repositories = repos as GitHubRepo[];
     return repos;
   }
 
@@ -100,15 +98,16 @@ export class GitHubStore extends BaseModel {
   @toggle('downloading')
   async fetchEvents(page = 1) {
     // Fetch TechQuery user's public events as demo data
-    const events = await this.fetchData(`/users/TechQuery/events/public?per_page=30&page=${page}`);
-    this.events = events;
+    const { body: events } = await this.client.get(`/users/TechQuery/events/public?per_page=30&page=${page}`, this.defaultHeaders);
+    this.events = events as GitHubEvent[];
     return events;
   }
 
   @action
   @toggle('downloading')
   async searchUsers(query: string) {
-    const { items } = await this.fetchData(`/search/users?q=${encodeURIComponent(query)}&per_page=30`);
+    const { body } = await this.client.get(`/search/users?q=${encodeURIComponent(query)}&per_page=30`, this.defaultHeaders);
+    const { items } = body as { items: GitHubUser[] };
     this.users = items;
     return items;
   }
@@ -116,7 +115,8 @@ export class GitHubStore extends BaseModel {
   @action
   @toggle('downloading')
   async searchRepositories(query: string) {
-    const { items } = await this.fetchData(`/search/repositories?q=${encodeURIComponent(query)}&per_page=30`);
+    const { body } = await this.client.get(`/search/repositories?q=${encodeURIComponent(query)}&per_page=30`, this.defaultHeaders);
+    const { items } = body as { items: GitHubRepo[] };
     this.repositories = items;
     return items;
   }
