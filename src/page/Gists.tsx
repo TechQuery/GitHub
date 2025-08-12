@@ -10,9 +10,9 @@ export default class GistsPage extends HTMLElement {
         githubStore.fetchGists();
     }
 
-    renderGistRow = ({ id, description, created_at, updated_at }: GitHubGist) => (
+    renderGistRow = ({ id, description, created_at, updated_at }: GitHubGist, index: number) => (
         <tr key={id}>
-            <td className="index">{githubStore.gists.indexOf(githubStore.gists.find(g => g.id === id)!) + 1}</td>
+            <td className="index">{index + 1}</td>
             <td className="ellipsis" title={description || 'No description'}>
                 <a href={`#/gists/${id}`}>
                     {description || id}
