@@ -4,7 +4,7 @@
 
 ## 技术栈
 
-1. **编程语言**：[TypeScript](https://www.typescriptlang.org/)、[HTML5](https://developer.mozilla.org/zh-CN/docs/Web/HTML)、[CSS3](https://developer.mozilla.org/zh-CN/docs/Web/CSS)
+1. **编程语言**：[HTML 5][html5]、[CSS 3][css3]、[TypeScript][typescript]
 
 2. **Web 组件化框架**：[WebCell v3](https://github.com/EasyWebApp/WebCell) - 基于 Stage-3 装饰器的现代 Web 组件框架
 
@@ -58,5 +58,11 @@ pnpm lint --fix
 
 1. [WebCell 官方文档](https://web-cell.dev/)
 2. [Web Components 标准](https://developer.mozilla.org/zh-CN/docs/Web/Web_Components)
-3. [MobX 中文文档](https://zh.mobx.js.org/)
-4. [Parcel 中文文档](https://zh.parceljs.org/)
+3. [MobX 文档][mobx-docs]
+4. [Parcel 文档][parcel-docs]
+
+[html5]: https://developer.mozilla.org/zh-CN/docs/Web/HTML
+[css3]: https://developer.mozilla.org/zh-CN/docs/Web/CSS
+[typescript]: https://www.typescriptlang.org/
+[mobx-docs]: https://mobx.js.org/
+[parcel-docs]: https://parceljs.org/
