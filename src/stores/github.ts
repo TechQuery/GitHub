@@ -49,7 +49,7 @@ export class GitHubStore extends BaseModel {
   @observable accessor currentUser: GitHubUser | null = null;
   @observable accessor currentRepo: GitHubRepo | null = null;
 
-  private client = new HTTPClient({
+  client = new HTTPClient({
     baseURI: 'https://api.github.com',
     responseType: 'json',
   });
