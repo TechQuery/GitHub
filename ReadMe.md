@@ -54,6 +54,8 @@ pnpm lint --fix
 
 构建后的文件在 `dist/` 目录中，可直接部署到任何静态文件服务器。
 
+close #1
+
 ## 技术参考
 
 1. [WebCell 官方文档](https://web-cell.dev/)
