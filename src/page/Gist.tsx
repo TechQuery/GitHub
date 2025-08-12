@@ -2,18 +2,7 @@ import { observable } from 'mobx';
 import { attribute, component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { githubStore } from '../stores/github';
-
-type GistFile = {
-    filename?: string;
-    type?: string;
-    language?: string;
-    raw_url?: string;
-    size?: number;
-    truncated?: boolean;
-    content?: string;
-    encoding?: string;
-};
+import { githubStore, GitHubGistSimple } from '../stores/github';
 
 @component({ tagName: 'gist-detail-page' })
 @observer
@@ -34,7 +23,7 @@ export default class GistDetailPage extends HTMLElement {
         }
     }
 
-    renderFile = ([filename, file]: [string, GistFile | null]) => (
+    renderFile = ([filename, file]: [string, GitHubGistSimple['files'][0] | null]) => (
         <section key={filename} className="panel panel-info">
             <header className="panel-heading">
                 <a 
