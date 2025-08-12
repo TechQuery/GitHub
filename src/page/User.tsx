@@ -1,6 +1,7 @@
 import { observable } from 'mobx';
 import { attribute, component, observer } from 'web-cell';
 
+import { Loading } from '../components/Loading';
 import { githubStore } from '../stores/github';
 
 @component({ tagName: 'user-page' })
@@ -17,12 +18,7 @@ export default class UserPage extends HTMLElement {
     render() {
         const { currentUser: user, downloading } = githubStore;
 
-        if (downloading > 0)
-            return (
-                <div className="text-center">
-                    <div className="spinner">加载中...</div>
-                </div>
-            );
+        if (downloading > 0) return <Loading />;
         if (!user) return <div>用户不存在</div>;
 
         return (

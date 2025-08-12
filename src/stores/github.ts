@@ -1,7 +1,7 @@
 import { components } from '@octokit/openapi-types';
 import { HTTPClient } from 'koajax';
 import { action, observable } from 'mobx';
-import { User, GitRepository } from 'mobx-github';
+import { GitRepository,User } from 'mobx-github';
 import { BaseModel, toggle } from 'mobx-restful';
 
 export type GitHubEvent = components['schemas']['event'];

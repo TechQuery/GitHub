@@ -1,6 +1,7 @@
 import { observable } from 'mobx';
 import { attribute, component, observer } from 'web-cell';
 
+import { Loading } from '../components/Loading';
 import { githubStore } from '../stores/github';
 
 @component({ tagName: 'repo-page' })
@@ -21,12 +22,7 @@ export default class RepoPage extends HTMLElement {
     render() {
         const { currentRepo: repository, downloading } = githubStore;
 
-        if (downloading > 0)
-            return (
-                <div className="text-center">
-                    <div className="spinner">加载中...</div>
-                </div>
-            );
+        if (downloading > 0) return <Loading />;
         if (!repository) return <div>仓库不存在</div>;
 
         return (
