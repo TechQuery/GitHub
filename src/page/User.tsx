@@ -1,0 +1,85 @@
+import { observable } from 'mobx';
+import { attribute, component, observer } from 'web-cell';
+
+import { Loading } from '../components/Loading';
+import { githubStore } from '../stores/github';
+
+@component({ tagName: 'user-page' })
+@observer
+export default class UserPage extends HTMLElement {
+    @observable
+    @attribute
+    accessor username = '';
+
+    mountedCallback() {
+        if (this.username) githubStore.fetchUser(this.username);
+    }
+
+    render() {
+        const { currentUser: user, downloading } = githubStore;
+
+        if (downloading > 0) return <Loading />;
+        if (!user) return <div>用户不存在</div>;
+
+        return (
+            <div className="row">
+                <div className="col-md-4">
+                    <div className="panel panel-default">
+                        <div className="panel-body text-center">
+                            <img
+                                src={user.avatar_url}
+                                className="img-circle"
+                                width={150}
+                                height={150}
+                                alt={user.login}
+                            />
+                            <h3>{user.name || user.login}</h3>
+                            <p className="text-muted">@{user.login}</p>
+                            {user.bio && <p>{user.bio}</p>}
+                            <div className="row">
+                                <div className="col-xs-4">
+                                    <strong>{user.public_repos}</strong>
+                                    <br />
+                                    <small>仓库</small>
+                                </div>
+                                <div className="col-xs-4">
+                                    <strong>{user.followers}</strong>
+                                    <br />
+                                    <small>关注者</small>
+                                </div>
+                                <div className="col-xs-4">
+                                    <strong>{user.following}</strong>
+                                    <br />
+                                    <small>关注</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-8">
+                    <h3>用户信息</h3>
+                    <div className="panel panel-default">
+                        <div className="panel-body">
+                            {user.company && (
+                                <p>
+                                    <strong>公司:</strong> {user.company}
+                                </p>
+                            )}
+                            {user.location && (
+                                <p>
+                                    <strong>位置:</strong> {user.location}
+                                </p>
+                            )}
+                            <p>
+                                <strong>GitHub:</strong>{' '}
+                                <a href={user.html_url} target="_blank" rel="noreferrer">
+                                    {user.html_url}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}

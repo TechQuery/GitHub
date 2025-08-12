@@ -1,26 +1,83 @@
 # GitHub 中文版
 
-[![Learn it with PPT](https://img.shields.io/badge/Learn%20it%20with-PPT-blue.svg)](https://ppt.baomitu.com/d/34699c9a)
-[![Try it on CodePen.IO](https://img.shields.io/badge/Try%20it%20on-CodePen.IO-brightgreen.svg)](https://codepen.io/tech_query/project/details/ZOPgwM/)
-
+基于 WebCell v3 + Parcel 2 构建的现代化 GitHub 中文版应用，支持 PWA。
 
 ## 技术栈
 
- 1. 编程语言：[HTML 5、CSS 3、ECMAScript 5](https://developer.mozilla.org/zh-CN/docs/Web)
+1. **编程语言**：[HTML 5][html5]、[CSS 3][css3]、[TypeScript][typescript]
 
- 2. JS 模块化：[AMD 规范](https://github.com/amdjs/amdjs-api/wiki/AMD-(%E4%B8%AD%E6%96%87%E7%89%88))
+2. **Web 组件化框架**：[WebCell v3][webcell] - 基于 Stage-3 装饰器的现代 Web 组件框架
 
- 3. DOM / AJAX 基础库：[jQuery](http://www.jquery123.com/)
+3. **状态管理**：[MobX][mobx] + [MobX-RESTful][mobx-restful]
 
- 4. CSS UI 库：[BootStrap v3](http://v3.bootcss.com/)
+4. **路由管理**：[cell-router][cell-router]
 
- 5. Web 组件化引擎：[EasyWebApp v4](https://boot-web.tk/)
+5. **构建工具**：[Parcel 2][parcel] - 零配置构建工具
 
- 6. 开放数据：[GitHub API ( RESTful )](https://developer.github.com/v3/)
+6. **包管理器**：[PNPM][pnpm] - 高效的包管理器
 
+7. **UI 框架**：[Bootstrap 5][bootstrap] (工具类) + [BeerCSS][beercss] (组件)
 
-## 知识库
+8. **代码质量**：[ESLint 9][eslint] + [TypeScript ESLint][ts-eslint]
 
- 1. [Web 组件化标准（草案）](https://developer.mozilla.org/zh-CN/docs/Web/Web_Components)
+9. **开放数据**：[GitHub REST API v3][github-api]
 
- 2. [Web 组件化可用性调研](http://harttle.com/2017/02/08/web-components-survey.html)
+## 特性
+
+- ✅ **现代化架构**：使用 WebCell v3 Stage-3 装饰器语法
+- ✅ **类型安全**：完整的 TypeScript 类型支持
+- ✅ **代码分离**：异步加载非首页路由，优化加载性能
+- ✅ **PWA 支持**：完整的 Progressive Web App 体验
+- ✅ **响应式设计**：适配各种设备尺寸
+- ✅ **实时数据**：直接使用 GitHub API 获取真实数据
+
+## 开发
+
+```bash
+# 安装依赖
+pnpm install
+
+# 开发服务器
+pnpm dev
+
+# 构建生产版本
+pnpm build
+
+# 代码检查
+pnpm lint
+
+# 自动修复代码风格
+pnpm lint --fix
+```
+
+## 部署
+
+构建后的文件在 `dist/` 目录中，可直接部署到任何静态文件服务器。
+
+close #1
+
+## 技术参考
+
+1. [WebCell 官方文档][webcell-docs]
+2. [Web Components 标准][web-components]
+3. [MobX 文档][mobx-docs]
+4. [Parcel 文档][parcel-docs]
+
+[html5]: https://developer.mozilla.org/zh-CN/docs/Web/HTML
+[css3]: https://developer.mozilla.org/zh-CN/docs/Web/CSS
+[typescript]: https://www.typescriptlang.org/
+[webcell]: https://github.com/EasyWebApp/WebCell
+[mobx]: https://mobx.js.org/
+[mobx-restful]: https://github.com/idea2app/MobX-RESTful
+[cell-router]: https://github.com/EasyWebApp/cell-router
+[parcel]: https://parceljs.org/
+[pnpm]: https://pnpm.io/
+[bootstrap]: https://getbootstrap.com/
+[beercss]: https://beercss.com/
+[eslint]: https://eslint.org/
+[ts-eslint]: https://typescript-eslint.io/
+[github-api]: https://docs.github.com/en/rest
+[webcell-docs]: https://web-cell.dev/
+[web-components]: https://developer.mozilla.org/zh-CN/docs/Web/Web_Components
+[mobx-docs]: https://mobx.js.org/
+[parcel-docs]: https://parceljs.org/
