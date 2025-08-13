@@ -1,12 +1,15 @@
 import { components } from '@octokit/openapi-types';
 import { HTTPClient } from 'koajax';
 import { action, observable } from 'mobx';
-import { GitRepository,User } from 'mobx-github';
+import { GitRepository, User } from 'mobx-github';
 import { BaseModel, toggle } from 'mobx-restful';
+
+type NotEmpty<T> = T extends null ? never : T extends undefined ? never : T;
 
 export type GitHubEvent = components['schemas']['event'];
 export type GitHubGist = components['schemas']['base-gist'];
 export type GitHubGistSimple = components['schemas']['gist-simple'];
+export type GitHubGistFile = NotEmpty<Required<GitHubGistSimple>['files'][string]>;
 export type GitHubCommit = components['schemas']['commit'];
 export type GitHubIssue = components['schemas']['issue'];
 export type GitHubIssueComment = components['schemas']['issue-comment'];
@@ -22,7 +25,7 @@ export class GitHubStore extends BaseModel {
     @observable accessor currentUser: User | null = null;
     @observable accessor currentRepo: GitRepository | null = null;
     @observable accessor currentGist: GitHubGistSimple | null = null;
-    
+
     // New repository detail data
     @observable accessor repoContents: GitHubContents[] = [];
     @observable accessor repoBranches: GitHubBranch[] = [];
@@ -163,32 +166,36 @@ export class GitHubStore extends BaseModel {
     @action
     @toggle('downloading')
     async fetchIssue(owner: string, repo: string, issueNumber: number) {
-        const { body } = await this.client.get<GitHubIssue>(`/repos/${owner}/${repo}/issues/${issueNumber}`);
-
+        const { body } = await this.client.get<GitHubIssue>(
+            `/repos/${owner}/${repo}/issues/${issueNumber}`
+        );
         return (this.currentIssue = body!);
     }
 
     @action
     @toggle('downloading')
     async fetchIssueComments(owner: string, repo: string, issueNumber: number) {
-        const { body } = await this.client.get<GitHubIssueComment[]>(`/repos/${owner}/${repo}/issues/${issueNumber}/comments`);
-
+        const { body } = await this.client.get<GitHubIssueComment[]>(
+            `/repos/${owner}/${repo}/issues/${issueNumber}/comments`
+        );
         return (this.issueComments = body!);
     }
 
     @action
     @toggle('downloading')
     async fetchRepoMilestones(owner: string, repo: string) {
-        const { body } = await this.client.get<GitHubMilestone[]>(`/repos/${owner}/${repo}/milestones?state=all`);
-
+        const { body } = await this.client.get<GitHubMilestone[]>(
+            `/repos/${owner}/${repo}/milestones?state=all`
+        );
         return (this.repoMilestones = body!);
     }
 
     @action
     @toggle('downloading')
     async fetchMilestone(owner: string, repo: string, milestoneNumber: number) {
-        const { body } = await this.client.get<GitHubMilestone>(`/repos/${owner}/${repo}/milestones/${milestoneNumber}`);
-
+        const { body } = await this.client.get<GitHubMilestone>(
+            `/repos/${owner}/${repo}/milestones/${milestoneNumber}`
+        );
         return (this.currentMilestone = body!);
     }
 }

@@ -2,7 +2,7 @@ import { observable } from 'mobx';
 import { attribute, component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { githubStore, GitHubGistSimple } from '../stores/github';
+import { GitHubGistFile, githubStore } from '../stores/github';
 
 @component({ tagName: 'gist-detail-page' })
 @observer
@@ -23,15 +23,10 @@ export default class GistDetailPage extends HTMLElement {
         }
     }
 
-    renderFile = ([filename, file]: [string, GitHubGistSimple['files'][0] | null]) => (
+    renderFile = ([filename, file]: [string, GitHubGistFile | null]) => (
         <section key={filename} className="panel panel-info">
             <header className="panel-heading">
-                <a 
-                    className="panel-title" 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    href={file?.raw_url}
-                >
+                <a className="panel-title" target="_blank" rel="noreferrer" href={file?.raw_url}>
                     {filename}
                 </a>
                 <span className="pull-right">[ {file?.language || 'Text'} ]</span>
@@ -67,21 +62,21 @@ export default class GistDetailPage extends HTMLElement {
                     <h2>{currentGist.description || currentGist.id}</h2>
                     <div className="mb-3">
                         <span>
-                            创建于 {currentGist.created_at ? 
-                                new Date(currentGist.created_at).toLocaleDateString('zh-CN') : 
-                                '未知'}
+                            创建于{' '}
+                            {currentGist.created_at
+                                ? new Date(currentGist.created_at).toLocaleDateString('zh-CN')
+                                : '未知'}
                         </span>
                         <span className="pull-right">
-                            更新于 {currentGist.updated_at ? 
-                                new Date(currentGist.updated_at).toLocaleDateString('zh-CN') : 
-                                '未知'}
+                            更新于{' '}
+                            {currentGist.updated_at
+                                ? new Date(currentGist.updated_at).toLocaleDateString('zh-CN')
+                                : '未知'}
                         </span>
                     </div>
 
                     <h3>代码文件</h3>
-                    <div>
-                        {files.map(this.renderFile)}
-                    </div>
+                    <div>{files.map(this.renderFile)}</div>
                 </div>
             </div>
         );
