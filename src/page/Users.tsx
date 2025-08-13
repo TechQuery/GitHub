@@ -12,24 +12,24 @@ export default class UsersPage extends HTMLElement {
     }
 
     renderUserCard = ({ avatar_url, login, id }: User) => (
-        <div key={id} className="col-md-4 col-sm-6">
-            <div className="panel panel-default">
-                <div className="panel-body text-center">
+        <div key={id} className="s12 m6 l4">
+            <article className="card">
+                <div className="center-align">
                     <img
                         src={avatar_url}
-                        className="img-circle"
+                        className="circle"
                         width={64}
                         height={64}
                         alt={login}
                     />
-                    <h4>
+                    <h5>
                         <a href={`#/users/${login}`}>{login}</a>
-                    </h4>
+                    </h5>
                     <p>
                         <small>ID: {id}</small>
                     </p>
                 </div>
-            </div>
+            </article>
         </div>
     );
 
@@ -39,10 +39,10 @@ export default class UsersPage extends HTMLElement {
         if (downloading > 0) return <Loading />;
 
         return (
-            <div className="row">
-                <div className="col-md-12">
+            <div className="grid">
+                <div className="s12">
                     <h2>GitHub 用户 (G 友)</h2>
-                    <div className="row">
+                    <div className="grid">
                         {users.map(this.renderUserCard)}
                     </div>
                 </div>
