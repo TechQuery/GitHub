@@ -66,54 +66,43 @@ export class NavBar extends HTMLElement {
 
     render() {
         return (
-            <nav className={`navbar navbar-fixed-top ${this.dark ? 'navbar-inverse' : ''}`}>
-                <div className="container">
-                    <div className="navbar-header">
-                        <button
-                            type="button"
-                            className="navbar-toggle collapsed"
-                            data-toggle="collapse"
-                            data-target="#Main_Nav"
-                            aria-expanded="false"
-                        >
-                            <span className="sr-only">Toggle navigation</span>
-                            <span className="icon-bar"></span>
-                            <span className="icon-bar"></span>
-                            <span className="icon-bar"></span>
-                        </button>
-                        <a className="navbar-brand" href="#/" title="返回首页">
-                            {this.title}
-                        </a>
-                    </div>
-
-                    <div className="collapse navbar-collapse" id="Main_Nav">
-                        <form className="navbar-form navbar-left" id="search-form">
-                            <div className="form-group">
-                                <input
-                                    type="search"
-                                    className="form-control"
-                                    name="keyword"
-                                    required
-                                    placeholder="定位：用户 ID、仓库全名"
-                                />
-                            </div>
-                        </form>
-
-                        <ul className="nav navbar-nav">
-                            {this.channels.map(({ title, name, URL, target }, index) => (
-                                <li role={URL ? '' : 'separator'} className={URL ? '' : 'divider'}>
-                                    <a
-                                        target={target || ''}
-                                        href={URL}
-                                        title={name}
-                                        data-autofocus={index === 0 ? 'true' : undefined}
-                                    >
-                                        {title}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+            <nav className="top">
+                <h5>
+                    <a href="#/" title="返回首页">
+                        {this.title}
+                    </a>
+                </h5>
+                <div className="max">
+                    <form id="search-form">
+                        <div className="field border">
+                            <input
+                                type="search"
+                                name="keyword"
+                                required
+                                placeholder="定位：用户 ID、仓库全名"
+                            />
+                        </div>
+                    </form>
+                    <a>
+                        <i>menu</i>
+                    </a>
+                    <nav className="drawer">
+                        {this.channels.map(({ title, name, URL, target }, index) => (
+                            <a
+                                key={title}
+                                target={target || ''}
+                                href={URL}
+                                title={name}
+                                data-autofocus={index === 0 ? 'true' : undefined}
+                            >
+                                <i>link</i>
+                                <div>
+                                    <div>{title}</div>
+                                    {name && <div>{name}</div>}
+                                </div>
+                            </a>
+                        ))}
+                    </nav>
                 </div>
             </nav>
         );
