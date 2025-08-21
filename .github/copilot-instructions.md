@@ -8,13 +8,14 @@ This is a Chinese-language GitHub client web application built as a modern Singl
 
 ### Quick Start
 - **Build required** - this is a modern TypeScript application that needs compilation
-- Install dependencies: `npm install` (requires Node.js, takes ~1-2 minutes)
-- Start development server: `npm run dev` (starts Parcel dev server in ~5-10 seconds, NEVER CANCEL)
+- **Package Manager**: Prioritize PNPM but NPM commands are compatible (replace `pnpm` with `npm run` for NPM)
+- Install dependencies: `pnpm install` (requires Node.js, takes ~1-2 minutes)
+- Start development server: `pnpm dev` (starts Parcel dev server in ~5-10 seconds, NEVER CANCEL)
 - Access application: `http://localhost:1234` (Parcel default port)
-- **Build for production**: `npm run build` (creates optimized bundle with PWA support)
+- **Build for production**: `pnpm run build` (creates optimized bundle with PWA support)
 
 ### Dependencies and Limitations
-- **Modern Dependencies**: All dependencies are managed through npm/package.json:
+- **Modern Dependencies**: All dependencies are managed through pnpm/package.json (npm compatible):
   - WebCell v3 (modern web components with Stage-3 decorators)
   - TypeScript for type safety
   - MobX + MobX-RESTful for state management
@@ -22,20 +23,20 @@ This is a Chinese-language GitHub client web application built as a modern Singl
   - Bootstrap 5 + BeerCSS for UI components
   - Parcel 2 for zero-config building
   - ESLint 9 + TypeScript ESLint for code quality
-- **GitHub API Integration**: Uses mobx-github package with modern API patterns (will migrate to OAuth token system)
+- **GitHub API Integration**: Uses `mobx-github` package with modern API patterns (will migrate to OAuth token system)
 - **Network Access**: GitHub API access requires internet connectivity
 
 ### Validation Requirements
 - **ALWAYS** test development server startup with Node.js
-- **ALWAYS** verify TypeScript compilation and linting: `npm run test`
-- **ALWAYS** test development build: `npm run dev`
+- **ALWAYS** verify TypeScript compilation and linting: `pnpm test`
+- **ALWAYS** test development build: `pnpm dev`
 - Test navigation structure by accessing key routes:
   - Main page: `http://localhost:1234/`
   - User pages: `http://localhost:1234/#users/{username}`
   - Repository pages: `http://localhost:1234/#repos/{owner}/{repo}`
   - Issue pages: `http://localhost:1234/#repos/{owner}/{repo}/issues/{number}`
-- **IMPORTANT**: Development requires Node.js and npm for building
-- Test production build occasionally: `npm run build`
+- **IMPORTANT**: Development requires Node.js and PNPM (or npm) for building
+- Test production build occasionally: `pnpm run build`
 
 ## Project Structure
 
@@ -84,7 +85,7 @@ This is a Chinese-language GitHub client web application built as a modern Singl
 - **Package Manager**: PNPM (preferred) or npm for dependency management
 - **UI Framework**: Bootstrap 5 (utility classes) + BeerCSS (components) for responsive design
 - **Code Quality**: ESLint 9 + TypeScript ESLint for linting and style enforcement
-- **API Integration**: mobx-github package for GitHub REST API v3 (will migrate to OAuth token system)
+- **API Integration**: `mobx-github` package for GitHub REST API v3 (will migrate to OAuth token system)
 - **PWA Support**: Complete Progressive Web App experience with service worker
 - **Localization**: Chinese language interface throughout
 
@@ -96,7 +97,7 @@ After making changes, ALWAYS run through these validation steps:
 ```bash
 # Start development server (JavaScript project)
 cd /home/runner/work/GitHub/GitHub
-npm run dev
+pnpm dev
 # Should start Parcel dev server on http://localhost:1234
 # Wait for "Built in Xs" message before testing
 ```
@@ -104,7 +105,7 @@ npm run dev
 ### Code Quality Validation
 ```bash
 # Test TypeScript compilation and ESLint
-npm run test
+pnpm test
 # Should pass without errors
 
 # Check specific linting
@@ -131,11 +132,11 @@ ls /home/runner/work/GitHub/GitHub/src/{index.tsx,App.tsx,stores,page,components
 ## Common Tasks
 
 ### Development Operations
-- Install dependencies: `npm install` (JavaScript project)
-- Start development server: `npm run dev` (starts Parcel on port 1234)
-- Build for production: `npm run build` (creates optimized dist/ folder with PWA)
-- Run linting and type checking: `npm run test`
-- Clean build cache: `npm run clean`
+- Install dependencies: `pnpm install` (JavaScript project)
+- Start development server: `pnpm dev` (starts Parcel on port 1234)
+- Build for production: `pnpm run build` (creates optimized dist/ folder with PWA)
+- Run linting and type checking: `pnpm test`
+- Clean build cache: `pnpm clean`
 
 ### Code Navigation
 - **Application entry**: `src/index.tsx` - Main application bootstrap
@@ -149,21 +150,21 @@ ls /home/runner/work/GitHub/GitHub/src/{index.tsx,App.tsx,stores,page,components
 ### Troubleshooting
 - **Build Errors**: Check TypeScript compilation with `npx tsc --noEmit`
 - **Linting Issues**: Run `npx eslint src --ext .ts,.tsx --fix` to auto-fix
-- **Dependency Issues**: Clear node_modules and reinstall: `rm -rf node_modules && npm install`
-- **GitHub API Access**: API integration through mobx-github package (will migrate to OAuth token system)
-- **Development Server**: Use `npm run dev`, not static file serving
+- **Dependency Issues**: Clear node_modules and reinstall: `rm -rf node_modules && pnpm install`
+- **GitHub API Access**: API integration through `mobx-github` package (will migrate to OAuth token system)
+- **Development Server**: Use `pnpm dev`, not static file serving
 
 ## Important Notes
 
 ### Security Considerations
-- **API Authentication**: GitHub API integration through mobx-github package (will migrate to OAuth token system)
+- **API Authentication**: GitHub API integration through `mobx-github` package (will migrate to OAuth token system)
 - **Type Safety**: Full TypeScript coverage prevents many runtime errors
-- **Dependency Management**: All dependencies managed through npm/package.json, no external CDNs
+- **Dependency Management**: All dependencies managed through pnpm/package.json, no external CDNs
 
 ### Development Workflow
-1. **ALWAYS** install dependencies with `npm install` before starting development
-2. **ALWAYS** run `npm run test` to check linting and TypeScript compilation
-3. **ALWAYS** use `npm run dev` for development server (not static file serving)
+1. **ALWAYS** install dependencies with `pnpm install` before starting development
+2. **ALWAYS** run `pnpm test` to check linting and TypeScript compilation
+3. **ALWAYS** use `pnpm dev` for development server (not static file serving)
 4. **VERIFY** TypeScript compilation passes before committing changes
 5. **TEST** in development server to ensure proper routing and API integration
 
@@ -194,6 +195,6 @@ workbox-config.js
 
 ### Required development server test
 ```bash
-cd /home/runner/work/GitHub/GitHub && npm run dev
+cd /home/runner/work/GitHub/GitHub && pnpm dev
 ```
 Expected output: Parcel dev server starts on http://localhost:1234 with TypeScript compilation
