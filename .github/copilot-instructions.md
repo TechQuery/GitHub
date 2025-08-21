@@ -2,157 +2,178 @@
 
 Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
 
-This is a Chinese-language GitHub client web application built as a Single Page Application (SPA) using HTML5, CSS3, jQuery, Bootstrap v3, and the EasyWebApp framework. The application provides a localized interface for browsing GitHub repositories, users, organizations, and gists.
+This is a Chinese-language GitHub client web application built as a modern Single Page Application (SPA) using TypeScript, WebCell v3, Bootstrap 5, and BeerCSS. The application provides a localized interface for browsing GitHub repositories, users, organizations, and gists with a modern, type-safe architecture.
 
 ## Working Effectively
 
 ### Quick Start
-- **NEVER build or compile anything** - this is a static web application that runs directly in the browser
-- Start HTTP server: `npx http-server -p 8080` (requires npm, starts in ~5-10 seconds, NEVER CANCEL)
-- Access application: `http://localhost:8080`
-- **CRITICAL**: External CDN dependencies may be blocked in some environments - document this limitation
+- **Build required** - this is a modern TypeScript application that needs compilation
+- **Package Manager**: Prioritize PNPM but NPM commands are compatible (replace `pnpm` with `npm run` for NPM)
+- Install dependencies: `pnpm install` (requires Node.js, takes ~1-2 minutes)
+- Start development server: `pnpm dev` (starts Parcel dev server in ~5-10 seconds, NEVER CANCEL)
+- Access application: `http://localhost:1234` (Parcel default port)
+- **Build for production**: `pnpm build` (creates optimized bundle with PWA support)
 
 ### Dependencies and Limitations
-- **External CDNs Required**: The application currently depends on external CDNs (cdn.bootcss.com, will migrate to unpkg.com) for:
-  - jQuery 3.3.1
-  - Bootstrap 3.3.7
-  - RequireJS 2.3.5 (will migrate to ECMAScript modules)
-  - Marked (markdown parser)
-  - Layer.js (UI dialogs)
-  - HTML5 History API polyfill
-  - MutationObserver polyfill
-- **GitHub API Token**: Hardcoded token in `script/index.js` may be expired (will migrate to OAuth token system)
-- **Network Access**: CDN blocking will prevent full functionality in restricted environments
+- **Modern Dependencies**: All dependencies are managed through pnpm/package.json (npm compatible):
+  - WebCell v3 (modern web components with Stage-3 decorators)
+  - TypeScript for type safety
+  - MobX + MobX-RESTful for state management
+  - cell-router for client-side routing
+  - Bootstrap 5 + BeerCSS for UI components
+  - Parcel 2 for zero-config building
+  - ESLint 9 + TypeScript ESLint for code quality
+- **GitHub API Integration**: Uses `mobx-github` package with modern API patterns (will migrate to OAuth token system)
+- **Network Access**: GitHub API access requires internet connectivity
 
 ### Validation Requirements
-- **ALWAYS** test HTTP server startup with Node.js
-- **ALWAYS** verify static file serving for HTML, CSS, JS, JSON files
+- **ALWAYS** test development server startup with Node.js
+- **ALWAYS** verify TypeScript compilation and linting: `pnpm test`
+- **ALWAYS** test development build: `pnpm dev`
 - Test navigation structure by accessing key routes:
-  - Main page: `/`
-  - Configuration: `/page/index.json`
-  - Components: `/component/NavBar.html`
-- **IMPORTANT**: Due to CDN dependencies, full functionality testing requires network access
-- Document any CDN accessibility issues encountered
+  - Main page: `http://localhost:1234/`
+  - User pages: `http://localhost:1234/#users/{username}`
+  - Repository pages: `http://localhost:1234/#repos/{owner}/{repo}`
+  - Issue pages: `http://localhost:1234/#repos/{owner}/{repo}/issues/{number}`
+- **IMPORTANT**: Development requires Node.js and PNPM (or npm) for building
+- Test production build occasionally: `pnpm build`
 
 ## Project Structure
 
 ### Key Directories and Files
 ```
 /home/runner/work/GitHub/GitHub/
-├── index.html              # Main application entry point
-├── ReadMe.md              # Project documentation (Chinese)
-├── .editorconfig          # Code formatting rules
-├── .gitignore             # Git ignore rules
-├── script/                # JavaScript modules
-│   ├── index.js           # Main application logic & GitHub API integration
-│   ├── EasyWebApp.js      # Web component framework
-│   ├── jQueryKit.js       # jQuery utilities
-│   ├── FixData.js         # GitHub API data transformation
-│   └── TimeKit.js         # Time formatting utilities
-├── component/             # Reusable UI components
-│   ├── NavBar.html        # Main navigation bar
-│   ├── PageList.html      # Paginated list component
-│   ├── Tab.html           # Tab navigation component
-│   └── loading.html       # Loading indicator
-├── page/                  # SPA page templates
-│   ├── index.json         # Navigation configuration
-│   ├── Event.html         # GitHub events feed
-│   ├── Repository/        # Repository-related pages
-│   ├── User/             # User and organization pages
-│   └── Gist/             # Gist pages
-├── style/                 # CSS stylesheets
-│   ├── BootEWA.css       # Bootstrap + EasyWebApp styles
-│   └── index.css         # Application-specific styles
-└── image/                 # Static assets
+├── src/                     # TypeScript source code
+│   ├── index.html           # Main HTML template
+│   ├── index.tsx           # Application entry point
+│   ├── App.tsx             # Main application component
+│   ├── global.d.ts         # TypeScript global declarations
+│   ├── utility.ts          # Utility functions
+│   ├── components/         # Reusable UI components
+│   │   ├── NavBar.tsx      # Main navigation bar
+│   │   └── Loading.tsx     # Loading indicator
+│   ├── page/               # Page components
+│   │   ├── Home.tsx        # Home page
+│   │   ├── Users.tsx       # Users listing
+│   │   ├── User.tsx        # User profile
+│   │   ├── Repos.tsx       # Repositories listing
+│   │   ├── Repo.tsx        # Repository details
+│   │   ├── Issue.tsx       # Issue details
+│   │   ├── Milestone.tsx   # Milestone details
+│   │   ├── Events.tsx      # Events feed
+│   │   ├── Gists.tsx       # Gists listing
+│   │   └── Gist.tsx        # Gist details
+│   ├── stores/             # MobX state management
+│   │   └── github.ts       # GitHub API store
+│   └── image/              # Static assets
+├── package.json            # Project dependencies and scripts
+├── tsconfig.json           # TypeScript configuration
+├── eslint.config.ts        # ESLint configuration
+├── .parcelrc               # Parcel configuration
+├── workbox-config.js       # PWA service worker configuration
+├── pnpm-lock.yaml          # Package lock file (preferred: pnpm)
+├── .editorconfig           # Code formatting rules
+└── .gitignore              # Git ignore rules
 ```
 
 ### Architecture Overview
-- **Module System**: AMD modules loaded with RequireJS (will migrate to ECMAScript modules)
-- **Framework**: EasyWebApp v4 for component-based development
-- **UI Library**: Bootstrap v3 for responsive design
-- **API Integration**: Direct GitHub REST API calls with OAuth token (will migrate to OAuth system)
-- **Routing**: Client-side routing using EasyWebApp
+- **Programming Language**: TypeScript for full type safety
+- **Web Framework**: WebCell v3 with Stage-3 decorators for modern web components
+- **State Management**: MobX + MobX-RESTful for reactive state and API integration
+- **Routing**: cell-router for client-side navigation
+- **Build System**: Parcel 2 for zero-configuration bundling and development
+- **Package Manager**: PNPM (preferred) or npm for dependency management
+- **UI Framework**: Bootstrap 5 (utility classes) + BeerCSS (components) for responsive design
+- **Code Quality**: ESLint 9 + TypeScript ESLint for linting and style enforcement
+- **API Integration**: `mobx-github` package for GitHub REST API v3 (will migrate to OAuth token system)
+- **PWA Support**: Complete Progressive Web App experience with service worker
 - **Localization**: Chinese language interface throughout
 
 ## Validation Scenarios
 
 After making changes, ALWAYS run through these validation steps:
 
-### HTTP Server Testing
+### Development Server Testing
 ```bash
-# Start Node.js HTTP server (JavaScript project)
+# Start development server (JavaScript project)
 cd /home/runner/work/GitHub/GitHub
-npx http-server -p 8080 &
-sleep 5
-curl -I http://localhost:8080/
-# Should return HTTP/1.1 200 OK
+pnpm dev
+# Should start Parcel dev server on http://localhost:1234
+# Wait for "Built in Xs" message before testing
 ```
 
-### File Serving Validation
+### Code Quality Validation
 ```bash
-# Test key file types are served correctly
-curl -s http://localhost:8080/page/index.json | jq .title
-# Should return "GitHub 中文版"
+# Test TypeScript compilation and ESLint
+pnpm test
+# Should pass without errors
 
-curl -I http://localhost:8080/component/NavBar.html
-# Should return 200 OK with text/html content-type
+# Check specific linting
+npx eslint src --ext .ts,.tsx
+# Should show no errors
 
-curl -I http://localhost:8080/script/index.js  
-# Should return 200 OK with application/javascript content-type
+# Check TypeScript compilation
+npx tsc --noEmit
+# Should compile successfully
 ```
 
 ### Application Structure Verification
 ```bash
 # Verify all required directories exist
-ls -la /home/runner/work/GitHub/GitHub/{script,component,page,style,image}
+ls -la /home/runner/work/GitHub/GitHub/{src,package.json,tsconfig.json}
 
-# Count HTML templates (should be ~19 files)
-find /home/runner/work/GitHub/GitHub -name "*.html" | wc -l
+# Count TypeScript files
+find /home/runner/work/GitHub/GitHub/src -name "*.tsx" -o -name "*.ts" | wc -l
 
-# Verify JavaScript modules exist
-ls /home/runner/work/GitHub/GitHub/script/*.js
+# Verify main source files exist
+ls /home/runner/work/GitHub/GitHub/src/{index.tsx,App.tsx,stores,page,components}
 ```
 
 ## Common Tasks
 
-### Server Operations
-- Start Node.js server: `npx http-server -p 8080` (JavaScript project)
-- Stop server: `pkill -f "npx.*http-server"`
-- Check server status: `curl -I http://localhost:8080/`
+### Development Operations
+- Install dependencies: `pnpm install` (JavaScript project)
+- Start development server: `pnpm dev` (starts Parcel on port 1234)
+- Build for production: `pnpm build` (creates optimized dist/ folder with PWA)
+- Run linting and type checking: `pnpm test`
+- Clean build cache: `pnpm clean`
 
 ### Code Navigation
-- **Main logic**: `script/index.js` - GitHub API integration, routing, error handling
-- **Framework**: `script/EasyWebApp.js` - Component system implementation  
-- **Navigation**: `page/index.json` - Menu structure and routing configuration
-- **Components**: `component/*.html` - Reusable UI components
-- **Pages**: `page/*/` - Individual SPA page templates
-- **Styling**: `style/BootEWA.css` and `style/index.css`
+- **Application entry**: `src/index.tsx` - Main application bootstrap
+- **Main component**: `src/App.tsx` - Router configuration and main layout
+- **State management**: `src/stores/github.ts` - MobX stores for GitHub API data
+- **Components**: `src/components/*.tsx` - Reusable UI components (NavBar, Loading)
+- **Pages**: `src/page/*.tsx` - Individual page components for different routes
+- **Global types**: `src/global.d.ts` - TypeScript type definitions
+- **Utilities**: `src/utility.ts` - Helper functions
 
 ### Troubleshooting
-- **CDN Loading Issues**: External dependencies from cdn.bootcss.com may be blocked (will migrate to unpkg.com)
-- **GitHub API Access**: Token in script/index.js may be expired (will migrate to OAuth token system)
-- **CORS Errors**: Use proper HTTP server, not file:// protocol
-- **Module Loading**: RequireJS errors indicate missing or blocked CDN dependencies (will migrate to ECMAScript modules)
+- **Build Errors**: Check TypeScript compilation with `npx tsc --noEmit`
+- **Linting Issues**: Run `npx eslint src --ext .ts,.tsx --fix` to auto-fix
+- **Dependency Issues**: Clear node_modules and reinstall: `rm -rf node_modules && pnpm install`
+- **GitHub API Access**: API integration through `mobx-github` package (will migrate to OAuth token system)
+- **Development Server**: Use `pnpm dev`, not static file serving
 
 ## Important Notes
 
 ### Security Considerations
-- **Exposed API Token**: GitHub personal access token is hardcoded in `script/index.js` (will migrate to OAuth system)
-- **CORS Configuration**: Application expects to run from HTTP server, not file system
-- **CDN Dependencies**: External resource loading creates security and availability dependencies (will migrate to unpkg.com)
+- **API Authentication**: GitHub API integration through `mobx-github` package (will migrate to OAuth token system)
+- **Type Safety**: Full TypeScript coverage prevents many runtime errors
+- **Dependency Management**: All dependencies managed through pnpm/package.json, no external CDNs
 
 ### Development Workflow
-1. **ALWAYS** start HTTP server before testing changes
-2. **NEVER** try to build or compile - this is a static application
-3. **VERIFY** that static files serve correctly after modifications
-4. **TEST** navigation and component loading when changing templates
-5. **DOCUMENT** any CDN access issues encountered in your environment
+1. **ALWAYS** install dependencies with `pnpm install` before starting development
+2. **ALWAYS** run `pnpm test` to check linting and TypeScript compilation
+3. **ALWAYS** use `pnpm dev` for development server (not static file serving)
+4. **VERIFY** TypeScript compilation passes before committing changes
+5. **TEST** in development server to ensure proper routing and API integration
 
 ### Performance Expectations
-- Server startup: 5-10 seconds with Node.js HTTP server
-- File serving: Near-instantaneous for static assets
-- Component loading: Dependent on CDN accessibility and network speed
-- **NEVER CANCEL** server operations during startup phase
+- Development server startup: 5-10 seconds with Parcel
+- TypeScript compilation: 1-5 seconds for incremental builds
+- Hot module replacement: Near-instantaneous during development
+- Production build: 1-2 minutes for full optimization
+- **NEVER CANCEL** build operations during bundling phase
 
 ## Frequent Commands Reference
 
@@ -160,18 +181,20 @@ ls /home/runner/work/GitHub/GitHub/script/*.js
 ```
 .editorconfig
 .git/
-.gitignore  
+.github/
+.gitignore
+.parcelrc
 ReadMe.md
-component/
-image/
-index.html
-page/
-script/
-style/
+eslint.config.ts
+package.json
+pnpm-lock.yaml
+src/
+tsconfig.json
+workbox-config.js
 ```
 
-### Required HTTP server test
+### Required development server test
 ```bash
-cd /home/runner/work/GitHub/GitHub && npx http-server -p 8080
+cd /home/runner/work/GitHub/GitHub && pnpm dev
 ```
-Expected output: Server starts and serves files on port 8080
+Expected output: Parcel dev server starts on http://localhost:1234 with TypeScript compilation
