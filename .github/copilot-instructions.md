@@ -12,7 +12,7 @@ This is a Chinese-language GitHub client web application built as a modern Singl
 - Install dependencies: `pnpm install` (requires Node.js, takes ~1-2 minutes)
 - Start development server: `pnpm dev` (starts Parcel dev server in ~5-10 seconds, NEVER CANCEL)
 - Access application: `http://localhost:1234` (Parcel default port)
-- **Build for production**: `pnpm run build` (creates optimized bundle with PWA support)
+- **Build for production**: `pnpm build` (creates optimized bundle with PWA support)
 
 ### Dependencies and Limitations
 - **Modern Dependencies**: All dependencies are managed through pnpm/package.json (npm compatible):
@@ -36,7 +36,7 @@ This is a Chinese-language GitHub client web application built as a modern Singl
   - Repository pages: `http://localhost:1234/#repos/{owner}/{repo}`
   - Issue pages: `http://localhost:1234/#repos/{owner}/{repo}/issues/{number}`
 - **IMPORTANT**: Development requires Node.js and PNPM (or npm) for building
-- Test production build occasionally: `pnpm run build`
+- Test production build occasionally: `pnpm build`
 
 ## Project Structure
 
@@ -134,7 +134,7 @@ ls /home/runner/work/GitHub/GitHub/src/{index.tsx,App.tsx,stores,page,components
 ### Development Operations
 - Install dependencies: `pnpm install` (JavaScript project)
 - Start development server: `pnpm dev` (starts Parcel on port 1234)
-- Build for production: `pnpm run build` (creates optimized dist/ folder with PWA)
+- Build for production: `pnpm build` (creates optimized dist/ folder with PWA)
 - Run linting and type checking: `pnpm test`
 - Clean build cache: `pnpm clean`
 
