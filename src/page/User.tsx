@@ -22,63 +22,87 @@ export default class UserPage extends HTMLElement {
         if (!user) return <div>用户不存在</div>;
 
         return (
-            <div className="row">
-                <div className="col-md-4">
-                    <div className="panel panel-default">
-                        <div className="panel-body text-center">
-                            <img
-                                src={user.avatar_url}
-                                className="img-circle"
-                                width={150}
-                                height={150}
-                                alt={user.login}
-                            />
-                            <h3>{user.name || user.login}</h3>
-                            <p className="text-muted">@{user.login}</p>
-                            {user.bio && <p>{user.bio}</p>}
-                            <div className="row">
-                                <div className="col-xs-4">
-                                    <strong>{user.public_repos}</strong>
-                                    <br />
-                                    <small>仓库</small>
-                                </div>
-                                <div className="col-xs-4">
-                                    <strong>{user.followers}</strong>
-                                    <br />
-                                    <small>关注者</small>
-                                </div>
-                                <div className="col-xs-4">
-                                    <strong>{user.following}</strong>
-                                    <br />
-                                    <small>关注</small>
-                                </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1rem' }}>
+                <m3e-card variant="elevated">
+                    <div
+                        slot="content"
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: '0.75rem',
+                            textAlign: 'center'
+                        }}
+                    >
+                        <img
+                            src={user.avatar_url}
+                            width={150}
+                            height={150}
+                            alt={user.login}
+                            style={{ borderRadius: '50%' }}
+                        />
+                        <h3 style={{ margin: '0' }}>{user.name || user.login}</h3>
+                        <p
+                            style={{
+                                margin: '0',
+                                color: 'var(--md-sys-color-on-surface-variant, #666)'
+                            }}
+                        >
+                            @{user.login}
+                        </p>
+                        {user.bio && <p style={{ margin: '0' }}>{user.bio}</p>}
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'space-around',
+                                width: '100%',
+                                marginTop: '0.5rem'
+                            }}
+                        >
+                            <div style={{ textAlign: 'center' }}>
+                                <strong>{user.public_repos}</strong>
+                                <br />
+                                <small>仓库</small>
+                            </div>
+                            <div style={{ textAlign: 'center' }}>
+                                <strong>{user.followers}</strong>
+                                <br />
+                                <small>关注者</small>
+                            </div>
+                            <div style={{ textAlign: 'center' }}>
+                                <strong>{user.following}</strong>
+                                <br />
+                                <small>关注</small>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="col-md-8">
-                    <h3>用户信息</h3>
-                    <div className="panel panel-default">
-                        <div className="panel-body">
-                            {user.company && (
-                                <p>
-                                    <strong>公司:</strong> {user.company}
-                                </p>
-                            )}
-                            {user.location && (
-                                <p>
-                                    <strong>位置:</strong> {user.location}
-                                </p>
-                            )}
-                            <p>
-                                <strong>GitHub:</strong>{' '}
-                                <a href={user.html_url} target="_blank" rel="noreferrer">
-                                    {user.html_url}
-                                </a>
-                            </p>
-                        </div>
+                </m3e-card>
+                <m3e-card variant="outlined">
+                    <div slot="header">
+                        <h3 style={{ margin: '0' }}>用户信息</h3>
                     </div>
-                </div>
+                    <div
+                        slot="content"
+                        style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
+                    >
+                        {user.company && (
+                            <p style={{ margin: '0' }}>
+                                <strong>公司:</strong> {user.company}
+                            </p>
+                        )}
+                        {user.location && (
+                            <p style={{ margin: '0' }}>
+                                <strong>位置:</strong> {user.location}
+                            </p>
+                        )}
+                        <p style={{ margin: '0' }}>
+                            <strong>GitHub:</strong>{' '}
+                            <a href={user.html_url} target="_blank" rel="noreferrer">
+                                {user.html_url}
+                            </a>
+                        </p>
+                    </div>
+                </m3e-card>
             </div>
         );
     }

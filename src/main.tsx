@@ -1,3 +1,9 @@
+import '@m3e/web/dist/app-bar.js';
+import '@m3e/web/dist/button.js';
+import '@m3e/web/dist/card.js';
+import '@m3e/web/dist/loading-indicator.js';
+import '@m3e/web/dist/theme.js';
+
 import { auto } from 'browser-unhandled-rejection';
 import { DOMRenderer } from 'dom-renderer';
 import { configure } from 'mobx';

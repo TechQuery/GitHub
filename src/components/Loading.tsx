@@ -1,7 +1,7 @@
 import { FC } from 'web-cell';
 
 export const Loading: FC = () => (
-    <div className="text-center">
-        <div className="spinner">加载中...</div>
+    <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
+        <m3e-loading-indicator />
     </div>
 );

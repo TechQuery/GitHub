@@ -13,8 +13,14 @@ export class GitHubApp extends HTMLElement {
         { path: '/users/:username', component: lazy(() => import('./page/User')) },
         { path: '/repos', component: lazy(() => import('./page/Repos')) },
         { path: '/repos/:owner/:repo', component: lazy(() => import('./page/Repo')) },
-        { path: '/repos/:owner/:repo/issues/:issueNumber', component: lazy(() => import('./page/Issue')) },
-        { path: '/repos/:owner/:repo/milestones/:milestoneNumber', component: lazy(() => import('./page/Milestone')) },
+        {
+            path: '/repos/:owner/:repo/issues/:issueNumber',
+            component: lazy(() => import('./page/Issue'))
+        },
+        {
+            path: '/repos/:owner/:repo/milestones/:milestoneNumber',
+            component: lazy(() => import('./page/Milestone'))
+        },
         { path: '/events', component: lazy(() => import('./page/Events')) },
         { path: '/gists', component: lazy(() => import('./page/Gists')) },
         { path: '/gists/:gistId', component: lazy(() => import('./page/Gist')) }
@@ -22,12 +28,15 @@ export class GitHubApp extends HTMLElement {
 
     render() {
         return (
-            <>
+            <m3e-theme color="#1565C0" scheme="auto" motion="expressive">
                 <NavBar />
-                <div className="container" id="PageBox">
+                <main
+                    id="PageBox"
+                    style={{ maxWidth: '1200px', margin: '0 auto', padding: '1rem' }}
+                >
                     <CellRouter routes={this.routes} />
-                </div>
-            </>
+                </main>
+            </m3e-theme>
         );
     }
 }

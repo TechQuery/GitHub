@@ -9,3 +9,4 @@ bower_components/*
 dist/*
 .parcel-cache/*
 package-lock.json
+m3e-web-*.tgz
