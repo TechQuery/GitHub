@@ -24,11 +24,9 @@ export class GitHubApp extends HTMLElement {
         return (
             <>
                 <NavBar />
-                <main className="grid" id="PageBox">
-                    <div className="s12">
-                        <CellRouter routes={this.routes} />
-                    </div>
-                </main>
+                <div className="container" id="PageBox">
+                    <CellRouter routes={this.routes} />
+                </div>
             </>
         );
     }

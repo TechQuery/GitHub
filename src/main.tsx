@@ -2,7 +2,6 @@ import { auto } from 'browser-unhandled-rejection';
 import { DOMRenderer } from 'dom-renderer';
 import { configure } from 'mobx';
 import { documentReady, serviceWorkerUpdate } from 'web-utility';
-import 'beercss';
 
 import { GitHubApp } from './App';
 import { renderMode } from './utility';
