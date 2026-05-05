@@ -1,5 +1,3 @@
-// @m3e/web subpath exports — resolved via Parcel aliases in package.json
-// (pnpm + Parcel 2 do not support package.json "exports" subpath resolution natively)
 import '@m3e/web/app-bar';
 import '@m3e/web/button';
 import '@m3e/web/card';
