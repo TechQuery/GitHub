@@ -75,10 +75,10 @@
     },
     "scripts": {
         "prepare": "husky",
-        "test": "lint-staged  &&  tsc --noEmit",
         "clean": "rm -rf .parcel-cache/ dist/",
         "dev": "npm run clean  &&  parcel src/index.html",
         "pack": "npm run clean  &&  parcel build src/index.html --public-url .",
-        "build": "npm run pack  &&  workbox generateSW"
+        "build": "npm run pack  &&  workbox generateSW",
+        "test": "lint-staged  &&  tsc --noEmit"
     }
 }
