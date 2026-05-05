@@ -47,7 +47,8 @@
         "parcel": "^2.16.4",
         "prettier": "^3.8.3",
         "typescript": "^5.9.3",
-        "typescript-eslint": "^8.59.2"
+        "typescript-eslint": "^8.59.2",
+        "workbox-cli": "^7.4.1"
     },
     "pnpm": {
         "onlyBuiltDependencies": [
