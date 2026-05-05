@@ -9,7 +9,7 @@ export const GitHubApp = () => (
         <NavBar />
         <main id="PageBox" className="container py-3">
             <Router>
-                <Route exact path="/" component={HomePage} />
+                <Route path="" component={HomePage} />
                 <Route path="/users" component={lazy(() => import('./page/Users'))} />
                 <Route path="/users/:username" component={lazy(() => import('./page/User'))} />
                 <Route path="/repos" component={lazy(() => import('./page/Repos'))} />

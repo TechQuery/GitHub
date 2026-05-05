@@ -36,7 +36,7 @@ export class NavBar extends HTMLElement {
     render() {
         return (
             <m3e-app-bar className="sticky-top">
-                <Link slot="title" to="/" className="text-decoration-none text-reset">
+                <Link slot="title" to="" className="text-decoration-none text-reset">
                     {this.title}
                 </Link>
                 <div slot="trailing" className="d-flex align-items-center gap-1 flex-wrap">
