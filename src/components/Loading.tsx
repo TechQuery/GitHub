@@ -1,7 +1,7 @@
 import { FC } from 'web-cell';
 
 export const Loading: FC = () => (
-    <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
+    <div className="d-flex justify-content-center p-4">
         <m3e-loading-indicator />
     </div>
 );

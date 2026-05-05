@@ -1,8 +1,8 @@
-import '@m3e/web/dist/app-bar.js';
-import '@m3e/web/dist/button.js';
-import '@m3e/web/dist/card.js';
-import '@m3e/web/dist/loading-indicator.js';
-import '@m3e/web/dist/theme.js';
+import '@m3e/web/app-bar';
+import '@m3e/web/button';
+import '@m3e/web/card';
+import '@m3e/web/loading-indicator';
+import '@m3e/web/theme';
 
 import { auto } from 'browser-unhandled-rejection';
 import { DOMRenderer } from 'dom-renderer';

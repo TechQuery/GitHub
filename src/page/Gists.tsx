@@ -15,17 +15,14 @@ export default class GistsPage extends HTMLElement {
         index: number
     ) => (
         <tr key={id}>
-            <td style={{ padding: '0.75rem' }}>{index + 1}</td>
-            <td
-                style={{ padding: '0.75rem' }}
-                title={description || 'No description'}
-            >
+            <td className="py-3 px-3">{index + 1}</td>
+            <td className="py-3 px-3" title={description || 'No description'}>
                 <a href={`#/gists/${id}`}>{description || id}</a>
             </td>
-            <td style={{ padding: '0.75rem' }}>
+            <td className="py-3 px-3">
                 {new Date(created_at).toLocaleDateString('zh-CN')}
             </td>
-            <td style={{ padding: '0.75rem' }}>
+            <td className="py-3 px-3">
                 {new Date(updated_at).toLocaleDateString('zh-CN')}
             </td>
         </tr>
@@ -40,27 +37,14 @@ export default class GistsPage extends HTMLElement {
             <div>
                 <h2>GitHub Gists (G 锦)</h2>
                 <m3e-card variant="outlined">
-                    <div slot="content" style={{ overflowX: 'auto', padding: '0' }}>
-                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <div slot="content" className="table-responsive p-0">
+                        <table className="table table-hover mb-0">
                             <thead>
-                                <tr
-                                    style={{
-                                        borderBottom:
-                                            '1px solid var(--md-sys-color-outline-variant, #e0e0e0)'
-                                    }}
-                                >
-                                    <th style={{ padding: '0.75rem', textAlign: 'left' }}>
-                                        序号
-                                    </th>
-                                    <th style={{ padding: '0.75rem', textAlign: 'left' }}>
-                                        标题
-                                    </th>
-                                    <th style={{ padding: '0.75rem', textAlign: 'left' }}>
-                                        创建时间
-                                    </th>
-                                    <th style={{ padding: '0.75rem', textAlign: 'left' }}>
-                                        更新时间
-                                    </th>
+                                <tr>
+                                    <th className="py-3 px-3">序号</th>
+                                    <th className="py-3 px-3">标题</th>
+                                    <th className="py-3 px-3">创建时间</th>
+                                    <th className="py-3 px-3">更新时间</th>
                                 </tr>
                             </thead>
                             <tbody>{gists.map(this.renderGistRow)}</tbody>

@@ -30,10 +30,7 @@ export class GitHubApp extends HTMLElement {
         return (
             <m3e-theme color="#1565C0" scheme="auto" motion="expressive">
                 <NavBar />
-                <main
-                    id="PageBox"
-                    style={{ maxWidth: '1200px', margin: '0 auto', padding: '1rem' }}
-                >
+                <main id="PageBox" className="container py-3">
                     <CellRouter routes={this.routes} />
                 </main>
             </m3e-theme>

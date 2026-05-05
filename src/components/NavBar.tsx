@@ -37,22 +37,13 @@ export class NavBar extends HTMLElement {
 
     render() {
         return (
-            <m3e-app-bar style={{ position: 'sticky', top: '0', zIndex: '100' }}>
-                <a
-                    slot="title"
-                    href="#/"
-                    style={{ textDecoration: 'none', color: 'inherit' }}
-                >
+            <m3e-app-bar className="sticky-top">
+                <a slot="title" href="#/" className="text-decoration-none text-reset">
                     {this.title}
                 </a>
                 <div
                     slot="trailing"
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.25rem',
-                        flexWrap: 'wrap'
-                    }}
+                    className="d-flex align-items-center gap-1 flex-wrap"
                 >
                     {this.channels.map(({ title, name, URL, target }) => (
                         <m3e-button
@@ -65,25 +56,13 @@ export class NavBar extends HTMLElement {
                             {title}
                         </m3e-button>
                     ))}
-                    <form
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            marginLeft: '0.5rem'
-                        }}
-                    >
+                    <form className="d-flex align-items-center gap-2 ms-2">
                         <input
                             type="search"
                             name="keyword"
                             required
                             placeholder="定位：用户 ID、仓库全名"
-                            style={{
-                                padding: '0.375rem 0.75rem',
-                                border: '1px solid var(--md-sys-color-outline, #ccc)',
-                                borderRadius: '4px',
-                                fontSize: '0.875rem'
-                            }}
+                            className="form-control form-control-sm"
                         />
                     </form>
                 </div>
