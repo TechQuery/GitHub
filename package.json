@@ -18,6 +18,7 @@
         "cell-router": "^4.0.4",
         "dom-renderer": "^2.6.4",
         "koajax": "^3.3.0",
+        "lit": "^3.3.2",
         "marked": "^18.0.3",
         "mobx": "^6.15.1",
         "mobx-github": "^0.6.2",

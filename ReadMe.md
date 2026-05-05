@@ -16,9 +16,9 @@
 
 6. **包管理器**：[PNPM][pnpm] - 高效的包管理器
 
-7. **UI 框架**：[Bootstrap 5][bootstrap] (工具类) + [BeerCSS][beercss] (组件)
+7. **UI 框架**：[Bootstrap 5][bootstrap] (工具类) + [M3E][m3e] (组件)
 
-8. **代码质量**：[ESLint 9][eslint] + [TypeScript ESLint][ts-eslint]
+8. **代码质量**：[ESLint 10][eslint] + [TypeScript ESLint][ts-eslint]
 
 9. **开放数据**：[GitHub REST API v3][github-api]
 
@@ -73,7 +73,7 @@ close #1
 [parcel]: https://parceljs.org/
 [pnpm]: https://pnpm.io/
 [bootstrap]: https://getbootstrap.com/
-[beercss]: https://beercss.com/
+[m3e]: https://matraic.github.io/m3e/
 [eslint]: https://eslint.org/
 [ts-eslint]: https://typescript-eslint.io/
 [github-api]: https://docs.github.com/en/rest

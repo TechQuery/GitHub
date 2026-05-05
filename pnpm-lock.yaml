@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@m3e/icons':
         specifier: ^1.0.2
-        version: 1.0.2(@m3e/web@2.5.1(@floating-ui/utils@0.2.11)(tslib@2.8.1))
+        version: 1.0.2(@m3e/web@2.5.1(@floating-ui/utils@0.2.11)(lit@3.3.2)(tslib@2.8.1))
       '@m3e/web':
         specifier: ^2.5.1
-        version: 2.5.1(@floating-ui/utils@0.2.11)(tslib@2.8.1)
+        version: 2.5.1(@floating-ui/utils@0.2.11)(lit@3.3.2)(tslib@2.8.1)
       '@swc/helpers':
         specifier: ^0.5.21
         version: 0.5.21
@@ -29,6 +29,9 @@ importers:
       koajax:
         specifier: ^3.3.0
         version: 3.3.0(typescript@5.9.3)
+      lit:
+        specifier: ^3.3.2
+        version: 3.3.2
       marked:
         specifier: ^18.0.3
         version: 18.0.3
@@ -955,6 +958,12 @@ packages:
 
   '@lezer/lr@1.4.10':
     resolution: {integrity: sha512-rnCpTIBafOx4mRp43xOxDJbFipJm/c0cia/V5TiGlhmMa+wsSdoGmUN3w5Bqrks/09Q/D4tNAmWaT8p6NRi77A==}
+
+  '@lit-labs/ssr-dom-shim@1.5.1':
+    resolution: {integrity: sha512-Aou5UdlSpr5whQe8AA/bZG0jMj96CoJIWbGfZ91qieWu5AWUMKw8VR/pAkQkJYvBNhmCcWnZlyyk5oze8JIqYA==}
+
+  '@lit/reactive-element@2.1.2':
+    resolution: {integrity: sha512-pbCDiVMnne1lYUIaYNN5wrwQXDtHaYtg7YEFPeW+hws6U47WeFvISGUWekPGKWOP1ygrs0ef0o1VJMk1exos5A==}
 
   '@lmdb/lmdb-darwin-arm64@2.8.5':
     resolution: {integrity: sha512-KPDeVScZgA1oq0CiPBcOa3kHIqU+pTOwRFDIhxvmf8CTNvqdZQYp5cCKW0bUk69VygB2PuTiINFWbY78aR2pQw==}
@@ -2716,8 +2725,8 @@ packages:
     resolution: {integrity: sha512-1BC0BVFhS/p0qtw6enp8e+8OD0UrK0oFLztSjNzhcKA3WDuJxxAPXzPuPtKkjEY9UUoEWlX/8fgKeu2S8i9JTA==}
     engines: {node: '>= 0.4'}
 
-  is-core-module@2.16.1:
-    resolution: {integrity: sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==}
+  is-core-module@2.16.2:
+    resolution: {integrity: sha512-evOr8xfXKxE6qSR0hSXL2r3sd7ALj8+7jQEUvPYcm5sgZFdJ+AYzT6yNmJenvIYQBgIGwfwz08sL8zoL7yq2BA==}
     engines: {node: '>= 0.4'}
 
   is-data-view@1.0.2:
@@ -3028,6 +3037,15 @@ packages:
   listr2@9.0.5:
     resolution: {integrity: sha512-ME4Fb83LgEgwNw96RKNvKV4VTLuXfoKudAmm2lP8Kk87KaMK0/Xrx/aAkMWmT8mDb+3MlFDspfbCs7adjRxA2g==}
     engines: {node: '>=20.0.0'}
+
+  lit-element@4.2.2:
+    resolution: {integrity: sha512-aFKhNToWxoyhkNDmWZwEva2SlQia+jfG0fjIWV//YeTaWrVnOxD89dPKfigCUspXFmjzOEUQpOkejH5Ly6sG0w==}
+
+  lit-html@3.3.2:
+    resolution: {integrity: sha512-Qy9hU88zcmaxBXcc10ZpdK7cOLXvXpRoBxERdtqV9QOrfpMZZ6pSYP91LhpPtap3sFMUiL7Tw2RImbe0Al2/kw==}
+
+  lit@3.3.2:
+    resolution: {integrity: sha512-NF9zbsP79l4ao2SNrH3NkfmFgN/hBYSQo90saIVI1o5GpjAdCPVstVzO1MrLOakHoEhYkrtRjPK6Ob521aoYWQ==}
 
   lmdb@2.8.5:
     resolution: {integrity: sha512-9bMdFfc80S+vSldBmG3HOuLVHnxRdNTlpzR6QDnzqCQtCzGUEAGTzBKYMeIM+I/sU4oZfgbcbS7X7F65/z/oxQ==}
@@ -4962,6 +4980,12 @@ snapshots:
     dependencies:
       '@lezer/common': 1.5.2
 
+  '@lit-labs/ssr-dom-shim@1.5.1': {}
+
+  '@lit/reactive-element@2.1.2':
+    dependencies:
+      '@lit-labs/ssr-dom-shim': 1.5.1
+
   '@lmdb/lmdb-darwin-arm64@2.8.5':
     optional: true
 
@@ -4980,15 +5004,16 @@ snapshots:
   '@lmdb/lmdb-win32-x64@2.8.5':
     optional: true
 
-  '@m3e/icons@1.0.2(@m3e/web@2.5.1(@floating-ui/utils@0.2.11)(tslib@2.8.1))':
+  '@m3e/icons@1.0.2(@m3e/web@2.5.1(@floating-ui/utils@0.2.11)(lit@3.3.2)(tslib@2.8.1))':
     dependencies:
-      '@m3e/web': 2.5.1(@floating-ui/utils@0.2.11)(tslib@2.8.1)
+      '@m3e/web': 2.5.1(@floating-ui/utils@0.2.11)(lit@3.3.2)(tslib@2.8.1)
 
-  '@m3e/web@2.5.1(@floating-ui/utils@0.2.11)(tslib@2.8.1)':
+  '@m3e/web@2.5.1(@floating-ui/utils@0.2.11)(lit@3.3.2)(tslib@2.8.1)':
     dependencies:
       '@floating-ui/dom': 1.7.6
       '@material/material-color-utilities': 0.3.0
       composed-offset-position: 0.0.6(@floating-ui/utils@0.2.11)
+      lit: 3.3.2
       tslib: 2.8.1
     transitivePeerDependencies:
       - '@floating-ui/utils'
@@ -7053,7 +7078,7 @@ snapshots:
 
   is-callable@1.2.7: {}
 
-  is-core-module@2.16.1:
+  is-core-module@2.16.2:
     dependencies:
       hasown: 2.0.3
 
@@ -7322,6 +7347,22 @@ snapshots:
       log-update: 6.1.0
       rfdc: 1.4.1
       wrap-ansi: 9.0.2
+
+  lit-element@4.2.2:
+    dependencies:
+      '@lit-labs/ssr-dom-shim': 1.5.1
+      '@lit/reactive-element': 2.1.2
+      lit-html: 3.3.2
+
+  lit-html@3.3.2:
+    dependencies:
+      '@types/trusted-types': 2.0.7
+
+  lit@3.3.2:
+    dependencies:
+      '@lit/reactive-element': 2.1.2
+      lit-element: 4.2.2
+      lit-html: 3.3.2
 
   lmdb@2.8.5:
     dependencies:
@@ -7786,14 +7827,14 @@ snapshots:
   resolve@1.22.12:
     dependencies:
       es-errors: 1.3.0
-      is-core-module: 2.16.1
+      is-core-module: 2.16.2
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
   resolve@2.0.0-next.6:
     dependencies:
       es-errors: 1.3.0
-      is-core-module: 2.16.1
+      is-core-module: 2.16.2
       node-exports-info: 1.6.0
       object-keys: 1.1.1
       path-parse: 1.0.7
