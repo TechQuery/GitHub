@@ -1,14 +1,9 @@
 import { observable } from 'mobx';
+import { type Content, type Issue,IssueModel, RepositoryModel } from 'mobx-github';
 import { attribute, component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import {
-    GitHubCommit,
-    GitHubContents,
-    GitHubIssue,
-    GitHubMilestone,
-    githubStore
-} from '../model/github';
+import { GitHubCommit, GitHubMilestone, githubStore } from '../model/github';
 import { Link } from '../model/router';
 
 @component({ tagName: 'repo-page' })
@@ -24,9 +19,14 @@ export default class RepoPage extends HTMLElement {
 
     @observable accessor activeTab = 'source';
 
+    repoStore = new RepositoryModel();
+
+    @observable
+    accessor issueStore: IssueModel | null = null;
+
     mountedCallback() {
         if (this.owner && this.repo) {
-            githubStore.fetchRepository(this.owner, this.repo);
+            this.repoStore.getOne(`${this.owner}/${this.repo}`);
             this.loadTabContent();
         }
     }
@@ -42,7 +42,8 @@ export default class RepoPage extends HTMLElement {
                 githubStore.fetchRepoCommits(this.owner, this.repo);
                 break;
             case 'issues':
-                githubStore.fetchRepoIssues(this.owner, this.repo);
+                this.issueStore = new IssueModel(this.owner, this.repo);
+                this.issueStore.getList();
                 break;
             case 'milestones':
                 githubStore.fetchRepoMilestones(this.owner, this.repo);
@@ -55,7 +56,7 @@ export default class RepoPage extends HTMLElement {
         this.loadTabContent();
     };
 
-    renderFileItem = ({ name, type, html_url, download_url }: GitHubContents) => (
+    renderFileItem = ({ name, type, html_url, download_url }: Content) => (
         <li key={name} className="list-group-item">
             <i className={`fa ${type === 'dir' ? 'fa-folder' : 'fa-file'}`} />{' '}
             <a href={html_url!} target="_blank" rel="noreferrer">
@@ -100,7 +101,7 @@ export default class RepoPage extends HTMLElement {
         </div>
     );
 
-    renderIssueItem = ({ number, title, state, user, created_at }: GitHubIssue) => (
+    renderIssueItem = ({ number, title, state, user, created_at }: Issue) => (
         <div key={number} className="media">
             <div className="media-left">
                 <img
@@ -167,7 +168,14 @@ export default class RepoPage extends HTMLElement {
     );
 
     renderTabContent() {
-        const { downloading, repoContents, repoCommits, repoIssues, repoMilestones } = githubStore;
+        const {
+            downloading: storeDownloading,
+            repoContents,
+            repoCommits,
+            repoMilestones
+        } = githubStore;
+        const { issueStore } = this;
+        const downloading = storeDownloading + (issueStore?.downloading ?? 0);
 
         if (downloading > 0) return <Loading />;
 
@@ -200,10 +208,10 @@ export default class RepoPage extends HTMLElement {
                 return (
                     <div>
                         <h4>问题列表</h4>
-                        {repoIssues.length === 0 ? (
+                        {(issueStore?.allItems ?? []).length === 0 ? (
                             <p>没有找到问题</p>
                         ) : (
-                            <div>{repoIssues.map(this.renderIssueItem)}</div>
+                            <div>{(issueStore?.allItems ?? []).map(this.renderIssueItem)}</div>
                         )}
                     </div>
                 );
@@ -226,7 +234,8 @@ export default class RepoPage extends HTMLElement {
     }
 
     render() {
-        const { currentRepo: repository, downloading } = githubStore;
+        const repository = this.repoStore.currentOne;
+        const downloading = this.repoStore.downloading + githubStore.downloading;
 
         if (downloading > 0 && !repository) return <Loading />;
         if (!repository) return <div>仓库不存在</div>;

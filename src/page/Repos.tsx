@@ -1,15 +1,16 @@
-import { GitRepository } from 'mobx-github';
+import { type GitRepository,RepositoryModel } from 'mobx-github';
 import { component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { githubStore } from '../model/github';
 import { Link } from '../model/router';
 
 @component({ tagName: 'repos-page' })
 @observer
 export default class ReposPage extends HTMLElement {
+    repoStore = new RepositoryModel('EasyWebApp');
+
     mountedCallback() {
-        githubStore.fetchRepositories();
+        this.repoStore.getList();
     }
 
     renderRepoItem = ({
@@ -28,7 +29,7 @@ export default class ReposPage extends HTMLElement {
     );
 
     render() {
-        const { repositories, downloading } = githubStore;
+        const { allItems: repositories, downloading } = this.repoStore;
 
         if (downloading > 0) return <Loading />;
 

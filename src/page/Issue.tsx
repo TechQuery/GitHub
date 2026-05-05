@@ -1,8 +1,8 @@
 import { observable } from 'mobx';
+import { type IssueComment,IssueCommentModel, IssueModel } from 'mobx-github';
 import { attribute, component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { GitHubIssueComment, githubStore } from '../model/github';
 import { Link } from '../model/router';
 
 @component({ tagName: 'issue-page' })
@@ -20,15 +20,25 @@ export default class IssuePage extends HTMLElement {
     @attribute
     accessor issueNumber = '';
 
+    @observable
+    accessor issueStore: IssueModel | null = null;
+
+    @observable
+    accessor commentStore: IssueCommentModel | null = null;
+
     mountedCallback() {
-        if (this.owner && this.repo && this.issueNumber) {
-            const issueNum = parseInt(this.issueNumber, 10);
-            githubStore.fetchIssue(this.owner, this.repo, issueNum);
-            githubStore.fetchIssueComments(this.owner, this.repo, issueNum);
-        }
+        if (!this.owner || !this.repo || !this.issueNumber) return;
+
+        const issue = parseInt(this.issueNumber, 10);
+
+        this.issueStore = new IssueModel(this.owner, this.repo);
+        this.commentStore = new IssueCommentModel(this.owner, this.repo, issue);
+
+        this.issueStore.getOne(issue);
+        this.commentStore.getList();
     }
 
-    renderComment = ({ id, user, body, created_at, updated_at }: GitHubIssueComment) => (
+    renderComment = ({ id, user, body, created_at, updated_at }: IssueComment) => (
         <section key={id} className="media">
             <div className="media-left text-center">
                 <Link to={`/users/${user!.login}`} title={user!.login}>
@@ -58,7 +68,10 @@ export default class IssuePage extends HTMLElement {
     );
 
     render() {
-        const { currentIssue: issue, issueComments, downloading } = githubStore;
+        const issue = this.issueStore?.currentOne;
+        const issueComments = this.commentStore?.allItems ?? [];
+        const downloading =
+            (this.issueStore?.downloading ?? 0) + (this.commentStore?.downloading ?? 0);
 
         if (downloading > 0) return <Loading />;
         if (!issue) return <div>问题不存在</div>;

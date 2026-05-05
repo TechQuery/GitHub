@@ -58,6 +58,9 @@
             "msgpackr-extract"
         ]
     },
+    "@parcel/resolver-default": {
+        "packageExports": true
+    },
     "prettier": {
         "tabWidth": 4,
         "printWidth": 100,
@@ -74,8 +77,5 @@
         "dev": "parcel index.html",
         "build": "parcel build index.html --public-url .",
         "test": "lint-staged  &&  tsc --noEmit"
-    },
-    "@parcel/resolver-default": {
-        "packageExports": true
     }
 }

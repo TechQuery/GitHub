@@ -30,11 +30,7 @@ export class NavBar extends HTMLElement {
         const form = event.target as HTMLFormElement;
         const keyword = (form.elements.namedItem('keyword') as HTMLInputElement).value;
 
-        if (!keyword.includes('/')) {
-            window.location.hash = `#/users/${keyword}`;
-        } else {
-            window.location.hash = `#/repos/${keyword}`;
-        }
+        window.location.hash = !keyword.includes('/') ? `#/users/${keyword}` : `#/repos/${keyword}`;
     }
 
     render() {
@@ -58,10 +54,10 @@ export class NavBar extends HTMLElement {
                     <form className="d-flex align-items-center gap-2 ms-2">
                         <input
                             type="search"
+                            className="form-control form-control-sm"
                             name="keyword"
                             required
                             placeholder="定位：用户 ID、仓库全名"
-                            className="form-control form-control-sm"
                         />
                     </form>
                 </div>
