@@ -22,7 +22,7 @@ export default class UserPage extends HTMLElement {
         if (!user) return <div>用户不存在</div>;
 
         return (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
                 <m3e-card variant="elevated">
                     <div
                         slot="content"
