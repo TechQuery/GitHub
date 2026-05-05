@@ -3,6 +3,7 @@ import { attribute, component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
 import { githubStore } from '../stores/github';
+import { Link } from '../stores/router';
 
 @component({ tagName: 'milestone-page' })
 @observer
@@ -44,9 +45,7 @@ export default class MilestonePage extends HTMLElement {
                             <h3 className="media-heading">
                                 {milestone.title}
                                 <span
-                                    className={`label label-${
-                                        milestone.state === 'open' ? 'success' : 'danger'
-                                    }`}
+                                    className={`label label-${milestone.state === 'open' ? 'success' : 'danger'}`}
                                 >
                                     {milestone.state === 'open' ? '开启' : '关闭'}
                                 </span>
@@ -91,8 +90,8 @@ export default class MilestonePage extends HTMLElement {
                         </div>
                         <div className="media-right media-middle">
                             {milestone.creator && (
-                                <a
-                                    href={`#/users/${milestone.creator.login}`}
+                                <Link
+                                    to={`/users/${milestone.creator.login}`}
                                     title={milestone.creator.login}
                                 >
                                     <img
@@ -102,7 +101,7 @@ export default class MilestonePage extends HTMLElement {
                                         alt={milestone.creator.login}
                                     />
                                     <div className="ellipsis">{milestone.creator.login}</div>
-                                </a>
+                                </Link>
                             )}
                         </div>
                     </blockquote>
@@ -111,12 +110,12 @@ export default class MilestonePage extends HTMLElement {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="btn-group" role="group">
-                                <a
-                                    href={`#/repos/${this.owner}/${this.repo}/issues`}
+                                <Link
+                                    to={`/repos/${this.owner}/${this.repo}/issues`}
                                     className="btn btn-default"
                                 >
                                     查看所有问题
-                                </a>
+                                </Link>
                                 <a
                                     href={milestone.html_url}
                                     target="_blank"

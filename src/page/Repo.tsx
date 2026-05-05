@@ -1,14 +1,10 @@
 import { observable } from 'mobx';
+import { type Content, type Issue, IssueModel, RepositoryModel } from 'mobx-github';
 import { attribute, component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import {
-    GitHubCommit,
-    GitHubContents,
-    GitHubIssue,
-    GitHubMilestone,
-    githubStore
-} from '../stores/github';
+import { GitHubCommit, GitHubMilestone, githubStore } from '../stores/github';
+import { Link } from '../stores/router';
 
 @component({ tagName: 'repo-page' })
 @observer
@@ -23,9 +19,14 @@ export default class RepoPage extends HTMLElement {
 
     @observable accessor activeTab = 'source';
 
+    repoStore = new RepositoryModel();
+
+    @observable
+    accessor issueStore: IssueModel | null = null;
+
     mountedCallback() {
         if (this.owner && this.repo) {
-            githubStore.fetchRepository(this.owner, this.repo);
+            this.repoStore.getOne(`${this.owner}/${this.repo}`);
             this.loadTabContent();
         }
     }
@@ -41,7 +42,8 @@ export default class RepoPage extends HTMLElement {
                 githubStore.fetchRepoCommits(this.owner, this.repo);
                 break;
             case 'issues':
-                githubStore.fetchRepoIssues(this.owner, this.repo);
+                this.issueStore = new IssueModel(this.owner, this.repo);
+                this.issueStore.getList();
                 break;
             case 'milestones':
                 githubStore.fetchRepoMilestones(this.owner, this.repo);
@@ -54,10 +56,10 @@ export default class RepoPage extends HTMLElement {
         this.loadTabContent();
     };
 
-    renderFileItem = ({ name, type, html_url, download_url }: GitHubContents) => (
+    renderFileItem = ({ name, type, html_url, download_url }: Content) => (
         <li key={name} className="list-group-item">
-            <i className={`fa ${type !== 'file' ? 'fa-folder' : 'fa-file'}`}></i>{' '}
-            <a href={html_url || ''} target="_blank" rel="noreferrer">
+            <i className={`fa ${type === 'dir' ? 'fa-folder' : 'fa-file'}`} />{' '}
+            <a href={html_url!} target="_blank" rel="noreferrer">
                 {name}
             </a>
             {type === 'file' && download_url && (
@@ -92,13 +94,13 @@ export default class RepoPage extends HTMLElement {
                 </h5>
                 <small>
                     {author?.login} committed on{' '}
-                    {new Date(commit.author?.date || '').toLocaleDateString('zh-CN')}
+                    {new Date(commit.author!.date!).toLocaleDateString('zh-CN')}
                 </small>
             </div>
         </div>
     );
 
-    renderIssueItem = ({ number, title, state, user, created_at }: GitHubIssue) => (
+    renderIssueItem = ({ number, title, state, user, created_at }: Issue) => (
         <div key={number} className="media">
             <div className="media-left">
                 <img
@@ -110,15 +112,15 @@ export default class RepoPage extends HTMLElement {
             </div>
             <div className="media-body">
                 <h5 className="media-heading">
-                    <a href={`#/repos/${this.owner}/${this.repo}/issues/${number}`}>
+                    <Link to={`/repos/${this.owner}/${this.repo}/issues/${number}`}>
                         #{number} {title}
-                    </a>
+                    </Link>
                     <span className={`label label-${state === 'open' ? 'success' : 'danger'}`}>
                         {state === 'open' ? '开启' : '关闭'}
                     </span>
                 </h5>
                 <small>
-                    {user?.login} created on {new Date(created_at).toLocaleDateString('zh-CN')}
+                    {user!.login} created on {new Date(created_at).toLocaleDateString('zh-CN')}
                 </small>
             </div>
         </div>
@@ -137,7 +139,9 @@ export default class RepoPage extends HTMLElement {
         <div key={number} className="panel panel-default">
             <div className="panel-body">
                 <h4>
-                    <a href={`#/repos/${this.owner}/${this.repo}/milestones/${number}`}>{title}</a>
+                    <Link to={`/repos/${this.owner}/${this.repo}/milestones/${number}`}>
+                        {title}
+                    </Link>
                     <span className={`label label-${state === 'open' ? 'success' : 'danger'}`}>
                         {state === 'open' ? '开启' : '关闭'}
                     </span>
@@ -154,7 +158,7 @@ export default class RepoPage extends HTMLElement {
                     </div>
                 </div>
                 <small>
-                    Created by {creator?.login} on{' '}
+                    Created by {creator!.login} on{' '}
                     {new Date(created_at).toLocaleDateString('zh-CN')}
                 </small>
             </div>
@@ -162,7 +166,14 @@ export default class RepoPage extends HTMLElement {
     );
 
     renderTabContent() {
-        const { downloading, repoContents, repoCommits, repoIssues, repoMilestones } = githubStore;
+        const {
+            downloading: storeDownloading,
+            repoContents,
+            repoCommits,
+            repoMilestones
+        } = githubStore;
+        const { issueStore } = this;
+        const downloading = storeDownloading + (issueStore?.downloading ?? 0);
 
         if (downloading > 0) return <Loading />;
 
@@ -195,10 +206,10 @@ export default class RepoPage extends HTMLElement {
                 return (
                     <div>
                         <h4>问题列表</h4>
-                        {repoIssues.length === 0 ? (
+                        {(issueStore?.allItems ?? []).length === 0 ? (
                             <p>没有找到问题</p>
                         ) : (
-                            <div>{repoIssues.map(this.renderIssueItem)}</div>
+                            <div>{(issueStore?.allItems ?? []).map(this.renderIssueItem)}</div>
                         )}
                     </div>
                 );
@@ -221,7 +232,8 @@ export default class RepoPage extends HTMLElement {
     }
 
     render() {
-        const { currentRepo: repository, downloading } = githubStore;
+        const repository = this.repoStore.currentOne;
+        const downloading = this.repoStore.downloading + githubStore.downloading;
 
         if (downloading > 0 && !repository) return <Loading />;
         if (!repository) return <div>仓库不存在</div>;
@@ -278,9 +290,9 @@ export default class RepoPage extends HTMLElement {
                                         alt={repository.owner.login}
                                     />
                                     <h4>
-                                        <a href={`#/users/${repository.owner.login}`}>
+                                        <Link to={`/users/${repository.owner.login}`}>
                                             {repository.owner.login}
-                                        </a>
+                                        </Link>
                                     </h4>
                                 </div>
                             </div>

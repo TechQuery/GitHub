@@ -1,3 +1,9 @@
+import '@m3e/web/app-bar';
+import '@m3e/web/button';
+import '@m3e/web/card';
+import '@m3e/web/loading-indicator';
+import '@m3e/web/theme';
+
 import { auto } from 'browser-unhandled-rejection';
 import { DOMRenderer } from 'dom-renderer';
 import { configure } from 'mobx';
@@ -23,18 +29,10 @@ if (process.env.NODE_ENV !== 'development')
         ?.register('sw.js')
         .then(serviceWorkerUpdate)
         .then(worker => {
-            if (
-                window.confirm(
-                    'New version of this Web App detected, update now?'
-                )
-            )
+            if (window.confirm('New version of this Web App detected, update now?'))
                 worker.postMessage({ type: 'SKIP_WAITING' });
         });
 
-serviceWorker?.addEventListener('controllerchange', () =>
-    window.location.reload()
-);
+serviceWorker?.addEventListener('controllerchange', () => window.location.reload());
 
-documentReady.then(() =>
-    new DOMRenderer().render(<GitHubApp />, document.body, renderMode)
-);
+documentReady.then(() => new DOMRenderer().render(<GitHubApp />, document.body, renderMode));

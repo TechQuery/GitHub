@@ -7,6 +7,7 @@ This is a Chinese-language GitHub client web application built as a modern Singl
 ## Working Effectively
 
 ### Quick Start
+
 - **Build required** - this is a modern TypeScript application that needs compilation
 - **Package Manager**: Prioritize PNPM but NPM commands are compatible (replace `pnpm` with `npm run` for NPM)
 - Install dependencies: `pnpm install` (requires Node.js, takes ~1-2 minutes)
@@ -15,32 +16,35 @@ This is a Chinese-language GitHub client web application built as a modern Singl
 - **Build for production**: `pnpm build` (creates optimized bundle with PWA support)
 
 ### Dependencies and Limitations
+
 - **Modern Dependencies**: All dependencies are managed through pnpm/package.json (npm compatible):
-  - WebCell v3 (modern web components with Stage-3 decorators)
-  - TypeScript for type safety
-  - MobX + MobX-RESTful for state management
-  - cell-router for client-side routing
-  - Bootstrap 5 + BeerCSS for UI components
-  - Parcel 2 for zero-config building
-  - ESLint 9 + TypeScript ESLint for code quality
+    - WebCell v3 (modern web components with Stage-3 decorators)
+    - TypeScript for type safety
+    - MobX + MobX-RESTful for state management
+    - cell-router for client-side routing
+    - Bootstrap 5 + BeerCSS for UI components
+    - Parcel 2 for zero-config building
+    - ESLint 9 + TypeScript ESLint for code quality
 - **GitHub API Integration**: Uses `mobx-github` package with modern API patterns (will migrate to OAuth token system)
 - **Network Access**: GitHub API access requires internet connectivity
 
 ### Validation Requirements
+
 - **ALWAYS** test development server startup with Node.js
 - **ALWAYS** verify TypeScript compilation and linting: `pnpm test`
 - **ALWAYS** test development build: `pnpm dev`
 - Test navigation structure by accessing key routes:
-  - Main page: `http://localhost:1234/`
-  - User pages: `http://localhost:1234/#users/{username}`
-  - Repository pages: `http://localhost:1234/#repos/{owner}/{repo}`
-  - Issue pages: `http://localhost:1234/#repos/{owner}/{repo}/issues/{number}`
+    - Main page: `http://localhost:1234/`
+    - User pages: `http://localhost:1234/#users/{username}`
+    - Repository pages: `http://localhost:1234/#repos/{owner}/{repo}`
+    - Issue pages: `http://localhost:1234/#repos/{owner}/{repo}/issues/{number}`
 - **IMPORTANT**: Development requires Node.js and PNPM (or npm) for building
 - Test production build occasionally: `pnpm build`
 
 ## Project Structure
 
 ### Key Directories and Files
+
 ```
 /home/runner/work/GitHub/GitHub/
 ├── src/                     # TypeScript source code
@@ -77,6 +81,7 @@ This is a Chinese-language GitHub client web application built as a modern Singl
 ```
 
 ### Architecture Overview
+
 - **Programming Language**: TypeScript for full type safety
 - **Web Framework**: WebCell v3 with Stage-3 decorators for modern web components
 - **State Management**: MobX + MobX-RESTful for reactive state and API integration
@@ -94,6 +99,7 @@ This is a Chinese-language GitHub client web application built as a modern Singl
 After making changes, ALWAYS run through these validation steps:
 
 ### Development Server Testing
+
 ```bash
 # Start development server (JavaScript project)
 cd /home/runner/work/GitHub/GitHub
@@ -103,6 +109,7 @@ pnpm dev
 ```
 
 ### Code Quality Validation
+
 ```bash
 # Test TypeScript compilation and ESLint
 pnpm test
@@ -118,6 +125,7 @@ npx tsc --noEmit
 ```
 
 ### Application Structure Verification
+
 ```bash
 # Verify all required directories exist
 ls -la /home/runner/work/GitHub/GitHub/{src,package.json,tsconfig.json}
@@ -132,6 +140,7 @@ ls /home/runner/work/GitHub/GitHub/src/{index.tsx,App.tsx,stores,page,components
 ## Common Tasks
 
 ### Development Operations
+
 - Install dependencies: `pnpm install` (JavaScript project)
 - Start development server: `pnpm dev` (starts Parcel on port 1234)
 - Build for production: `pnpm build` (creates optimized dist/ folder with PWA)
@@ -139,6 +148,7 @@ ls /home/runner/work/GitHub/GitHub/src/{index.tsx,App.tsx,stores,page,components
 - Clean build cache: `pnpm clean`
 
 ### Code Navigation
+
 - **Application entry**: `src/index.tsx` - Main application bootstrap
 - **Main component**: `src/App.tsx` - Router configuration and main layout
 - **State management**: `src/stores/github.ts` - MobX stores for GitHub API data
@@ -148,6 +158,7 @@ ls /home/runner/work/GitHub/GitHub/src/{index.tsx,App.tsx,stores,page,components
 - **Utilities**: `src/utility.ts` - Helper functions
 
 ### Troubleshooting
+
 - **Build Errors**: Check TypeScript compilation with `npx tsc --noEmit`
 - **Linting Issues**: Run `npx eslint src --ext .ts,.tsx --fix` to auto-fix
 - **Dependency Issues**: Clear node_modules and reinstall: `rm -rf node_modules && pnpm install`
@@ -157,11 +168,13 @@ ls /home/runner/work/GitHub/GitHub/src/{index.tsx,App.tsx,stores,page,components
 ## Important Notes
 
 ### Security Considerations
+
 - **API Authentication**: GitHub API integration through `mobx-github` package (will migrate to OAuth token system)
 - **Type Safety**: Full TypeScript coverage prevents many runtime errors
 - **Dependency Management**: All dependencies managed through pnpm/package.json, no external CDNs
 
 ### Development Workflow
+
 1. **ALWAYS** install dependencies with `pnpm install` before starting development
 2. **ALWAYS** run `pnpm test` to check linting and TypeScript compilation
 3. **ALWAYS** use `pnpm dev` for development server (not static file serving)
@@ -169,6 +182,7 @@ ls /home/runner/work/GitHub/GitHub/src/{index.tsx,App.tsx,stores,page,components
 5. **TEST** in development server to ensure proper routing and API integration
 
 ### Performance Expectations
+
 - Development server startup: 5-10 seconds with Parcel
 - TypeScript compilation: 1-5 seconds for incremental builds
 - Hot module replacement: Near-instantaneous during development
@@ -178,6 +192,7 @@ ls /home/runner/work/GitHub/GitHub/src/{index.tsx,App.tsx,stores,page,components
 ## Frequent Commands Reference
 
 ### Repository root listing
+
 ```
 .editorconfig
 .git/
@@ -194,7 +209,9 @@ workbox-config.js
 ```
 
 ### Required development server test
+
 ```bash
 cd /home/runner/work/GitHub/GitHub && pnpm dev
 ```
+
 Expected output: Parcel dev server starts on http://localhost:1234 with TypeScript compilation
