@@ -3,9 +3,12 @@ import { action, observable } from 'mobx';
 import { type Content, githubClient, type User } from 'mobx-github';
 import { BaseModel, toggle } from 'mobx-restful';
 
+type NotEmpty<T> = T extends null ? never : T extends undefined ? never : T;
+
 export type GitHubEvent = components['schemas']['event'];
 export type GitHubGist = components['schemas']['base-gist'];
 export type GitHubGistSimple = components['schemas']['gist-simple'];
+export type GitHubGistFile = NotEmpty<Required<GitHubGistSimple>['files'][string]>;
 export type GitHubCommit = components['schemas']['commit'];
 export type GitHubMilestone = components['schemas']['milestone'];
 export type GitHubBranch = components['schemas']['short-branch'];

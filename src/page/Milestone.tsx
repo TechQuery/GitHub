@@ -97,8 +97,7 @@ export default class MilestonePage extends HTMLElement {
                                     <img
                                         className="media-object"
                                         src={milestone.creator.avatar_url}
-                                        width={64}
-                                        height={64}
+                                        style={{ width: '64px', height: '64px' }}
                                         alt={milestone.creator.login}
                                     />
                                     <div className="ellipsis">{milestone.creator.login}</div>

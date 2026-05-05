@@ -74,7 +74,8 @@ export default class IssuePage extends HTMLElement {
             (this.issueStore?.downloading ?? 0) + (this.commentStore?.downloading ?? 0);
 
         if (downloading > 0) return <Loading />;
-        if (!issue) return <div>问题不存在</div>;
+
+        if (!issue?.user) return <div>问题不存在</div>;
 
         return (
             <div className="row">
@@ -113,10 +114,8 @@ export default class IssuePage extends HTMLElement {
                                 更新
                             </div>
                             <div
-                                dangerouslySetInnerHTML={{
-                                    __html: issue.body?.replace(/\n/g, '<br>') || '无描述'
-                                }}
                                 className="panel-body"
+                                innerHTML={issue.body?.replace(/\n/g, '<br>') || '无描述'}
                             />
                         </div>
                     </section>

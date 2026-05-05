@@ -74,8 +74,10 @@
     },
     "scripts": {
         "prepare": "husky",
-        "dev": "parcel index.html",
-        "build": "parcel build index.html --public-url .",
-        "test": "lint-staged  &&  tsc --noEmit"
+        "test": "lint-staged  &&  tsc --noEmit",
+        "clean": "rm -rf .parcel-cache/ dist/",
+        "dev": "npm run clean  &&  parcel src/index.html",
+        "pack": "npm run clean  &&  parcel build src/index.html --public-url .",
+        "build": "npm run pack  &&  workbox generateSW"
     }
 }

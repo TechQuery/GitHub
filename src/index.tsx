@@ -29,18 +29,10 @@ if (process.env.NODE_ENV !== 'development')
         ?.register('sw.js')
         .then(serviceWorkerUpdate)
         .then(worker => {
-            if (
-                window.confirm(
-                    'New version of this Web App detected, update now?'
-                )
-            )
+            if (window.confirm('New version of this Web App detected, update now?'))
                 worker.postMessage({ type: 'SKIP_WAITING' });
         });
 
-serviceWorker?.addEventListener('controllerchange', () =>
-    window.location.reload()
-);
+serviceWorker?.addEventListener('controllerchange', () => window.location.reload());
 
-documentReady.then(() =>
-    new DOMRenderer().render(<GitHubApp />, document.body, renderMode)
-);
+documentReady.then(() => new DOMRenderer().render(<GitHubApp />, document.body, renderMode));

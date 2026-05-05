@@ -81,8 +81,7 @@ export default class RepoPage extends HTMLElement {
                     <img
                         src={author.avatar_url}
                         className="media-object"
-                        width={40}
-                        height={40}
+                        style={{ width: '40px', height: '40px' }}
                         alt={author.login}
                     />
                 )}
@@ -105,11 +104,10 @@ export default class RepoPage extends HTMLElement {
         <div key={number} className="media">
             <div className="media-left">
                 <img
-                    src={user!.avatar_url}
+                    src={user?.avatar_url}
                     className="media-object"
-                    width={40}
-                    height={40}
-                    alt={user!.login}
+                    style={{ width: '40px', height: '40px' }}
+                    alt={user?.login}
                 />
             </div>
             <div className="media-body">
