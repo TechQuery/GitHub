@@ -2,7 +2,8 @@ import { observable } from 'mobx';
 import { attribute, component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { GitHubIssueComment,githubStore } from '../stores/github';
+import { GitHubIssueComment, githubStore } from '../model/github';
+import { Link } from '../model/router';
 
 @component({ tagName: 'issue-page' })
 @observer
@@ -30,10 +31,16 @@ export default class IssuePage extends HTMLElement {
     renderComment = ({ id, user, body, created_at, updated_at }: GitHubIssueComment) => (
         <section key={id} className="media">
             <div className="media-left text-center">
-                <a href={`#/users/${user.login}`} title={user.login}>
-                    <img className="media-object" src={user.avatar_url} width="50" height="50" alt={user.login} />
-                    <div className="ellipsis">{user.login}</div>
-                </a>
+                <Link to={`/users/${user!.login}`} title={user!.login}>
+                    <img
+                        className="media-object"
+                        src={user!.avatar_url}
+                        width={50}
+                        height={50}
+                        alt={user!.login}
+                    />
+                    <div className="ellipsis">{user!.login}</div>
+                </Link>
                 <abbr title={new Date(created_at).toLocaleString()}>
                     {new Date(created_at).toLocaleDateString('zh-CN')}
                 </abbr>
@@ -42,10 +49,10 @@ export default class IssuePage extends HTMLElement {
                 <div className="panel-heading">
                     <abbr title={new Date(updated_at).toLocaleString()}>
                         {new Date(updated_at).toLocaleDateString('zh-CN')}
-                    </abbr>
-                    {' '}更新
+                    </abbr>{' '}
+                    更新
                 </div>
-                <div className="panel-body" innerHTML={body.replace(/\n/g, '<br>')} />
+                <div className="panel-body" innerHTML={body?.replace(/\n/g, '<br>')} />
             </div>
         </section>
     );
@@ -61,7 +68,9 @@ export default class IssuePage extends HTMLElement {
                 <div className="col-md-9">
                     <h3>
                         #{issue.number} {issue.title}
-                        <span className={`label label-${issue.state === 'open' ? 'success' : 'danger'}`}>
+                        <span
+                            className={`label label-${issue.state === 'open' ? 'success' : 'danger'}`}
+                        >
                             {issue.state === 'open' ? '开启' : '关闭'}
                         </span>
                     </h3>
@@ -69,10 +78,16 @@ export default class IssuePage extends HTMLElement {
                     {/* Original Issue */}
                     <section className="media">
                         <div className="media-left text-center">
-                            <a href={`#/users/${issue.user.login}`} title={issue.user.login}>
-                                <img className="media-object" src={issue.user.avatar_url} width="50" height="50" alt={issue.user.login} />
-                                <div className="ellipsis">{issue.user.login}</div>
-                            </a>
+                            <Link to={`/users/${issue.user!.login}`} title={issue.user!.login}>
+                                <img
+                                    className="media-object"
+                                    src={issue.user!.avatar_url}
+                                    width={50}
+                                    height={50}
+                                    alt={issue.user!.login}
+                                />
+                                <div className="ellipsis">{issue.user!.login}</div>
+                            </Link>
                             <abbr title={new Date(issue.created_at).toLocaleString()}>
                                 {new Date(issue.created_at).toLocaleDateString('zh-CN')}
                             </abbr>
@@ -81,10 +96,15 @@ export default class IssuePage extends HTMLElement {
                             <div className="panel-heading">
                                 <abbr title={new Date(issue.updated_at).toLocaleString()}>
                                     {new Date(issue.updated_at).toLocaleDateString('zh-CN')}
-                                </abbr>
-                                {' '}更新
+                                </abbr>{' '}
+                                更新
                             </div>
-                            <div dangerouslySetInnerHTML={{ __html: issue.body?.replace(/\n/g, '<br>') || '无描述' }} className="panel-body"></div>
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: issue.body?.replace(/\n/g, '<br>') || '无描述'
+                                }}
+                                className="panel-body"
+                            />
                         </div>
                     </section>
 
@@ -102,9 +122,19 @@ export default class IssuePage extends HTMLElement {
                     <div>
                         {issue.assignees && issue.assignees.length > 0 ? (
                             issue.assignees.map(assignee => (
-                                <a key={assignee.id} href={`#/users/${assignee.login}`} title={assignee.login}>
-                                    <img className="img-thumbnail" src={assignee.avatar_url} width="40" height="40" alt={assignee.login} />
-                                </a>
+                                <Link
+                                    key={assignee.id}
+                                    to={`/users/${assignee.login}`}
+                                    title={assignee.login}
+                                >
+                                    <img
+                                        className="img-thumbnail"
+                                        src={assignee.avatar_url}
+                                        width={40}
+                                        height={40}
+                                        alt={assignee.login}
+                                    />
+                                </Link>
                             ))
                         ) : (
                             <span>无人指派</span>
@@ -113,12 +143,22 @@ export default class IssuePage extends HTMLElement {
                     <hr />
                     <h4>标签</h4>
                     <div>
-                        {issue.labels && issue.labels.length > 0 ? (
-                            issue.labels.map(label => (
-                                <i key={label.id} className="label" style={{ background: `#${label.color}` }}>
-                                    {label.name}
-                                </i>
-                            ))
+                        {issue.labels[0] ? (
+                            issue.labels.map(label =>
+                                typeof label === 'string' ? (
+                                    <i key={label} className="label label-default">
+                                        {label}
+                                    </i>
+                                ) : (
+                                    <i
+                                        key={label.id}
+                                        className="label"
+                                        style={{ background: `#${label.color}` }}
+                                    >
+                                        {label.name}
+                                    </i>
+                                )
+                            )
                         ) : (
                             <span>无标签</span>
                         )}
@@ -127,9 +167,11 @@ export default class IssuePage extends HTMLElement {
                     <h4>里程碑</h4>
                     <div>
                         {issue.milestone ? (
-                            <a href={`#/repos/${this.owner}/${this.repo}/milestones/${issue.milestone.number}`}>
+                            <Link
+                                to={`/repos/${this.owner}/${this.repo}/milestones/${issue.milestone.number}`}
+                            >
                                 {issue.milestone.title}
-                            </a>
+                            </Link>
                         ) : (
                             <span>未设置</span>
                         )}

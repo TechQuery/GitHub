@@ -1,39 +1,31 @@
-import { CellRouter } from 'cell-router';
-import { component, lazy, observer } from 'web-cell';
+import { lazy } from 'web-cell';
 
 import { NavBar } from './components/NavBar';
+import { Route, Router } from './model/router';
 import { HomePage } from './page/Home';
 
-@component({ tagName: 'github-app' })
-@observer
-export class GitHubApp extends HTMLElement {
-    private routes = [
-        { path: '/', component: HomePage },
-        { path: '/users', component: lazy(() => import('./page/Users')) },
-        { path: '/users/:username', component: lazy(() => import('./page/User')) },
-        { path: '/repos', component: lazy(() => import('./page/Repos')) },
-        { path: '/repos/:owner/:repo', component: lazy(() => import('./page/Repo')) },
-        {
-            path: '/repos/:owner/:repo/issues/:issueNumber',
-            component: lazy(() => import('./page/Issue'))
-        },
-        {
-            path: '/repos/:owner/:repo/milestones/:milestoneNumber',
-            component: lazy(() => import('./page/Milestone'))
-        },
-        { path: '/events', component: lazy(() => import('./page/Events')) },
-        { path: '/gists', component: lazy(() => import('./page/Gists')) },
-        { path: '/gists/:gistId', component: lazy(() => import('./page/Gist')) }
-    ];
-
-    render() {
-        return (
-            <m3e-theme color="#1565C0" scheme="auto" motion="expressive">
-                <NavBar />
-                <main id="PageBox" className="container py-3">
-                    <CellRouter routes={this.routes} />
-                </main>
-            </m3e-theme>
-        );
-    }
-}
+export const GitHubApp = () => (
+    <m3e-theme color="#1565C0" scheme="auto" motion="expressive">
+        <NavBar />
+        <main id="PageBox" className="container py-3">
+            <Router>
+                <Route exact path="/" component={HomePage} />
+                <Route path="/users" component={lazy(() => import('./page/Users'))} />
+                <Route path="/users/:username" component={lazy(() => import('./page/User'))} />
+                <Route path="/repos" component={lazy(() => import('./page/Repos'))} />
+                <Route path="/repos/:owner/:repo" component={lazy(() => import('./page/Repo'))} />
+                <Route
+                    path="/repos/:owner/:repo/issues/:issueNumber"
+                    component={lazy(() => import('./page/Issue'))}
+                />
+                <Route
+                    path="/repos/:owner/:repo/milestones/:milestoneNumber"
+                    component={lazy(() => import('./page/Milestone'))}
+                />
+                <Route path="/events" component={lazy(() => import('./page/Events'))} />
+                <Route path="/gists" component={lazy(() => import('./page/Gists'))} />
+                <Route path="/gists/:gistId" component={lazy(() => import('./page/Gist'))} />
+            </Router>
+        </main>
+    </m3e-theme>
+);

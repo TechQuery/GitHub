@@ -1,7 +1,7 @@
 import { components } from '@octokit/openapi-types';
 import { HTTPClient } from 'koajax';
 import { action, observable } from 'mobx';
-import { GitRepository,User } from 'mobx-github';
+import { Content, GitRepository, User } from 'mobx-github';
 import { BaseModel, toggle } from 'mobx-restful';
 
 export type GitHubEvent = components['schemas']['event'];
@@ -11,7 +11,7 @@ export type GitHubCommit = components['schemas']['commit'];
 export type GitHubIssue = components['schemas']['issue'];
 export type GitHubIssueComment = components['schemas']['issue-comment'];
 export type GitHubMilestone = components['schemas']['milestone'];
-export type GitHubContents = components['schemas']['content-file'];
+export type GitHubContents = Content;
 export type GitHubBranch = components['schemas']['short-branch'];
 
 export class GitHubStore extends BaseModel {
@@ -22,7 +22,7 @@ export class GitHubStore extends BaseModel {
     @observable accessor currentUser: User | null = null;
     @observable accessor currentRepo: GitRepository | null = null;
     @observable accessor currentGist: GitHubGistSimple | null = null;
-    
+
     // New repository detail data
     @observable accessor repoContents: GitHubContents[] = [];
     @observable accessor repoBranches: GitHubBranch[] = [];
@@ -163,7 +163,9 @@ export class GitHubStore extends BaseModel {
     @action
     @toggle('downloading')
     async fetchIssue(owner: string, repo: string, issueNumber: number) {
-        const { body } = await this.client.get<GitHubIssue>(`/repos/${owner}/${repo}/issues/${issueNumber}`);
+        const { body } = await this.client.get<GitHubIssue>(
+            `/repos/${owner}/${repo}/issues/${issueNumber}`
+        );
 
         return (this.currentIssue = body!);
     }
@@ -171,7 +173,9 @@ export class GitHubStore extends BaseModel {
     @action
     @toggle('downloading')
     async fetchIssueComments(owner: string, repo: string, issueNumber: number) {
-        const { body } = await this.client.get<GitHubIssueComment[]>(`/repos/${owner}/${repo}/issues/${issueNumber}/comments`);
+        const { body } = await this.client.get<GitHubIssueComment[]>(
+            `/repos/${owner}/${repo}/issues/${issueNumber}/comments`
+        );
 
         return (this.issueComments = body!);
     }
@@ -179,7 +183,9 @@ export class GitHubStore extends BaseModel {
     @action
     @toggle('downloading')
     async fetchRepoMilestones(owner: string, repo: string) {
-        const { body } = await this.client.get<GitHubMilestone[]>(`/repos/${owner}/${repo}/milestones?state=all`);
+        const { body } = await this.client.get<GitHubMilestone[]>(
+            `/repos/${owner}/${repo}/milestones?state=all`
+        );
 
         return (this.repoMilestones = body!);
     }
@@ -187,7 +193,9 @@ export class GitHubStore extends BaseModel {
     @action
     @toggle('downloading')
     async fetchMilestone(owner: string, repo: string, milestoneNumber: number) {
-        const { body } = await this.client.get<GitHubMilestone>(`/repos/${owner}/${repo}/milestones/${milestoneNumber}`);
+        const { body } = await this.client.get<GitHubMilestone>(
+            `/repos/${owner}/${repo}/milestones/${milestoneNumber}`
+        );
 
         return (this.currentMilestone = body!);
     }

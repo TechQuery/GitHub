@@ -2,7 +2,8 @@ import { observable } from 'mobx';
 import { attribute, component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { githubStore } from '../stores/github';
+import { githubStore } from '../model/github';
+import { Link } from '../model/router';
 
 @component({ tagName: 'milestone-page' })
 @observer
@@ -33,7 +34,8 @@ export default class MilestonePage extends HTMLElement {
         if (!milestone) return <div>里程碑不存在</div>;
 
         const totalIssues = milestone.open_issues + milestone.closed_issues;
-        const progressPercentage = totalIssues > 0 ? (milestone.closed_issues / totalIssues) * 100 : 0;
+        const progressPercentage =
+            totalIssues > 0 ? (milestone.closed_issues / totalIssues) * 100 : 0;
 
         return (
             <div className="row">
@@ -42,23 +44,34 @@ export default class MilestonePage extends HTMLElement {
                         <div className="media-body">
                             <h3 className="media-heading">
                                 {milestone.title}
-                                <span className={`label label-${milestone.state === 'open' ? 'success' : 'danger'}`}>
+                                <span
+                                    className={`label label-${milestone.state === 'open' ? 'success' : 'danger'}`}
+                                >
                                     {milestone.state === 'open' ? '开启' : '关闭'}
                                 </span>
                             </h3>
                             {milestone.description && <div>{milestone.description}</div>}
                             <div className="table-row">
-                                <small>{new Date(milestone.created_at).toLocaleDateString('zh-CN')} 创建</small>
-                                <small>{new Date(milestone.updated_at).toLocaleDateString('zh-CN')} 更新</small>
+                                <small>
+                                    {new Date(milestone.created_at).toLocaleDateString('zh-CN')}{' '}
+                                    创建
+                                </small>
+                                <small>
+                                    {new Date(milestone.updated_at).toLocaleDateString('zh-CN')}{' '}
+                                    更新
+                                </small>
                                 {milestone.due_on && (
-                                    <small>{new Date(milestone.due_on).toLocaleDateString('zh-CN')} 过期</small>
+                                    <small>
+                                        {new Date(milestone.due_on).toLocaleDateString('zh-CN')}{' '}
+                                        过期
+                                    </small>
                                 )}
                             </div>
-                            
+
                             {/* Progress Bar */}
                             <div className="progress" style={{ marginTop: '15px' }}>
-                                <div 
-                                    className="progress-bar progress-bar-success" 
+                                <div
+                                    className="progress-bar progress-bar-success"
                                     role="progressbar"
                                     style={{ width: `${progressPercentage}%` }}
                                 >
@@ -77,10 +90,19 @@ export default class MilestonePage extends HTMLElement {
                         </div>
                         <div className="media-right media-middle">
                             {milestone.creator && (
-                                <a href={`#/users/${milestone.creator.login}`} title={milestone.creator.login}>
-                                    <img className="media-object" src={milestone.creator.avatar_url} width="64" height="64" alt={milestone.creator.login} />
+                                <Link
+                                    to={`/users/${milestone.creator.login}`}
+                                    title={milestone.creator.login}
+                                >
+                                    <img
+                                        className="media-object"
+                                        src={milestone.creator.avatar_url}
+                                        width={64}
+                                        height={64}
+                                        alt={milestone.creator.login}
+                                    />
                                     <div className="ellipsis">{milestone.creator.login}</div>
-                                </a>
+                                </Link>
                             )}
                         </div>
                     </blockquote>
@@ -89,15 +111,15 @@ export default class MilestonePage extends HTMLElement {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="btn-group" role="group">
-                                <a 
-                                    href={`#/repos/${this.owner}/${this.repo}/issues`} 
+                                <Link
+                                    to={`/repos/${this.owner}/${this.repo}/issues`}
                                     className="btn btn-default"
                                 >
                                     查看所有问题
-                                </a>
-                                <a 
-                                    href={milestone.html_url} 
-                                    target="_blank" 
+                                </Link>
+                                <a
+                                    href={milestone.html_url}
+                                    target="_blank"
                                     className="btn btn-primary"
                                     rel="noreferrer"
                                 >

@@ -1,5 +1,7 @@
 import { component, observer, on } from 'web-cell';
 
+import { Link } from '../model/router';
+
 interface NavItem {
     title: string;
     name?: string;
@@ -18,7 +20,7 @@ export class NavBar extends HTMLElement {
         { title: 'G 锦', name: '代码锦囊', URL: '#/gists' },
         { title: 'G 友', name: '程序员', URL: '#/users' },
         { title: 'G 团', name: '开发团队', URL: '#/users' },
-        { title: '关于本站', URL: 'ReadMe.md' },
+        { title: '关于本站', URL: '#/ReadMe.md' },
         { title: '关于作者', URL: '#/users/TechQuery' }
     ];
 
@@ -38,13 +40,10 @@ export class NavBar extends HTMLElement {
     render() {
         return (
             <m3e-app-bar className="sticky-top">
-                <a slot="title" href="#/" className="text-decoration-none text-reset">
+                <Link slot="title" to="/" className="text-decoration-none text-reset">
                     {this.title}
-                </a>
-                <div
-                    slot="trailing"
-                    className="d-flex align-items-center gap-1 flex-wrap"
-                >
+                </Link>
+                <div slot="trailing" className="d-flex align-items-center gap-1 flex-wrap">
                     {this.channels.map(({ title, name, URL, target }) => (
                         <m3e-button
                             key={URL + title}

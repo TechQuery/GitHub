@@ -2,7 +2,8 @@ import { User } from 'mobx-github';
 import { component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { githubStore } from '../stores/github';
+import { githubStore } from '../model/github';
+import { Link } from '../model/router';
 
 @component({ tagName: 'users-page' })
 @observer
@@ -23,9 +24,9 @@ export default class UsersPage extends HTMLElement {
                         className="rounded-circle"
                     />
                     <h4 className="mb-0">
-                        <a href={`#/users/${login}`} className="text-decoration-none">
+                        <Link to={`/users/${login}`} className="text-decoration-none">
                             {login}
-                        </a>
+                        </Link>
                     </h4>
                     <p className="mb-0 small text-muted">ID: {id}</p>
                 </div>

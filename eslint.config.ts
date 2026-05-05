@@ -1,25 +1,33 @@
-import { fixupPluginRules } from '@eslint/compat';
+import cspellPlugin from '@cspell/eslint-plugin';
 import eslint from '@eslint/js';
+import stylistic from '@stylistic/eslint-plugin';
 import eslintConfigPrettier from 'eslint-config-prettier';
-import reactPlugin from 'eslint-plugin-react';
+import react from 'eslint-plugin-react';
 import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
-import tsEslint from 'typescript-eslint';
+import tsEslint, { ConfigArray } from 'typescript-eslint';
 import { fileURLToPath } from 'url';
 
+/**
+ * @see{@link https://github.com/typescript-eslint/typescript-eslint/blob/main/eslint.config.mjs}
+ */
 const tsconfigRootDir = fileURLToPath(new URL('.', import.meta.url));
 
-export default tsEslint.config(
+const config: ConfigArray = tsEslint.config(
     // register all of the plugins up-front
     {
         plugins: {
             '@typescript-eslint': tsEslint.plugin,
-            react: fixupPluginRules(reactPlugin),
-            'simple-import-sort': simpleImportSortPlugin
+            react,
+            '@stylistic': stylistic,
+            'simple-import-sort': simpleImportSortPlugin,
+            '@cspell': cspellPlugin
         }
     },
     // config with just ignores is the replacement for `.eslintignore`
-    { ignores: ['**/node_modules/**', '**/dist/**', '**/.parcel-cache/**'] },
+    {
+        ignores: ['**/node_modules/**', 'dist/**', '.parcel-cache/**']
+    },
 
     // extends ...
     eslint.configs.recommended,
@@ -36,12 +44,16 @@ export default tsEslint.config(
             }
         },
         rules: {
-            'simple-import-sort/exports': 'error',
-            'simple-import-sort/imports': 'error',
-            '@typescript-eslint/no-unused-vars': 'warn',
-            '@typescript-eslint/no-explicit-any': 'warn',
-            '@typescript-eslint/no-empty-object-type': 'off',
-            '@typescript-eslint/no-unsafe-declaration-merging': 'warn',
+            'arrow-body-style': ['error', 'as-needed'],
+            'no-empty-pattern': 'warn',
+            'no-console': ['error', { allow: ['warn', 'error', 'info'] }],
+            'consistent-return': 'warn',
+            'prefer-destructuring': ['error', { object: true, array: true }],
+
+            // React
+            'react/no-unescaped-entities': 'off',
+            'react/self-closing-comp': ['error', { component: true, html: true }],
+            'react/jsx-curly-brace-presence': ['error', { props: 'never', children: 'never' }],
             'react/jsx-no-target-blank': 'warn',
             'react/jsx-sort-props': [
                 'error',
@@ -50,19 +62,42 @@ export default tsEslint.config(
                     callbacksLast: true,
                     noSortAlphabetically: true
                 }
-            ]
-        }
-    },
-    {
-        files: ['**/*.js'],
-        extends: [tsEslint.configs.disableTypeChecked],
-        rules: {
-            // turn off other type-aware rules
-            '@typescript-eslint/internal/no-poorly-typed-ts-props': 'off',
+            ],
+            // TypeScript
+            '@typescript-eslint/no-unused-vars': 'warn',
+            '@typescript-eslint/no-explicit-any': 'warn',
+            '@typescript-eslint/no-empty-object-type': 'off',
+            '@typescript-eslint/no-unsafe-declaration-merging': 'warn',
 
-            // turn off rules that don't apply to JS code
-            '@typescript-eslint/explicit-function-return-type': 'off'
+            // Stylistic
+            '@stylistic/padding-line-between-statements': [
+                'error',
+                { blankLine: 'always', prev: '*', next: 'return' },
+                { blankLine: 'always', prev: 'directive', next: '*' },
+                { blankLine: 'any', prev: 'directive', next: 'directive' },
+                {
+                    blankLine: 'always',
+                    prev: '*',
+                    next: ['enum', 'interface', 'type']
+                }
+            ],
+
+            // simple-import-sort
+            'simple-import-sort/exports': 'error',
+            'simple-import-sort/imports': 'error',
+            // Spell Checker
+            '@cspell/spellchecker': [
+                'warn',
+                {
+                    cspell: {
+                        language: 'en',
+                        dictionaries: ['typescript', 'node', 'html', 'css', 'bash', 'npm', 'pnpm']
+                    }
+                }
+            ]
         }
     },
     eslintConfigPrettier
 );
+
+export default config;

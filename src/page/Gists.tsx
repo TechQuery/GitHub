@@ -1,7 +1,8 @@
 import { component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { GitHubGist, githubStore } from '../stores/github';
+import { GitHubGist, githubStore } from '../model/github';
+import { Link } from '../model/router';
 
 @component({ tagName: 'gists-page' })
 @observer
@@ -10,21 +11,14 @@ export default class GistsPage extends HTMLElement {
         githubStore.fetchGists();
     }
 
-    renderGistRow = (
-        { id, description, created_at, updated_at }: GitHubGist,
-        index: number
-    ) => (
+    renderGistRow = ({ id, description, created_at, updated_at }: GitHubGist, index: number) => (
         <tr key={id}>
             <td className="py-3 px-3">{index + 1}</td>
             <td className="py-3 px-3" title={description || 'No description'}>
-                <a href={`#/gists/${id}`}>{description || id}</a>
+                <Link to={`/gists/${id}`}>{description || id}</Link>
             </td>
-            <td className="py-3 px-3">
-                {new Date(created_at).toLocaleDateString('zh-CN')}
-            </td>
-            <td className="py-3 px-3">
-                {new Date(updated_at).toLocaleDateString('zh-CN')}
-            </td>
+            <td className="py-3 px-3">{new Date(created_at).toLocaleDateString('zh-CN')}</td>
+            <td className="py-3 px-3">{new Date(updated_at).toLocaleDateString('zh-CN')}</td>
         </tr>
     );
 
