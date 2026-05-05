@@ -1,6 +1,6 @@
 import { component, observer, on } from 'web-cell';
 
-import { Link } from '../model/router';
+import { Link } from '../stores/router';
 
 interface NavItem {
     title: string;

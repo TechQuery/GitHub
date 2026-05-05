@@ -1,8 +1,8 @@
 import { component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { GitHubEvent, githubStore } from '../model/github';
-import { Link } from '../model/router';
+import { GitHubEvent, githubStore } from '../stores/github';
+import { Link } from '../stores/router';
 
 @component({ tagName: 'events-page' })
 @observer

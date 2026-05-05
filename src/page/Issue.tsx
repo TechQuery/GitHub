@@ -1,9 +1,9 @@
 import { observable } from 'mobx';
-import { type IssueComment,IssueCommentModel, IssueModel } from 'mobx-github';
+import { type IssueComment, IssueCommentModel, IssueModel } from 'mobx-github';
 import { attribute, component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { Link } from '../model/router';
+import { Link } from '../stores/router';
 
 @component({ tagName: 'issue-page' })
 @observer

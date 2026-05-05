@@ -1,8 +1,8 @@
 import { lazy } from 'web-cell';
 
 import { NavBar } from './components/NavBar';
-import { Route, Router } from './model/router';
 import { HomePage } from './page/Home';
+import { Route, Router } from './stores/router';
 
 export const GitHubApp = () => (
     <m3e-theme color="#1565C0" scheme="auto" motion="expressive">

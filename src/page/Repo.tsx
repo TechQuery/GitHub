@@ -1,10 +1,10 @@
 import { observable } from 'mobx';
-import { type Content, type Issue,IssueModel, RepositoryModel } from 'mobx-github';
+import { type Content, type Issue, IssueModel, RepositoryModel } from 'mobx-github';
 import { attribute, component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { GitHubCommit, GitHubMilestone, githubStore } from '../model/github';
-import { Link } from '../model/router';
+import { GitHubCommit, GitHubMilestone, githubStore } from '../stores/github';
+import { Link } from '../stores/router';
 
 @component({ tagName: 'repo-page' })
 @observer

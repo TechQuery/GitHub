@@ -2,7 +2,7 @@ import { observable } from 'mobx';
 import { attribute, component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { GitHubGistSimple, githubStore } from '../model/github';
+import { GitHubGistSimple, githubStore } from '../stores/github';
 
 @component({ tagName: 'gist-detail-page' })
 @observer

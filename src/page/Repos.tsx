@@ -1,8 +1,8 @@
-import { type GitRepository,RepositoryModel } from 'mobx-github';
+import { type GitRepository, RepositoryModel } from 'mobx-github';
 import { component, observer } from 'web-cell';
 
 import { Loading } from '../components/Loading';
-import { Link } from '../model/router';
+import { Link } from '../stores/router';
 
 @component({ tagName: 'repos-page' })
 @observer
